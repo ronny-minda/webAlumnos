@@ -17,6 +17,7 @@ import CrearCuenta from "./components/crearCuenta";
 import Buscar from "./components/buscar";
 import Importar from "./components/importar";
 import ActualizarDatos from "./components/actualizarDatos";
+import Crear from "./components/crear";
 // import CompletarDatos from "./components/completarDatos";
 
 const H1 = styled.h1`
@@ -44,6 +45,7 @@ const App = () => {
             <Route path="/buscar" element={<Buscar />} />
             <Route path="/importar" element={<Importar />} />
             <Route path="/actualizarDatos" element={<ActualizarDatos />} />
+            <Route path="/crear" element={<Crear />} />
             {/* <Route path="/completarDatos" element={<CompletarDatos />} /> */}
           </Routes>
         </Layout>

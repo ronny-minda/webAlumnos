@@ -240,17 +240,19 @@ const Login = () => {
   //   "password": "123456"
   // }
 
+  // ERROR EN EL LOCAL STORAGE => falta la validacion de 4 horas en el backend
+
   useEffect(() => {
     let data = window.localStorage.getItem("root");
-    let sesion = JSON.parse(data);
 
-    console.log("sesion");
-    console.log(sesion.token);
-
-    if (sesion.token !== undefined) {
-      setDatos(sesion);
-
-      // return <>{/* <Navigate to="/home" /> */}</>;
+    if (data !== null) {
+      let sesion = JSON.parse(data);
+      console.log("sesion");
+      console.log(sesion.token);
+      if (sesion.token !== undefined) {
+        setDatos(sesion);
+        // return <>{/* <Navigate to="/home" /> */}</>;
+      }
     }
   }, []);
 

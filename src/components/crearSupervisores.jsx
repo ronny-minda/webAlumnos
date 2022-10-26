@@ -260,7 +260,7 @@ const Main = styled(motion.main)`
   }
 `;
 
-const CrearCuenta = () => {
+const CrearSupervisor = () => {
   const [supevisora, setSupevisora] = useState([]);
   const [tutora, setTutora] = useState([]);
   const { datos, setDatos } = useDatos();
@@ -286,40 +286,28 @@ const CrearCuenta = () => {
   });
 
   const [login, setLogin] = useState({
-    primerNombre: "",
-    segundoNombre: "",
-    primerApellido: "",
-    segundoApellido: "",
+    nombre: "",
     cedula: "",
     telefono: "",
     correo: "",
-    direccion: "",
-    supervisora: "",
-    tutora: "",
-    password: "",
   });
 
-  let letras = "";
-  console.log(letras);
-  console.log(letras.length);
-
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/supervisora/pedirTodos")
-      .then((response) => {
-        const SUPERVISORA_ROLE = response.data.filter(
-          (dato) => dato.rol == "SUPERVISORA_ROLE"
-        );
-        const TUTOR_ROLE = response.data.filter(
-          (dato) => dato.rol == "TUTOR_ROLE"
-        );
-
-        setSupevisora(SUPERVISORA_ROLE);
-        setTutora(TUTOR_ROLE);
-      })
-      .catch((err) => {
-        console.log("algo salio mal en pedido supevisoras!");
-      });
+    // axios
+    //   .get("http://localhost:8080/api/supervisora/pedirTodos")
+    //   .then((response) => {
+    //     const SUPERVISORA_ROLE = response.data.filter(
+    //       (dato) => dato.rol == "SUPERVISORA_ROLE"
+    //     );
+    //     const TUTOR_ROLE = response.data.filter(
+    //       (dato) => dato.rol == "TUTOR_ROLE"
+    //     );
+    //     setSupevisora(SUPERVISORA_ROLE);
+    //     setTutora(TUTOR_ROLE);
+    //   })
+    //   .catch((err) => {
+    //     console.log("algo salio mal en pedido supevisoras!");
+    //   });
   }, []);
 
   const enviar = (e) => {
@@ -329,80 +317,12 @@ const CrearCuenta = () => {
       // console.log("login");
       // console.log(login);
 
-      console.log("login.primerNombre.length");
-      console.log(login);
-
-      if (login.primerNombre.length === 0) {
-        return setMsgError({
-          primerNombre: "falta completar el primerNombre",
-        });
-      }
-      if (login.segundoNombre.length === 0) {
-        return setMsgError({
-          segundoNombre: "falta completar el segundoNombre",
-        });
-      }
-      if (login.primerApellido.length === 0) {
-        return setMsgError({
-          primerApellido: "falta completar el primerApellido",
-        });
-      }
-      if (login.segundoApellido.length === 0) {
-        return setMsgError({
-          segundoApellido: "falta completar el segundoApellido",
-        });
-      }
-      if (login.cedula.length === 0) {
-        return setMsgError({
-          cedula: "falta completar el cedula",
-        });
-      }
-      if (login.telefono.length === 0) {
-        return setMsgError({
-          telefono: "falta completar el telefono",
-        });
-      }
-      if (login.correo.length === 0) {
-        return setMsgError({
-          correo: "falta completar el correo",
-        });
-      }
-      if (login.direccion.length === 0) {
-        return setMsgError({
-          direccion: "falta completar el direccion",
-        });
-      }
-      if (login.supervisora.length === 0) {
-        return setMsgError({
-          supervisora: "falta completar el supervisora",
-        });
-      }
-      if (login.tutora.length === 0) {
-        return setMsgError({
-          tutora: "falta completar el tutora",
-        });
-      }
-      if (login.password.length === 0) {
-        return setMsgError({
-          password: "falta completar el password",
-        });
-      }
-
       setSpiner(true);
 
       axios
-        .post("http://localhost:8080/api/alumno/crearAlumno", login)
-        .then((response) => {
-          const { token, usuario } = response.data;
-
-          // console.log(token);
-          // console.log(alumno);
-
-          setDatos({
-            ...datos,
-            token,
-            usuario,
-          });
+        .post("http://localhost:8080/api/supervisora/crear", login)
+        .then(({ data }) => {
+          console.log(data);
 
           setSpiner(false);
         })
@@ -435,58 +355,16 @@ const CrearCuenta = () => {
         exit={{ opacity: 0 }}
         transition={{ duration: 1 }}
       >
-        {datos.usuario.rol === "ALUGNO_ROLE" ||
-        datos.usuario.rol === "ADMIN_ROLE" ? (
-          <Navigate to="/home" />
-        ) : null}
-
-        <Link to="/login" className="iniciarSecion">
-          INCIAR SESION
-        </Link>
-
         <div className="dice"></div>
         <div className="login">
           <form onSubmit={(e) => enviar(e)}>
             <div className="conteLabel">
               <label>
-                <span>Primer Nombre</span>
+                <span>Nombre</span>
                 <input
                   name="Primer"
                   onChange={(e) =>
-                    setLogin({ ...login, primerNombre: e.target.value })
-                  }
-                  type="text"
-                />
-              </label>
-
-              <label>
-                <span>Segundo Nombre</span>
-                <input
-                  name="Segundo"
-                  onChange={(e) =>
-                    setLogin({ ...login, segundoNombre: e.target.value })
-                  }
-                  type="text"
-                />
-              </label>
-
-              <label>
-                <span>Primer Apellido</span>
-                <input
-                  name="Primer"
-                  onChange={(e) =>
-                    setLogin({ ...login, primerApellido: e.target.value })
-                  }
-                  type="text"
-                />
-              </label>
-
-              <label>
-                <span>Segundo Apellido</span>
-                <input
-                  name="Segundo"
-                  onChange={(e) =>
-                    setLogin({ ...login, segundoApellido: e.target.value })
+                    setLogin({ ...login, nombre: e.target.value })
                   }
                   type="text"
                 />
@@ -495,7 +373,7 @@ const CrearCuenta = () => {
               <label>
                 <span>Cedula</span>
                 <input
-                  name="Cedula"
+                  name="Segundo"
                   onChange={(e) =>
                     setLogin({ ...login, cedula: e.target.value })
                   }
@@ -506,7 +384,7 @@ const CrearCuenta = () => {
               <label>
                 <span>Telefono</span>
                 <input
-                  name="Telefono"
+                  name="Primer"
                   onChange={(e) =>
                     setLogin({ ...login, telefono: e.target.value })
                   }
@@ -517,72 +395,10 @@ const CrearCuenta = () => {
               <label>
                 <span>Correo</span>
                 <input
-                  name="Correo"
+                  name="Segundo"
                   onChange={(e) =>
                     setLogin({ ...login, correo: e.target.value })
                   }
-                  type="text"
-                />
-              </label>
-
-              <label>
-                <span>Direccion</span>
-                <input
-                  name="Direccion"
-                  onChange={(e) =>
-                    setLogin({ ...login, direccion: e.target.value })
-                  }
-                  type="text"
-                />
-              </label>
-
-              <label>
-                <span>Curso</span>
-                <select
-                  onChange={(e) => {
-                    // setLogin({ ...login, curso: e.target.value });
-                    console.log(e.target.value);
-                  }}
-                >
-                  <option disabled selected hidden>
-                    Elija un curso
-                  </option>
-                  <option value="6to">6to</option>
-                  <option value="7mo">7mo</option>
-                  <option value="8vo">8vo</option>
-                  <option value="9no">9no</option>
-                </select>
-              </label>
-
-              <label>
-                <span>CONTRASEÑA</span>
-                <input
-                  name="CONTRASEÑA"
-                  onChange={(e) => {
-                    setLogin({ ...login, password: e.target.value });
-
-                    // setLogin({ ...login, nombre: e.target.value })
-
-                    setValidarContraseña({
-                      ...validarContraseña,
-                      pass1: e.target.value,
-                    });
-                  }}
-                  type="text"
-                />
-              </label>
-              <label>
-                <span>REPETIR CONTRASEÑA</span>
-                <input
-                  name="REPETIR CONTRASEÑA"
-                  onChange={(e) => {
-                    // setLogin({ ...login, nombre: e.target.value })
-
-                    setValidarContraseña({
-                      ...validarContraseña,
-                      pass2: e.target.value,
-                    });
-                  }}
                   type="text"
                 />
               </label>
@@ -643,44 +459,4 @@ const CrearCuenta = () => {
   );
 };
 
-export default CrearCuenta;
-
-{
-  /* <label>
-<span>Supervisora</span>
-<select
-  onChange={(e) => {
-    setLogin({ ...login, supervisora: e.target.value });
-    // console.log(e.target.value);
-  }}
->
-  <option selected>Elija un supervisora</option>
-  {supevisora.map((e) => {
-    return (
-      <option key={e._id} value={e._id}>
-        {e.primerNombre} {e.primerApellido}
-      </option>
-    );
-  })}
-</select>
-</label>
-
-<label>
-<span>Tutora</span>
-
-<select
-  onChange={(e) => {
-    setLogin({ ...login, tutora: e.target.value });
-  }}
->
-  <option selected>Elija un tuora</option>
-  {tutora.map((e) => {
-    return (
-      <option key={e._id} value={e._id}>
-        {e.primerNombre} {e.primerApellido}
-      </option>
-    );
-  })}
-</select>
-</label> */
-}
+export default CrearSupervisor;
