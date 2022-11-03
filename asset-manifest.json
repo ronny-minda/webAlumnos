@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.js": "/webAlumnos/static/js/main.45f6eb74.js",
+    "static/media/fondoLogion1.svg": "/webAlumnos/static/media/fondoLogion1.188c5a2b8c2746d29901d80b254a9b21.svg",
+    "static/media/fondoLogion.svg": "/webAlumnos/static/media/fondoLogion.2a9ebe2dc8a208fad85088de49b0d332.svg",
+    "static/media/login.jpg": "/webAlumnos/static/media/login.50be3c4637e7a1097188.jpg",
+    "static/media/fondoN1.svg": "/webAlumnos/static/media/fondoN1.d87a6c0eaee27bfefdbc541ae60317fa.svg",
+    "static/media/fondo.svg": "/webAlumnos/static/media/fondo.73fffb030190e135ad726bf2afbfbbe4.svg",
+    "static/media/logo.svg": "/webAlumnos/static/media/logo.e4f80e7591bc499f9d2f4e7a1c6b128f.svg",
+    "index.html": "/webAlumnos/index.html",
+    "static/media/descarga.svg": "/webAlumnos/static/media/descarga.4b3fe3df940f06249d81db27ca886ec8.svg",
+    "static/media/carga.svg": "/webAlumnos/static/media/carga.d6b95f457f9461cb40e8a85004ff4f9e.svg",
+    "static/media/lupa.svg": "/webAlumnos/static/media/lupa.3238d25b73185830a10746dab88af426.svg",
+    "static/media/flecha.svg": "/webAlumnos/static/media/flecha.f7f5632989b977e68f8e500385a64f0c.svg",
+    "main.45f6eb74.js.map": "/webAlumnos/static/js/main.45f6eb74.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.45f6eb74.js"
+  ]
+}
