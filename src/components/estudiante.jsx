@@ -6,10 +6,13 @@ import flecha from "../img/flecha.svg";
 import axios from "axios";
 
 const Div = styled.div`
-  width: 100%;
+  width: 1000px;
   display: flex;
   justify-content: center;
   position: relative;
+  box-shadow: 10px 10px 5px 0px #332b515a;
+  border: 2px solid #00000079;
+  margin: 30px;
 
   .usuarios {
     display: inline-block;
@@ -19,7 +22,7 @@ const Div = styled.div`
     border: 2px solid #dde9ff76;
     backdrop-filter: blur(2px);
     margin: 10px 0;
-    overflow: hidden;
+    /* overflow: hidden; */
     transition: 0.5s;
     position: relative;
 
@@ -72,6 +75,8 @@ const Div = styled.div`
             padding: 5px;
 
             select {
+              color: #000;
+              font-weight: bold;
               background-color: #99a0f479;
               border: none;
               font-size: 14px;
@@ -103,25 +108,18 @@ const Div = styled.div`
         .submit {
           background-color: #003756;
           padding: 15px;
-          /* background-image: linear-gradient(
-        to right,
-        #020024,
-        #001f3d,
-        #003756,
-        #00506d,
-        #006b81
-      ); */
           color: #fff;
           border: none;
           margin-top: 20px;
           border-radius: 6px;
           transition: 0.4s;
           font-weight: bold;
+          font-size: 16px;
         }
 
         .submit:hover {
           color: #fff;
-          background-color: #004e7c;
+          background-color: #216b95;
         }
         .submit:active {
           color: #6b6a77a9;
@@ -133,7 +131,7 @@ const Div = styled.div`
           width: 20px; */
           background-color: red;
           position: absolute;
-          bottom: 60px;
+          bottom: 10px;
           right: 60px;
           padding: 15px;
           border-radius: 5px;
@@ -295,14 +293,20 @@ const Estudiante = ({ dato, supevisora, tutora }) => {
     cedula: dato.cedula,
     telefono: dato.telefono,
     correo: dato.correo,
-    // institucion: dato.institucion,
-    direccion: dato.direccion,
-    supervisora: dato.supervisora,
-    tutora: dato.tutora,
+    institucion: dato.institucion.nombre,
+
+    fechaInicio: dato.fechaInicio,
+    fechaFin: dato.fechaFin,
+    horas: dato.horas,
+
+    supervisora: dato.supervisora.nombre,
+    curso: dato.curso,
+    tutora: dato.tutora.nombre,
     password: "",
   });
 
-  // console.log(dato);
+  console.log("valores");
+  console.log(dato);
 
   const eliminarCuenta = () => {
     console.log("eliminarCuenta");
@@ -344,24 +348,24 @@ const Estudiante = ({ dato, supevisora, tutora }) => {
 
     axios
       .put("http://localhost:8080/api/alumno/actualizarAlumno", envio)
-      .then((response) => {
+      .then(({ data }) => {
         // console.log(response.data);
 
-        const respuesta = response.data;
+        // const respuesta = response.data;
 
         // console.log({ respuesta });
 
         setValores({
-          primerNombre: respuesta.primerNombre,
-          segundoNombre: respuesta.segundoNombre,
-          primerApellido: respuesta.primerApellido,
-          segundoApellido: respuesta.segundoApellido,
-          cedula: respuesta.cedula,
-          telefono: respuesta.telefono,
-          correo: respuesta.correo,
-          direccion: respuesta.direccion,
-          supervisora: respuesta.supervisora,
-          tutora: respuesta.tutora,
+          primerNombre: data.primerNombre,
+          segundoNombre: data.segundoNombre,
+          primerApellido: data.primerApellido,
+          segundoApellido: data.segundoApellido,
+          cedula: data.cedula,
+          telefono: data.telefono,
+          correo: data.correo,
+          direccion: data.direccion,
+          supervisora: data.supervisora,
+          tutora: data.tutora,
           password: "",
         });
         setSpiner(false);
@@ -383,197 +387,125 @@ const Estudiante = ({ dato, supevisora, tutora }) => {
 
   return (
     <Div>
-      <div className="usuarios" style={{ height: altura }}>
+      <div className="usuarios">
         <div className="usuario">
-          <div className="contDatos">
+          {/* <div className="contDatos">
             <span className="primerNombre">{valores.primerNombre}</span>
             <span className="segundoNombre">{valores.segundoNombre}</span>
             <span className="cedula">{valores.cedula}</span>
-          </div>
+          </div> */}
 
           <form className="allDatos" onSubmit={(e) => enviar(e)}>
             <div className="conteLabel">
               <label>
                 <span>Primer Nombre</span>
-                <input
-                  value={valores.primerNombre}
-                  name="Primer"
-                  onChange={(e) =>
-                    setValores({ ...valores, primerNombre: e.target.value })
-                  }
-                  type="text"
-                />
+
+                <select disabled>
+                  <option> {valores.primerNombre} </option>
+                </select>
               </label>
 
               <label>
                 <span>Segundo Nombre</span>
-                <input
-                  value={valores.segundoNombre}
-                  name="Segundo"
-                  onChange={(e) =>
-                    setValores({ ...valores, segundoNombre: e.target.value })
-                  }
-                  type="text"
-                />
+
+                <select disabled>
+                  <option> {valores.segundoNombre} </option>
+                </select>
               </label>
 
               <label>
                 <span>Primer Apellido</span>
-                <input
-                  value={valores.primerApellido}
-                  name="Primer"
-                  onChange={(e) =>
-                    setValores({ ...valores, primerApellido: e.target.value })
-                  }
-                  type="text"
-                />
+
+                <select disabled>
+                  <option> {valores.primerApellido} </option>
+                </select>
               </label>
 
               <label>
                 <span>Segundo Apellido</span>
-                <input
-                  value={valores.segundoApellido}
-                  name="Segundo"
-                  onChange={(e) =>
-                    setValores({ ...valores, segundoApellido: e.target.value })
-                  }
-                  type="text"
-                />
+
+                <select disabled>
+                  <option> {valores.segundoApellido} </option>
+                </select>
               </label>
 
               <label>
                 <span>Cedula</span>
-                <input
-                  value={valores.cedula}
-                  name="Cedula"
-                  onChange={(e) =>
-                    setValores({ ...valores, cedula: e.target.value })
-                  }
-                  type="text"
-                />
+                <select disabled>
+                  <option> {valores.cedula} </option>
+                </select>
               </label>
 
               <label>
                 <span>Telefono</span>
-                <input
-                  value={valores.telefono}
-                  name="Telefono"
-                  onChange={(e) =>
-                    setValores({ ...valores, telefono: e.target.value })
-                  }
-                  type="text"
-                />
+
+                <select disabled>
+                  <option> {valores.telefono} </option>
+                </select>
               </label>
 
               <label>
                 <span>Correo</span>
-                <input
-                  value={valores.correo}
-                  name="Correo"
-                  onChange={(e) =>
-                    setValores({ ...valores, correo: e.target.value })
-                  }
-                  type="text"
-                />
-              </label>
 
-              {/* <label>
-                <span>Institucion</span>
-                <input
-                  value={valores.institucion}
-                  name="Institucion"
-                  onChange={(e) =>
-                    setValores({ ...valores, institucion: e.target.value })
-                  }
-                  type="text"
-                />
-              </label> */}
-
-              <label>
-                <span>Direccion</span>
-                <input
-                  value={valores.direccion}
-                  name="Direccion"
-                  onChange={(e) =>
-                    setValores({ ...valores, direccion: e.target.value })
-                  }
-                  type="text"
-                />
+                <select disabled>
+                  <option> {valores.correo} </option>
+                </select>
               </label>
 
               <label>
                 <span>Supervisora</span>
-                {/* <input
-                  value={valores.supervisora}
-                  name="Supervisora"
-                  onChange={(e) =>
-                    setValores({ ...valores, Supervisora: e.target.value })
-                  }
-                  type="text"
-                /> */}
 
-                <select
-                  onChange={(e) => {
-                    setValores({ ...valores, supervisora: e.target.value });
-                    // console.log(e.target.value);
-                  }}
-                >
-                  {supevisora.map((e) => {
-                    if (e._id === valores.tutora) {
-                      return (
-                        <option key={e._id} selected value={e._id}>
-                          {e.primerNombre} {e.primerApellido}
-                        </option>
-                      );
-                    } else {
-                      return (
-                        <option key={e._id} value={e._id}>
-                          {e.primerNombre} {e.primerApellido}
-                        </option>
-                      );
-                    }
-                  })}
+                <select disabled>
+                  <option> {valores.supervisora} </option>
+                </select>
+              </label>
+
+              <label>
+                <span>Curso</span>
+
+                <select disabled>
+                  <option> {valores.curso} </option>
                 </select>
               </label>
 
               <label>
                 <span>Tutora</span>
-                {/* <input
-                  value={valores.tutora}
-                  name="tutora"
-                  onChange={(e) =>
-                    setValores({ ...valores, tutora: e.target.value })
-                  }
-                  type="text"
-                /> */}
 
-                <select
-                  onChange={(e) => {
-                    setValores({ ...valores, tutora: e.target.value });
-                  }}
-                >
-                  {tutora.map((e) => {
-                    console.log("dato");
-                    console.log(e);
-                    // if (valores.tutora === null) {
-                    //
-                    // }
-                    // console.log(valores.tutora._id);
+                <select disabled>
+                  <option> {valores.tutora} </option>
+                </select>
+              </label>
 
-                    if (e._id === valores.tutora) {
-                      return (
-                        <option key={e._id} selected value={e._id}>
-                          {e.primerNombre} {e.primerApellido}
-                        </option>
-                      );
-                    } else {
-                      return (
-                        <option key={e._id} value={e._id}>
-                          {e.primerNombre} {e.primerApellido}
-                        </option>
-                      );
-                    }
-                  })}
+              <label>
+                <span>Institucion</span>
+
+                <select disabled>
+                  <option> {valores.institucion} </option>
+                </select>
+              </label>
+
+              <label>
+                <span>Fecha de inicion</span>
+
+                <select disabled>
+                  <option> {valores.fechaInicio} </option>
+                  {/* {new Date(valores.fechaInicio)} */}
+                </select>
+              </label>
+
+              <label>
+                <span>Fecha fin</span>
+
+                <select disabled>
+                  <option> {valores.fechaFin} </option>
+                </select>
+              </label>
+
+              <label>
+                <span>Horas</span>
+
+                <select disabled>
+                  <option> {valores.horas} </option>
                 </select>
               </label>
 
@@ -585,7 +517,7 @@ const Estudiante = ({ dato, supevisora, tutora }) => {
               />
             </label> */}
 
-              <label>
+              {/* <label>
                 <span>CONTRASEÑA</span>
                 <input
                   value={valores.password}
@@ -618,7 +550,7 @@ const Estudiante = ({ dato, supevisora, tutora }) => {
                   }}
                   type="text"
                 />
-              </label>
+              </label> */}
             </div>
 
             <AnimatePresence>
@@ -635,7 +567,7 @@ const Estudiante = ({ dato, supevisora, tutora }) => {
               )}
             </AnimatePresence>
 
-            <input className="submit" type="submit" value="ACTUALIZAR DATOS" />
+            {/* <input className="submit" type="submit" value="ACTUALIZAR DATOS" /> */}
 
             <div
               onClick={() => eliminarCuenta()}
@@ -684,16 +616,16 @@ const Estudiante = ({ dato, supevisora, tutora }) => {
         )}
       </AnimatePresence>
 
-      <div
-        className="control"
-        style={{ transform: `rotate(${rotate}deg)` }}
-        onClick={() => {
-          altura == "50px" ? setAltura("500px") : setAltura("50px");
-          rotate == "0" ? setRotate("180") : setRotate("0");
+      {/* <div
+        // className="control"
+        // style={{ transform: `rotate(${rotate}deg)` }}
+        // onClick={() => {
+        //   altura == "50px" ? setAltura("500px") : setAltura("50px");
+        //   rotate == "0" ? setRotate("180") : setRotate("0");
 
-          // console.log("siii");
-        }}
-      ></div>
+        //   // console.log("siii");
+        // }}
+      ></div> */}
     </Div>
   );
 };

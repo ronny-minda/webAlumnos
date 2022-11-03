@@ -1,8 +1,8 @@
-import axios from "axios";
-import { motion, AnimatePresence } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Supervisor from "./supervisor";
+import { motion, AnimatePresence } from "framer-motion";
+import axios from "axios";
+import Intitucion from "./institucion";
 
 const Main = styled(motion.div)`
   /* background-color: red; */
@@ -113,24 +113,17 @@ const Main = styled(motion.div)`
   }
 `;
 
-const Supervisores = () => {
-  const [datos, setDatos] = useState([]);
+const Intituciones = () => {
   const [spiner, setSpiner] = useState(true);
+  const [datos, setDatos] = useState([]);
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/supervisora/pedirTodos")
+      .post("http://localhost:8080/api/institucion/buscarTodos")
       .then(({ data }) => {
         console.log("data");
         console.log(data);
-
-        const filtro = data.map((i) => {
-          if (i.nombre != "no hay supevisora disponible") {
-            console.log("i.nombre");
-            console.log(i.nombre);
-          }
-        });
 
         setDatos(data);
         setSpiner(false);
@@ -144,7 +137,7 @@ const Supervisores = () => {
         setTotal(contador);
       })
       .catch((err) => {
-        console.log("algo salio mal en pedido tuotas!");
+        console.log("algo salio mal en institucion!");
       });
   }, []);
 
@@ -177,15 +170,15 @@ const Supervisores = () => {
           </motion.div>
         )}
       </AnimatePresence>
-      <h1>Supervisores</h1>
+      <h1>Intituciones</h1>
       <h2>Total de tutores: {total}</h2>
 
       {datos.map((i) => {
-        return <Supervisor key={i._id} dato={i} />;
+        return <Intitucion key={i._id} dato={i} />;
         // console.log(i);
       })}
     </Main>
   );
 };
 
-export default Supervisores;
+export default Intituciones;

@@ -15,6 +15,7 @@ const Main = styled(motion.div)`
   background-size: cover;
   /* background-color: red; */
   width: 100%;
+  padding: 50px;
 
   h1 {
     text-align: center;
@@ -81,10 +82,13 @@ const Main = styled(motion.div)`
   }
 
   .allDatos {
-    margin-top: 20px;
+    box-shadow: 10px 10px 5px 0px #332b515a;
+    border: 2px solid #00000079;
+    margin: 50px;
+    padding: 60px;
     /* background-color: #4800ff; */
     height: auto;
-    width: 100%;
+    /* width: 100%; */
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -165,8 +169,9 @@ const Main = styled(motion.div)`
 const Buscar = () => {
   const [form, setForm] = useState(false);
   const { datos, setDatos } = useDatos();
-  const [cedula, setCedula] = useState("");
+  const [apellido, setApellido] = useState("");
   const [error, setError] = useState(false);
+  const [actualizado, setActualizado] = useState(false);
 
   const [validarContraseña, setValidarContraseña] = useState({
     pass1: "",
@@ -182,10 +187,16 @@ const Buscar = () => {
     segundoNombre: "",
     primerApellido: "",
     segundoApellido: "",
+    curso: "",
+    fechaInicio: "",
+    fechaFin: "",
+    horas: "",
+    institucion: "",
+
     cedula: "",
     telefono: "",
     correo: "",
-    direccion: "",
+
     supervisora: "",
     tutora: "",
     password: "",
@@ -211,47 +222,36 @@ const Buscar = () => {
     e.preventDefault();
 
     axios
-      .get("http://localhost:8080/api/supervisora/pedirTodos")
-      .then((response) => {
-        const SUPERVISORA_ROLE = response.data.filter(
-          (dato) => dato.rol == "SUPERVISORA_ROLE"
-        );
-        const TUTOR_ROLE = response.data.filter(
-          (dato) => dato.rol == "TUTOR_ROLE"
-        );
-
-        setSupevisora(SUPERVISORA_ROLE);
-        setTutora(TUTOR_ROLE);
+      .post("http://localhost:8080/api/buscar/buscarApellido", {
+        apellido,
       })
-      .catch((err) => {
-        console.log("algo salio mal en pedido supevisoras!");
-      });
+      .then(({ data }) => {
+        console.log("apellido");
+        console.log(data);
 
-    axios
-      .post("http://localhost:8080/api/buscar", {
-        cedula,
-      })
-      .then((response) => {
-        console.log("response");
-        console.log(response.data);
-
-        if (response.data.msg === "El alumno no existe") {
+        if (data.msg === "El alumno no existe") {
           setError(true);
           return setForm(false);
         }
 
         setValores({
-          id: response.data._id,
-          primerNombre: response.data.primerNombre,
-          segundoNombre: response.data.segundoNombre,
-          primerApellido: response.data.primerApellido,
-          segundoApellido: response.data.segundoApellido,
-          cedula: response.data.cedula,
-          telefono: response.data.telefono,
-          correo: response.data.correo,
-          direccion: response.data.direccion,
-          supervisora: response.data.supervisora,
-          tutora: response.data.tutora,
+          id: data._id,
+          primerNombre: data.primerNombre,
+          segundoNombre: data.segundoNombre,
+          primerApellido: data.primerApellido,
+          segundoApellido: data.segundoApellido,
+          curso: data.curso,
+          fechaInicio: data.fechaInicio,
+          fechaFin: data.fechaFin,
+          horas: data.horas,
+          institucion: data.institucion.nombre,
+
+          cedula: data.cedula,
+          telefono: data.telefono,
+          correo: data.correo,
+
+          supervisora: data.supervisora.nombre,
+          tutora: data.tutora.nombre,
           password: "",
         });
 
@@ -266,9 +266,7 @@ const Buscar = () => {
   const enviar = (e) => {
     e.preventDefault();
 
-    const envio = {
-      ...valores,
-    };
+    const { curso, tutora, supervisora, institucion, ...envio } = valores;
 
     console.log({ envio });
 
@@ -281,20 +279,25 @@ const Buscar = () => {
 
         console.log({ respuesta });
 
-        setValores({
-          id: response.data._id,
-          primerNombre: respuesta.primerNombre,
-          segundoNombre: respuesta.segundoNombre,
-          primerApellido: respuesta.primerApellido,
-          segundoApellido: respuesta.segundoApellido,
-          cedula: respuesta.cedula,
-          telefono: respuesta.telefono,
-          correo: respuesta.correo,
-          direccion: respuesta.direccion,
-          supervisora: respuesta.supervisora,
-          tutora: respuesta.tutora,
-          password: "",
-        });
+        setActualizado(true);
+
+        setTimeout(() => {
+          setActualizado(false);
+        }, 3000);
+
+        // setValores({
+        //   id: response.data._id,
+        //   primerNombre: response.data.primerNombre,
+        //   segundoNombre: response.data.segundoNombre,
+        //   primerApellido: response.data.primerApellido,
+        //   segundoApellido: response.data.segundoApellido,
+
+        //   cedula: response.data.cedula,
+        //   telefono: response.data.telefono,
+        //   correo: response.data.correo,
+
+        //   password: "",
+        // });
       })
       .catch((err) => {
         console.log(err);
@@ -309,15 +312,15 @@ const Buscar = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
     >
-      <h1>Buscar</h1>
+      <h1>Buscar Alumno</h1>
       <form onSubmit={(e) => buscarCedula(e)}>
         <div className="lupa"></div>
         <label>
           <input
-            placeholder="Buscar por cedula"
+            placeholder="Buscar por Apellido"
             type="text"
             className="input"
-            onChange={(e) => setCedula(e.target.value)}
+            onChange={(e) => setApellido(e.target.value)}
           />
         </label>
 
@@ -339,7 +342,6 @@ const Buscar = () => {
                 <span>Primer Nombre</span>
                 <input
                   value={valores.primerNombre}
-                  name="Primer"
                   onChange={(e) =>
                     setValores({ ...valores, primerNombre: e.target.value })
                   }
@@ -351,7 +353,6 @@ const Buscar = () => {
                 <span>Segundo Nombre</span>
                 <input
                   value={valores.segundoNombre}
-                  name="Segundo"
                   onChange={(e) =>
                     setValores({ ...valores, segundoNombre: e.target.value })
                   }
@@ -363,7 +364,6 @@ const Buscar = () => {
                 <span>Primer Apellido</span>
                 <input
                   value={valores.primerApellido}
-                  name="Primer"
                   onChange={(e) =>
                     setValores({ ...valores, primerApellido: e.target.value })
                   }
@@ -375,9 +375,68 @@ const Buscar = () => {
                 <span>Segundo Apellido</span>
                 <input
                   value={valores.segundoApellido}
-                  name="Segundo"
                   onChange={(e) =>
                     setValores({ ...valores, segundoApellido: e.target.value })
+                  }
+                  type="text"
+                />
+              </label>
+
+              <label>
+                <span>Curso</span>
+                <input
+                  disabled
+                  value={valores.curso}
+                  onChange={(e) =>
+                    setValores({ ...valores, curso: e.target.value })
+                  }
+                  type="text"
+                />
+              </label>
+
+              <label>
+                <span>Fecha Inicio</span>
+                <input
+                  disabled
+                  value={valores.fechaInicio}
+                  onChange={(e) =>
+                    setValores({ ...valores, fechaInicio: e.target.value })
+                  }
+                  type="text"
+                />
+              </label>
+
+              <label>
+                <span>Fecha Fin</span>
+                <input
+                  disabled
+                  value={valores.fechaFin}
+                  onChange={(e) =>
+                    setValores({ ...valores, fechaFin: e.target.value })
+                  }
+                  type="text"
+                />
+              </label>
+
+              <label>
+                <span>Horas</span>
+                <input
+                  disabled
+                  value={valores.horas}
+                  onChange={(e) =>
+                    setValores({ ...valores, horas: e.target.value })
+                  }
+                  type="text"
+                />
+              </label>
+
+              <label>
+                <span>Institucion</span>
+                <input
+                  disabled
+                  value={valores.institucion}
+                  onChange={(e) =>
+                    setValores({ ...valores, institucion: e.target.value })
                   }
                   type="text"
                 />
@@ -387,7 +446,6 @@ const Buscar = () => {
                 <span>Cedula</span>
                 <input
                   value={valores.cedula}
-                  name="Cedula"
                   onChange={(e) =>
                     setValores({ ...valores, cedula: e.target.value })
                   }
@@ -399,7 +457,6 @@ const Buscar = () => {
                 <span>Telefono</span>
                 <input
                   value={valores.telefono}
-                  name="Telefono"
                   onChange={(e) =>
                     setValores({ ...valores, telefono: e.target.value })
                   }
@@ -411,7 +468,6 @@ const Buscar = () => {
                 <span>Correo</span>
                 <input
                   value={valores.correo}
-                  name="Correo"
                   onChange={(e) =>
                     setValores({ ...valores, correo: e.target.value })
                   }
@@ -420,101 +476,36 @@ const Buscar = () => {
               </label>
 
               <label>
-                <span>Direccion</span>
+                <span>Supervisora</span>
                 <input
-                  value={valores.direccion}
-                  name="Direccion"
+                  disabled
+                  value={valores.supervisora}
                   onChange={(e) =>
-                    setValores({ ...valores, direccion: e.target.value })
+                    setValores({ ...valores, supervisora: e.target.value })
                   }
                   type="text"
                 />
               </label>
 
               <label>
-                <span>Supervisora</span>
-
-                <select
-                  onChange={(e) => {
-                    setValores({ ...valores, supervisora: e.target.value });
-                    // console.log(e.target.value);
-                  }}
-                >
-                  {supevisora.map((e) => {
-                    if (e._id === valores.supervisora) {
-                      return (
-                        <option selected value={e._id}>
-                          {e.primerNombre} {e.primerApellido}
-                        </option>
-                      );
-                    } else {
-                      return (
-                        <option value={e._id}>
-                          {e.primerNombre} {e.primerApellido}
-                        </option>
-                      );
-                    }
-                  })}
-                </select>
-              </label>
-
-              <label>
                 <span>Tutora</span>
-
-                <select
-                  onChange={(e) => {
-                    setValores({ ...valores, tutora: e.target.value });
-                  }}
-                >
-                  {tutora.map((e) => {
-                    if (e._id === valores.tutora) {
-                      return (
-                        <option selected value={e._id}>
-                          {e.primerNombre} {e.primerApellido}
-                        </option>
-                      );
-                    } else {
-                      return (
-                        <option value={e._id}>
-                          {e.primerNombre} {e.primerApellido}
-                        </option>
-                      );
-                    }
-                  })}
-                </select>
-              </label>
-
-              <label>
-                <span>CONTRASEÑA</span>
                 <input
-                  value={valores.password}
-                  name="CONTRASEÑA"
-                  onChange={(e) => {
-                    setValores({ ...valores, password: e.target.value });
-
-                    // setValores({ ...valores, nombre: e.target.value })
-
-                    setValidarContraseña({
-                      ...validarContraseña,
-                      pass1: e.target.value,
-                    });
-                  }}
+                  disabled
+                  value={valores.tutora}
+                  onChange={(e) =>
+                    setValores({ ...valores, tutora: e.target.value })
+                  }
                   type="text"
                 />
               </label>
+
               <label>
-                <span>REPETIR CONTRASEÑA</span>
+                <span>Password</span>
                 <input
                   value={valores.password}
-                  name="REPETIR CONTRASEÑA"
-                  onChange={(e) => {
-                    // setValores({ ...valores, nombre: e.target.value })
-
-                    setValidarContraseña({
-                      ...validarContraseña,
-                      pass2: e.target.value,
-                    });
-                  }}
+                  onChange={(e) =>
+                    setValores({ ...valores, password: e.target.value })
+                  }
                   type="text"
                 />
               </label>
@@ -522,6 +513,19 @@ const Buscar = () => {
 
             <input className="submit" type="submit" value="ACTUALIZAR DATOS" />
           </motion.form>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {actualizado && (
+          <motion.h1
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            Alumno actualizado
+          </motion.h1>
         )}
       </AnimatePresence>
 

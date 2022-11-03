@@ -6,7 +6,7 @@ import flecha from "../img/flecha.svg";
 import axios from "axios";
 
 const Div = styled.div`
-  width: 700px;
+  width: 1000px;
   display: flex;
   justify-content: center;
   position: relative;
@@ -19,8 +19,8 @@ const Div = styled.div`
     display: inline-block;
     /* height: 50px; */
     width: 95%;
-    background-color: #ffc2c21c;
-    border: 2px solid #ff6c6c76;
+    background-color: #ffc2f71c;
+    border: 2px solid #ff6ce276;
     backdrop-filter: blur(2px);
     margin: 10px 0;
     /* overflow: hidden; */
@@ -76,6 +76,16 @@ const Div = styled.div`
             flex-direction: column;
             padding: 5px;
 
+            select {
+              background-color: #99a0f479;
+              border: none;
+              font-size: 14px;
+              height: 30px;
+              padding: 5px;
+              /* width: 250px; */
+              outline: none;
+            }
+
             span {
               font-weight: bold;
               font-size: 18px;
@@ -91,6 +101,9 @@ const Div = styled.div`
             }
             input:focus {
               border-bottom: 2px solid #2faec8;
+            }
+            input[type="number"]::-webkit-inner-spin-button {
+              -webkit-appearance: none;
             }
           }
         }
@@ -122,31 +135,12 @@ const Div = styled.div`
           color: #6b6a77a9;
           background-color: #ffffff;
         }
-
-        .eliminarEstudiante {
-          /* height: 20px;
-          width: 20px; */
-          background-color: red;
-          position: absolute;
-          bottom: 60px;
-          right: 60px;
-          padding: 15px;
-          border-radius: 5px;
-          transition: 0.5s;
-          cursor: pointer;
-
-          span {
-            /* background-color: red; */
-            font-weight: bold;
-            color: #fff;
-          }
-        }
       }
     }
   }
 
   .control {
-    background-color: #ff9a9a85;
+    background-color: #9aa9ff86;
     height: 30px;
     width: 40px;
     position: absolute;
@@ -162,7 +156,7 @@ const Div = styled.div`
   }
 `;
 
-const Tutor = ({ dato }) => {
+const Supervisor = ({ dato }) => {
   const [altura, setAltura] = useState("50px");
   const [rotate, setRotate] = useState("0");
   const [error, setError] = useState(false);
@@ -172,27 +166,15 @@ const Tutor = ({ dato }) => {
   });
   const [valores, setValores] = useState({
     nombre: dato.nombre,
+    direccion: dato.direccion,
+    horasUsadas: dato.horasUsadas,
+    numeroAsignacion: dato.numeroAsignacion,
+    numeroAsignacionBoleano: dato.numeroAsignacionBoleano,
+    supervisora: dato.supervisora,
+    tutora: dato.tutora,
   });
 
-  // console.log(dato);
-
-  const eliminarCuenta = () => {
-    console.log("eliminarCuenta");
-    console.log(dato._id);
-
-    axios
-      .post("http://localhost:8080/api/supervisora/borrar", {
-        id: dato._id,
-      })
-      .then(({ data }) => {
-        console.log("data");
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log("err");
-        console.log(err);
-      });
-  };
+  console.log(dato);
 
   const enviar = (e) => {
     e.preventDefault();
@@ -249,25 +231,113 @@ const Tutor = ({ dato }) => {
           <form className="allDatos" onSubmit={(e) => enviar(e)}>
             <div className="conteLabel">
               <label>
-                <span>Primer Nombre</span>
+                <span>Nombre</span>
                 <input
                   value={valores.nombre}
+                  name="Primer"
                   onChange={(e) =>
                     setValores({ ...valores, nombre: e.target.value })
                   }
                   type="text"
                 />
               </label>
+
+              <label>
+                <span>Direccion</span>
+                <input
+                  value={valores.direccion}
+                  name="Segundo"
+                  onChange={(e) =>
+                    setValores({ ...valores, direccion: e.target.value })
+                  }
+                  type="text"
+                />
+              </label>
+
+              <label>
+                <span>Horas Usadas</span>
+                <input
+                  value={valores.horasUsadas}
+                  name="Primer"
+                  onChange={(e) =>
+                    setValores({ ...valores, horasUsadas: e.target.value })
+                  }
+                  type="text"
+                />
+              </label>
+
+              <label>
+                <span>Numero Asignacion</span>
+                <input
+                  disabled
+                  value={valores.numeroAsignacion}
+                  name="Segundo"
+                  onChange={(e) =>
+                    setValores({ ...valores, numeroAsignacion: e.target.value })
+                  }
+                  type="text"
+                />
+              </label>
+
+              <label>
+                <span>numeroAsignacionBoleano</span>
+                <input
+                  disabled
+                  value={valores.numeroAsignacionBoleano}
+                  onChange={(e) =>
+                    setValores({
+                      ...valores,
+                      numeroAsignacionBoleano: e.target.value,
+                    })
+                  }
+                  type="text"
+                />
+              </label>
+
+              <label>
+                <span>Supervisoras</span>
+
+                <select
+                  onChange={(e) => {
+                    console.log("e.target.value");
+                    console.log(e.target.value);
+
+                    // setLogin({ ...login, institucion: e.target.value });
+                  }}
+                >
+                  {valores.supervisora.map((i) => {
+                    return (
+                      <option key={i._id} value={i._id}>
+                        {i.nombre}
+                      </option>
+                    );
+                  })}
+                </select>
+              </label>
+
+              <label>
+                <span>Tutoras</span>
+
+                <select
+                  onChange={(e) => {
+                    console.log("e.target.value");
+                    console.log(e.target.value);
+
+                    // setLogin({ ...login, institucion: e.target.value });
+                  }}
+                >
+                  {valores.tutora.map((i) => {
+                    return (
+                      <option key={i._id} value={i._id}>
+                        {i.nombre}
+                      </option>
+                    );
+                  })}
+                </select>
+              </label>
             </div>
 
-            <input className="submit" type="submit" value="ACTUALIZAR DATOS" />
-
-            {/* <div
-              onClick={() => eliminarCuenta()}
-              className="eliminarEstudiante"
-            >
-              <span>Elimina Estudiante</span>
-            </div> */}
+            {/* <input className="submit" type="submit" value="ACTUALIZAR DATOS" /> */}
           </form>
         </div>
       </div>
@@ -286,4 +356,4 @@ const Tutor = ({ dato }) => {
   );
 };
 
-export default Tutor;
+export default Supervisor;

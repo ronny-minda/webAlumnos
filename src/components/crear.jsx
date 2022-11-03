@@ -10,6 +10,7 @@ import Supervisores from "./supervisores";
 import { Navigate } from "react-router-dom";
 import { useDatos } from "../context/Context";
 import CrearSupervisor from "./crearSupervisores";
+import CrearInstitucion from "./crearInstitucion";
 import EnviarPersonalizado from "./enviarPersonalizado";
 
 const Main = styled(motion.main)`
@@ -152,8 +153,8 @@ const Crear = () => {
 
       <AnimatePresence>
         {/* {mostrar === "estudiantes" ? <Estudiantes /> : null} */}
-        {/* {mostrar === "tutores" ? <Tutores /> : null} */}
-        {mostrar === "supervisores" ? <CrearSupervisor /> : null}
+        {mostrar === "tutores" ? <Reset /> : null}
+        {mostrar === "supervisores" ? <CrearInstitucion /> : null}
         {/* {mostrar === "supervisores" ? <EnviarPersonalizado /> : null} */}
       </AnimatePresence>
 
@@ -163,6 +164,39 @@ const Crear = () => {
         })}
       </div> */}
     </Main>
+  );
+};
+
+const Reset = () => {
+  const resetear = () => {
+    console.log("resetear");
+
+    axios
+      .post("http://localhost:8080/api/alumno/resetear")
+      .then(({ data }) => {
+        console.log("data");
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("algo paso con resetear");
+      });
+  };
+
+  return (
+    <>
+      <h1
+        onClick={() => resetear()}
+        style={{
+          backgroundColor: "red",
+          margin: "50px",
+          borderRadius: "5px",
+          padding: "20px",
+        }}
+      >
+        reset
+      </h1>
+    </>
   );
 };
 

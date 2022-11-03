@@ -24,8 +24,11 @@ const Main = styled(motion.div)`
     /* background-color: red; */
   }
   .allDatos {
+    padding: 30px;
+    box-shadow: 10px 10px 5px 0px #332b515a;
+    border: 2px solid #00000079;
     margin-top: 100px;
-    /* background-color: #4800ff; */
+    background-color: #c6b6ef7d;
     height: auto;
     max-width: 600px;
     display: flex;
@@ -212,6 +215,34 @@ const Main = styled(motion.div)`
 `;
 
 const ActualizarDatos = () => {
+  const { datos, setDatos } = useDatos();
+
+  if (datos.usuario.rol == undefined) {
+    return (
+      <>
+        <Navigate to="/" />
+      </>
+    );
+  }
+
+  if (datos.usuario.rol == "ADMIN_ROLE") {
+    return (
+      <>
+        <Admin />
+      </>
+    );
+  }
+
+  if (datos.usuario.rol == "ALUGNO_ROLE") {
+    return (
+      <>
+        <Esudiante />
+      </>
+    );
+  }
+};
+
+const Esudiante = () => {
   const [spiner, setSpiner] = useState(false);
   const [guardar, setGuardar] = useState(false);
   const { datos, setDatos } = useDatos();
@@ -231,36 +262,90 @@ const ActualizarDatos = () => {
     telefono: datos.usuario.telefono,
     correo: datos.usuario.correo,
     direccion: datos.usuario.direccion,
+    curso: datos.usuario.curso,
+    fechaInicio: datos.usuario.fechaInicio,
+    fechaFin: datos.usuario.fechaFin,
+    horas: datos.usuario.horas,
+    institucion: datos.usuario.institucion.nombre,
+    supervisora: datos.usuario.supervisora.nombre,
+    tutora: datos.usuario.tutora.nombre,
     password: "",
   });
+
+  // console.log("datos");
+  // console.log(datos.rol);
 
   const enviar = (e) => {
     setSpiner(true);
     e.preventDefault();
 
-    const envio = {
-      ...valores,
-    };
+    let envio;
+
+    if (valores.password.length == 0) {
+      const { supervisora, tutora, institucion, horas, password, ...resto } =
+        valores;
+
+      envio = {
+        ...resto,
+      };
+    } else {
+      const { supervisora, tutora, institucion, horas, ...resto } = valores;
+
+      envio = {
+        ...resto,
+      };
+    }
 
     axios
-      .put("http://localhost:8080/api/admin/actualizarDatos", envio)
+      .put("http://localhost:8080/api/alumno/actualizarAlumno", envio)
       .then((response) => {
         const respuesta = response.data;
 
-        setValores({
-          id: respuesta._id,
-          primerNombre: respuesta.primerNombre,
-          segundoNombre: respuesta.segundoNombre,
-          primerApellido: respuesta.primerApellido,
-          segundoApellido: respuesta.segundoApellido,
-          cedula: respuesta.cedula,
-          telefono: respuesta.telefono,
-          correo: respuesta.correo,
-          direccion: respuesta.direccion,
-          supervisora: respuesta.supervisora,
-          tutora: respuesta.tutora,
-          password: "",
+        const usuario = {
+          ...datos,
+          usuario: {
+            ...datos.usuario,
+            id: respuesta._id,
+            cedula: respuesta.cedula,
+            correo: respuesta.correo,
+            primerNombre: respuesta.primerNombre,
+            segundoNombre: respuesta.segundoNombre,
+            primerApellido: respuesta.primerApellido,
+            segundoApellido: respuesta.segundoApellido,
+
+            telefono: respuesta.telefono,
+
+            rol: respuesta.rol,
+
+            password: "",
+          },
+        };
+
+        setDatos({
+          ...usuario,
         });
+
+        console.log("datos");
+        console.log(datos);
+        // setValores({
+        //   id: datos.usuario._id,
+        //   primerNombre: datos.usuario.primerNombre,
+        //   segundoNombre: datos.usuario.segundoNombre,
+        //   primerApellido: datos.usuario.primerApellido,
+        //   segundoApellido: datos.usuario.segundoApellido,
+        //   cedula: datos.usuario.cedula,
+        //   telefono: datos.usuario.telefono,
+        //   correo: datos.usuario.correo,
+        //   direccion: datos.usuario.direccion,
+        //   curso: datos.usuario.curso || "",
+        //   fechaInicio: datos.usuario.fechaInicio || "",
+        //   fechaFin: datos.usuario.fechaFin || "",
+        //   horas: datos.usuario.horas || "",
+        //   institucion: datos.usuario.institucion.nombre || "",
+        //   supervisora: datos.usuario.supervisora.nombre,
+        //   tutora: datos.usuario.tutora.nombre,
+        //   password: "",
+        // });
         setSpiner(false);
         setGuardar(true);
         setTimeout(() => {
@@ -278,30 +363,6 @@ const ActualizarDatos = () => {
       });
   };
 
-  console.log(datos.usuario._id);
-
-  // useEffect(() => {
-  //   axios("http://localhost:8080/api/admin/buscar", {
-  //     id: datos.usuario._id,
-  //   })
-  //     .then(({ data }) => {
-  //       console.log(data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
-  console.log(datos.usuario.primerNombre);
-
-  if (datos.usuario.rol == undefined) {
-    return (
-      <>
-        <Navigate to="/" />
-      </>
-    );
-  }
-
   return (
     <Main
       initial={{ opacity: 0 }}
@@ -317,7 +378,6 @@ const ActualizarDatos = () => {
             <span>Primer Nombre</span>
             <input
               value={valores.primerNombre}
-              name="Primer"
               onChange={(e) =>
                 setValores({ ...valores, primerNombre: e.target.value })
               }
@@ -329,7 +389,6 @@ const ActualizarDatos = () => {
             <span>Segundo Nombre</span>
             <input
               value={valores.segundoNombre}
-              name="Segundo"
               onChange={(e) =>
                 setValores({ ...valores, segundoNombre: e.target.value })
               }
@@ -341,7 +400,6 @@ const ActualizarDatos = () => {
             <span>Primer Apellido</span>
             <input
               value={valores.primerApellido}
-              name="Primer"
               onChange={(e) =>
                 setValores({ ...valores, primerApellido: e.target.value })
               }
@@ -353,9 +411,304 @@ const ActualizarDatos = () => {
             <span>Segundo Apellido</span>
             <input
               value={valores.segundoApellido}
-              name="Segundo"
               onChange={(e) =>
                 setValores({ ...valores, segundoApellido: e.target.value })
+              }
+              type="text"
+            />
+          </label>
+
+          <label>
+            <span>Curso</span>
+            <input
+              disabled
+              value={valores.curso}
+              onChange={(e) =>
+                setValores({ ...valores, curso: e.target.value })
+              }
+              type="text"
+            />
+          </label>
+
+          <label>
+            <span>Fecha Inicio</span>
+            <input
+              disabled
+              value={valores.fechaInicio}
+              onChange={(e) =>
+                setValores({ ...valores, fechaInicio: e.target.value })
+              }
+              type="text"
+            />
+          </label>
+
+          <label>
+            <span>Fecha Fin</span>
+            <input
+              disabled
+              value={valores.fechaFin}
+              onChange={(e) =>
+                setValores({ ...valores, fechaFin: e.target.value })
+              }
+              type="text"
+            />
+          </label>
+
+          <label>
+            <span>Horas</span>
+            <input
+              disabled
+              value={valores.horas}
+              onChange={(e) =>
+                setValores({ ...valores, horas: e.target.value })
+              }
+              type="text"
+            />
+          </label>
+
+          <label>
+            <span>Institucion</span>
+            <input
+              disabled
+              value={valores.institucion}
+              onChange={(e) =>
+                setValores({ ...valores, institucion: e.target.value })
+              }
+              type="text"
+            />
+          </label>
+
+          <label>
+            <span>Cedula</span>
+            <input
+              value={valores.cedula}
+              onChange={(e) =>
+                setValores({ ...valores, cedula: e.target.value })
+              }
+              type="text"
+            />
+          </label>
+
+          <label>
+            <span>Telefono</span>
+            <input
+              value={valores.telefono}
+              onChange={(e) =>
+                setValores({ ...valores, telefono: e.target.value })
+              }
+              type="text"
+            />
+          </label>
+
+          <label>
+            <span>Correo</span>
+            <input
+              value={valores.correo}
+              onChange={(e) =>
+                setValores({ ...valores, correo: e.target.value })
+              }
+              type="text"
+            />
+          </label>
+
+          <label>
+            <span>Supervisora</span>
+            <input
+              disabled
+              value={valores.supervisora}
+              onChange={(e) =>
+                setValores({ ...valores, supervisora: e.target.value })
+              }
+              type="text"
+            />
+          </label>
+
+          <label>
+            <span>Tutora</span>
+            <input
+              disabled
+              value={valores.tutora}
+              onChange={(e) =>
+                setValores({ ...valores, tutora: e.target.value })
+              }
+              type="text"
+            />
+          </label>
+
+          <label>
+            <span>Password</span>
+            <input
+              value={valores.password}
+              onChange={(e) =>
+                setValores({ ...valores, password: e.target.value })
+              }
+              type="text"
+            />
+          </label>
+        </div>
+
+        <input className="submit" type="submit" value="ACTUALIZAR DATOS" />
+      </form>
+
+      <AnimatePresence>
+        {guardar && (
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="guardados"
+          >
+            DATOS GUARDADOS
+          </motion.span>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {spiner && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="spiner"
+          >
+            <div className="lds-roller">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Main>
+  );
+};
+
+const Admin = () => {
+  const [spiner, setSpiner] = useState(false);
+  const [guardar, setGuardar] = useState(false);
+  const { datos, setDatos } = useDatos();
+  const [error, setError] = useState(false);
+  const [validarContraseña, setValidarContraseña] = useState({
+    pass1: "",
+    pass2: "",
+  });
+
+  const [valores, setValores] = useState({
+    id: datos.usuario._id,
+    cedula: datos.usuario.cedula,
+    correo: datos.usuario.correo,
+    direccion: datos.usuario.direccion,
+    primerNombre: datos.usuario.primerNombre,
+    telefono: datos.usuario.telefono,
+    password: "",
+  });
+
+  // console.log("datos");
+  // console.log(datos.rol);
+
+  const enviar = (e) => {
+    setSpiner(true);
+    e.preventDefault();
+
+    let envio;
+
+    if (valores.password.length == 0) {
+      const { password, ...resto } = valores;
+
+      envio = {
+        ...resto,
+      };
+    } else {
+      envio = {
+        ...valores,
+      };
+    }
+
+    axios
+      .put("http://localhost:8080/api/admin/actualizarDatos", envio)
+      .then((response) => {
+        const respuesta = response.data;
+
+        console.log("respuesta");
+        console.log(respuesta);
+
+        setDatos({
+          ...datos,
+          id: respuesta._id,
+          cedula: respuesta.cedula,
+          correo: respuesta.correo,
+          direccion: respuesta.direccion,
+          primerNombre: respuesta.primerNombre,
+          telefono: respuesta.telefono,
+          rol: respuesta.rol,
+          password: "",
+        });
+
+        console.log("datos");
+        console.log(datos);
+
+        // setValores({
+        //   id: datos.usuario._id,
+        //   primerNombre: datos.usuario.primerNombre,
+        //   segundoNombre: datos.usuario.segundoNombre,
+        //   primerApellido: datos.usuario.primerApellido,
+        //   segundoApellido: datos.usuario.segundoApellido,
+        //   cedula: datos.usuario.cedula,
+        //   telefono: datos.usuario.telefono,
+        //   correo: datos.usuario.correo,
+        //   direccion: datos.usuario.direccion,
+        //   curso: datos.usuario.curso,
+        //   fechaInicio: datos.usuario.fechaInicio,
+        //   fechaFin: datos.usuario.fechaFin,
+        //   horas: datos.usuario.horas,
+        //   institucion: datos.usuario.institucion.nombre,
+        //   supervisora: datos.usuario.supervisora.nombre,
+        //   tutora: datos.usuario.tutora.nombre,
+        //   password: "",
+        // });
+
+        setSpiner(false);
+        setGuardar(true);
+        setTimeout(() => {
+          setGuardar(false);
+        }, 3000);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("paso algo al actualizar estudiante");
+        setSpiner(false);
+        setGuardar(true);
+        setTimeout(() => {
+          setGuardar(false);
+        }, 3000);
+      });
+  };
+
+  return (
+    <Main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1 }}
+    >
+      <h1>Actualizar Datos {datos.usuario.primerNombre}</h1>
+
+      <form className="allDatos" onSubmit={(e) => enviar(e)}>
+        <div className="conteLabel">
+          <label>
+            <span>Nombre</span>
+            <input
+              value={valores.primerNombre}
+              name="Primer"
+              onChange={(e) =>
+                setValores({ ...valores, primerNombre: e.target.value })
               }
               type="text"
             />
@@ -481,6 +834,7 @@ const ActualizarDatos = () => {
 
         <input className="submit" type="submit" value="ACTUALIZAR DATOS" />
       </form>
+
       <AnimatePresence>
         {guardar && (
           <motion.span

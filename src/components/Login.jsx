@@ -245,6 +245,17 @@ const Login = () => {
   useEffect(() => {
     let data = window.localStorage.getItem("root");
 
+    console.log("data");
+    console.log(data);
+
+    if (data == null) {
+      const sesion = {
+        token: "",
+        usuario: {},
+      };
+      window.localStorage.setItem("root", JSON.stringify(sesion));
+    }
+
     if (data !== null) {
       let sesion = JSON.parse(data);
       console.log("sesion");

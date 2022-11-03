@@ -6,20 +6,24 @@ import flecha from "../img/flecha.svg";
 import axios from "axios";
 
 const Div = styled.div`
-  width: 100%;
+  width: 1000px;
   display: flex;
   justify-content: center;
   position: relative;
 
+  /* border: 2px solid #00000079; */
+  margin: 30px;
+
   .usuarios {
+    box-shadow: 10px 10px 5px 0px #332b515a;
     display: inline-block;
     /* height: 50px; */
     width: 95%;
-    background-color: #ffa7f62e;
-    border: 2px solid #ff92f439;
+    background-color: #ffc2f71c;
+    border: 2px solid #ff6ce276;
     backdrop-filter: blur(2px);
     margin: 10px 0;
-    overflow: hidden;
+    /* overflow: hidden; */
     transition: 0.5s;
     position: relative;
 
@@ -49,6 +53,7 @@ const Div = styled.div`
       }
 
       .allDatos {
+        padding: 30px;
         margin-top: 20px;
         /* background-color: #4800ff; */
         height: auto;
@@ -147,17 +152,15 @@ const Supervisor = ({ dato }) => {
     pass2: "",
   });
   const [valores, setValores] = useState({
-    primerNombre: dato.primerNombre,
-    segundoNombre: dato.segundoNombre,
-    primerApellido: dato.primerApellido,
-    segundoApellido: dato.segundoApellido,
+    nombre: dato.nombre,
     cedula: dato.cedula,
     telefono: dato.telefono,
     correo: dato.correo,
-    direccion: dato.direccion,
+    horasUsadas: dato.horasUsadas,
+    numeroAsignacion: dato.numeroAsignacion,
   });
 
-  console.log(dato);
+  // console.log(dato);
 
   const enviar = (e) => {
     e.preventDefault();
@@ -188,17 +191,12 @@ const Supervisor = ({ dato }) => {
         console.log({ respuesta });
 
         setValores({
-          primerNombre: respuesta.primerNombre,
-          segundoNombre: respuesta.segundoNombre,
-          primerApellido: respuesta.primerApellido,
-          segundoApellido: respuesta.segundoApellido,
+          nombre: respuesta.nombre,
           cedula: respuesta.cedula,
           telefono: respuesta.telefono,
           correo: respuesta.correo,
-          direccion: respuesta.direccion,
-          supervisora: respuesta.supervisora,
-          tutora: respuesta.tutora,
-          password: "",
+          horasUsadas: respuesta.horasUsadas,
+          numeroAsignacion: respuesta.numeroAsignacion,
         });
       })
       .catch((err) => {
@@ -209,59 +207,17 @@ const Supervisor = ({ dato }) => {
 
   return (
     <Div>
-      <div className="usuarios" style={{ height: altura }}>
+      <div className="usuarios">
         <div className="usuario">
-          <div className="contDatos">
-            <span className="primerNombre">{valores.primerNombre}</span>
-            <span className="segundoNombre">{valores.segundoNombre}</span>
-            <span className="cedula">{valores.cedula}</span>
-          </div>
-
           <form className="allDatos" onSubmit={(e) => enviar(e)}>
             <div className="conteLabel">
               <label>
-                <span>Primer Nombre</span>
+                <span>Nombre</span>
                 <input
-                  value={valores.primerNombre}
+                  value={valores.nombre}
                   name="Primer"
                   onChange={(e) =>
-                    setValores({ ...valores, primerNombre: e.target.value })
-                  }
-                  type="text"
-                />
-              </label>
-
-              <label>
-                <span>Segundo Nombre</span>
-                <input
-                  value={valores.segundoNombre}
-                  name="Segundo"
-                  onChange={(e) =>
-                    setValores({ ...valores, segundoNombre: e.target.value })
-                  }
-                  type="text"
-                />
-              </label>
-
-              <label>
-                <span>Primer Apellido</span>
-                <input
-                  value={valores.primerApellido}
-                  name="Primer"
-                  onChange={(e) =>
-                    setValores({ ...valores, primerApellido: e.target.value })
-                  }
-                  type="text"
-                />
-              </label>
-
-              <label>
-                <span>Segundo Apellido</span>
-                <input
-                  value={valores.segundoApellido}
-                  name="Segundo"
-                  onChange={(e) =>
-                    setValores({ ...valores, segundoApellido: e.target.value })
+                    setValores({ ...valores, nombre: e.target.value })
                   }
                   type="text"
                 />
@@ -271,7 +227,7 @@ const Supervisor = ({ dato }) => {
                 <span>Cedula</span>
                 <input
                   value={valores.cedula}
-                  name="Cedula"
+                  name="Segundo"
                   onChange={(e) =>
                     setValores({ ...valores, cedula: e.target.value })
                   }
@@ -283,9 +239,34 @@ const Supervisor = ({ dato }) => {
                 <span>Telefono</span>
                 <input
                   value={valores.telefono}
-                  name="Telefono"
+                  name="Primer"
                   onChange={(e) =>
                     setValores({ ...valores, telefono: e.target.value })
+                  }
+                  type="text"
+                />
+              </label>
+
+              <label>
+                <span>Horas Usadas</span>
+                <input
+                  disabled
+                  value={valores.horasUsadas}
+                  name="Segundo"
+                  onChange={(e) =>
+                    setValores({ ...valores, horasUsadas: e.target.value })
+                  }
+                  type="text"
+                />
+              </label>
+
+              <label>
+                <span>Numero Asignacion</span>
+                <input
+                  disabled
+                  value={valores.numeroAsignacion}
+                  onChange={(e) =>
+                    setValores({ ...valores, numeroAsignacion: e.target.value })
                   }
                   type="text"
                 />
@@ -302,30 +283,6 @@ const Supervisor = ({ dato }) => {
                   type="text"
                 />
               </label>
-
-              {/* <label>
-                <span>Institucion</span>
-                <input
-                  value={valores.institucion}
-                  name="Institucion"
-                  onChange={(e) =>
-                    setValores({ ...valores, institucion: e.target.value })
-                  }
-                  type="text"
-                />
-              </label> */}
-
-              <label>
-                <span>Direccion</span>
-                <input
-                  value={valores.direccion}
-                  name="Direccion"
-                  onChange={(e) =>
-                    setValores({ ...valores, direccion: e.target.value })
-                  }
-                  type="text"
-                />
-              </label>
             </div>
 
             <input className="submit" type="submit" value="ACTUALIZAR DATOS" />
@@ -333,7 +290,7 @@ const Supervisor = ({ dato }) => {
         </div>
       </div>
 
-      <div
+      {/* <div
         className="control"
         style={{ transform: `rotate(${rotate}deg)` }}
         onClick={() => {
@@ -342,7 +299,7 @@ const Supervisor = ({ dato }) => {
 
           // console.log("siii");
         }}
-      ></div>
+      ></div> */}
     </Div>
   );
 };

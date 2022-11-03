@@ -36,7 +36,7 @@ const Main = styled(motion.main)`
     width: 100px; */
     top: 20px;
     left: 20px;
-    z-index: 9;
+    z-index: 8;
 
     background-color: #003756;
     padding: 15px;
@@ -78,16 +78,18 @@ const Main = styled(motion.main)`
     position: relative;
 
     .spiner {
+      z-index: 10;
       height: 100%;
       width: 100%;
       background-color: #0000005a;
+      backdrop-filter: blur(2px);
       position: absolute;
       top: 0;
       left: 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius: 80px 0px 0px 80px;
+      /* border-radius: 80px 0px 0px 80px; */
 
       .lds-roller {
         display: inline-block;
@@ -226,6 +228,9 @@ const Main = styled(motion.main)`
           input:focus {
             border-bottom: 2px solid #2faec8;
           }
+          input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+          }
         }
       }
     }
@@ -263,6 +268,7 @@ const Main = styled(motion.main)`
 const CrearCuenta = () => {
   const [supevisora, setSupevisora] = useState([]);
   const [tutora, setTutora] = useState([]);
+  const [institucion, setInstitucion] = useState([]);
   const { datos, setDatos } = useDatos();
   const [spiner, setSpiner] = useState(false);
   const [error, setError] = useState(false);
@@ -279,10 +285,11 @@ const CrearCuenta = () => {
     cedula: "",
     telefono: "",
     correo: "",
-    direccion: "",
-    supervisora: "",
-    tutora: "",
+    curso: "",
+    horas: "",
+    institucion: "",
     password: "",
+    msgError: "",
   });
 
   const [login, setLogin] = useState({
@@ -293,44 +300,318 @@ const CrearCuenta = () => {
     cedula: "",
     telefono: "",
     correo: "",
-    direccion: "",
-    supervisora: "",
-    tutora: "",
+    curso: "",
+
+    fechaInicio: new Date("11/7/2022"),
+    fechaFin: new Date("11/7/2022"),
+    institucion: "",
+
+    horas: "",
     password: "",
   });
 
   let letras = "";
-  console.log(letras);
-  console.log(letras.length);
+  // console.log(letras);
+  // console.log(letras.length);
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/supervisora/pedirTodos")
-      .then((response) => {
-        const SUPERVISORA_ROLE = response.data.filter(
-          (dato) => dato.rol == "SUPERVISORA_ROLE"
-        );
-        const TUTOR_ROLE = response.data.filter(
-          (dato) => dato.rol == "TUTOR_ROLE"
-        );
-
-        setSupevisora(SUPERVISORA_ROLE);
-        setTutora(TUTOR_ROLE);
+      .post("http://localhost:8080/api/institucion/buscarTodos")
+      .then(({ data }) => {
+        // console.log(data);
+        setInstitucion(data);
       })
       .catch((err) => {
-        console.log("algo salio mal en pedido supevisoras!");
+        console.log("algo salio mal en pedido institucion!");
       });
   }, []);
 
+  // let fecha = login.fechaInicio;
+
+  // fecha.setDate(fecha.getDate() + 7);
+
+  // console.log("fecha");
+  // console.log(fecha);
+
+  const enviarPrueba = (e) => {
+    e.preventDefault();
+    // console.log("enviarPrueba");
+    // console.log(enviarPrueba);
+    const dias = [
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+    ];
+
+    let fechaReferencia = login.fechaFin;
+
+    let i = 1;
+    let contado = 0;
+
+    while (i <= 5) {
+      const nombreDia = dias[login.fechaInicio.getDay() + contado];
+
+      console.log(nombreDia);
+      console.log(login.fechaFin.getDay());
+      console.log(login.fechaInicio.getDay() + contado);
+
+      if (nombreDia != "sábado" && nombreDia != "domingo") {
+        console.log("Nombre de día de la semana: ", nombreDia);
+
+        login.fechaFin.setDate(login.fechaInicio.getDate() + contado);
+
+        i++;
+      }
+
+      contado++;
+
+      console.log("");
+    }
+
+    console.log("login.fechaFin");
+    console.log(login.fechaFin);
+
+    // for (let i = 1; i < 20; i++) {
+    //   // console.log(login.fechaInicio.getDay() + i);
+
+    //   const nombreDia = dias[login.fechaInicio.getDay() + i];
+
+    //   console.log(nombreDia);
+    //   console.log(login.fechaFin.getDay());
+    //   console.log(login.fechaInicio.getDay() + i);
+
+    //   if (nombreDia != "sábado" && nombreDia != "domingo") {
+    //     console.log("Nombre de día de la semana: ", nombreDia);
+    //   }
+
+    //   console.log("");
+
+    //   // login.fechaFin.setDate(login.fechaInicio.getDate() + i);
+
+    //   // console.log("login.fechaFin.getDate");
+    //   // console.log(login.fechaFin);
+
+    //   // const nombreDia = dias[login.fechaFin.getDay()];
+    //   // console.log("Nombre de día de la semana: ", nombreDia);
+
+    //   // console.log("login.fechaFin");
+    //   // console.log(login.fechaFin);
+    // }
+  };
+
+  const asignarFecha = (limite) => {
+    const dias = [
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+    ];
+
+    let i = 1;
+    let contado = 0;
+
+    while (i <= limite) {
+      const nombreDia = dias[login.fechaInicio.getDay() + contado];
+
+      console.log(nombreDia);
+      console.log(login.fechaFin.getDay());
+      console.log(login.fechaInicio.getDay() + contado);
+
+      if (nombreDia != "sábado" && nombreDia != "domingo") {
+        console.log("Nombre de día de la semana: ", nombreDia);
+
+        console.log(login.fechaInicio);
+
+        i++;
+      }
+      contado++;
+      console.log("");
+    }
+
+    contado = contado - 1;
+
+    login.fechaFin.setDate(login.fechaInicio.getDate() + contado);
+
+    console.log("login.fechaFin");
+    console.log(login.fechaFin);
+  };
+
   const enviar = (e) => {
     e.preventDefault();
+    // let fecha = new Date("7/07/2022");
+
+    // login.fechaInicio.setDate(login.fechaInicio.getDate() + 12);
+
+    if (login.horas === "96H") {
+      // login.fechaFin.setDate(login.fechaInicio.getDate() + 12);
+      asignarFecha(12);
+    }
+    if (login.horas === "144H") {
+      // login.fechaFin.setDate(login.fechaInicio.getDate() + 18);
+      asignarFecha(18);
+    }
+    if (login.horas === "240H") {
+      // login.fechaFin.setDate(login.fechaInicio.getDate() + 30);
+      asignarFecha(30);
+    }
+    if (login.horas === "480H") {
+      // login.fechaFin.setDate(login.fechaInicio.getDate() + 60);
+      // asignarFecha(60);
+
+      login.fechaFin.setDate(login.fechaInicio.getDate() + 81);
+
+      // console.log("login");
+      // console.log(login);
+    }
+
+    // TuFecha.setDate(TuFecha.getDate() + 7)
 
     if (validarContraseña.pass1 === validarContraseña.pass2) {
       // console.log("login");
       // console.log(login);
 
-      console.log("login.primerNombre.length");
-      console.log(login);
+      // console.log("login.primerNombre.length");
+      // console.log(login);
 
       if (login.primerNombre.length === 0) {
         return setMsgError({
@@ -367,54 +648,69 @@ const CrearCuenta = () => {
           correo: "falta completar el correo",
         });
       }
-      if (login.direccion.length === 0) {
+      if (login.curso.length === 0) {
         return setMsgError({
-          direccion: "falta completar el direccion",
+          curso: "falta completar el curso",
         });
       }
-      if (login.supervisora.length === 0) {
+      if (login.horas.length === 0) {
         return setMsgError({
-          supervisora: "falta completar el supervisora",
+          horas: "falta completar el horas",
         });
       }
-      if (login.tutora.length === 0) {
-        return setMsgError({
-          tutora: "falta completar el tutora",
-        });
-      }
+
       if (login.password.length === 0) {
         return setMsgError({
           password: "falta completar el password",
         });
       }
 
+      if (login.institucion.length === 0) {
+        return setMsgError({
+          institucion: "falta completar elegir la institucion",
+        });
+      }
+
       setSpiner(true);
+
+      // console.log({ login });
+      console.log("login");
+      console.log(login);
 
       axios
         .post("http://localhost:8080/api/alumno/crearAlumno", login)
-        .then((response) => {
-          const { token, usuario } = response.data;
+        .then(({ data }) => {
+          const { token, alumno } = data;
 
           // console.log(token);
-          // console.log(alumno);
+          console.log("data");
+          console.log(data);
 
-          setDatos({
+          const sesion = {
             ...datos,
             token,
-            usuario,
-          });
+            usuario: alumno,
+          };
+
+          setDatos(sesion);
+
+          window.localStorage.setItem("root", JSON.stringify(sesion));
 
           setSpiner(false);
         })
         .catch((err) => {
-          console.log("algo ocurrio en Crear Cuenta");
+          console.log(err.response.data.msg);
+
+          setMsgError({
+            msgError: err.response.data.msg,
+          });
 
           console.log(err);
 
-          setError(true);
-          setTimeout(() => {
-            setError(false);
-          }, 4000);
+          // setError(true);
+          // setTimeout(() => {
+          //   setError(false);
+          // }, 4000);
           setSpiner(false);
         });
 
@@ -423,8 +719,26 @@ const CrearCuenta = () => {
       console.log("si esta listo");
     } else {
       console.log("no esta listo");
+
+      return setMsgError({
+        password: "Las contraseñas no son iguales",
+      });
     }
   };
+
+  let TuFecha = new Date("7/07/2022");
+
+  // var dias = parseInt(5);
+
+  // console.log(TuFecha.setDate(TuFecha.getDate() + 7));
+
+  // console.log(
+  //   ` Dia: ${TuFecha.getDate()} / Mes: ${TuFecha.getMonth()} / Año: ${TuFecha.getFullYear()}`
+  // );
+
+  // console.log(TuFecha);
+  // console.log(TuFecha.getDate());
+  // console.log(TuFecha.getMonth());
 
   return (
     <>
@@ -439,6 +753,8 @@ const CrearCuenta = () => {
         datos.usuario.rol === "ADMIN_ROLE" ? (
           <Navigate to="/home" />
         ) : null}
+
+        {/* {console.log(datos)} */}
 
         <Link to="/login" className="iniciarSecion">
           INCIAR SESION
@@ -499,7 +815,7 @@ const CrearCuenta = () => {
                   onChange={(e) =>
                     setLogin({ ...login, cedula: e.target.value })
                   }
-                  type="text"
+                  type="number"
                 />
               </label>
 
@@ -510,7 +826,7 @@ const CrearCuenta = () => {
                   onChange={(e) =>
                     setLogin({ ...login, telefono: e.target.value })
                   }
-                  type="text"
+                  type="number"
                 />
               </label>
 
@@ -526,22 +842,14 @@ const CrearCuenta = () => {
               </label>
 
               <label>
-                <span>Direccion</span>
-                <input
-                  name="Direccion"
-                  onChange={(e) =>
-                    setLogin({ ...login, direccion: e.target.value })
-                  }
-                  type="text"
-                />
-              </label>
-
-              <label>
                 <span>Curso</span>
                 <select
                   onChange={(e) => {
-                    // setLogin({ ...login, curso: e.target.value });
-                    console.log(e.target.value);
+                    setLogin({
+                      ...login,
+                      curso: e.target.value,
+                      horas: e.target.value === "6to" ? "96H" : "",
+                    });
                   }}
                 >
                   <option disabled selected hidden>
@@ -551,6 +859,84 @@ const CrearCuenta = () => {
                   <option value="7mo">7mo</option>
                   <option value="8vo">8vo</option>
                   <option value="9no">9no</option>
+                </select>
+              </label>
+
+              <label>
+                <span>Horas</span>
+                <select
+                  disabled={
+                    login.curso === "6to" || login.curso === "" ? true : false
+                  }
+                  onChange={(e) => {
+                    setLogin({ ...login, horas: e.target.value });
+                  }}
+                >
+                  {login.curso !== "6to" ? (
+                    <option disabled selected hidden>
+                      Elija sus horas
+                    </option>
+                  ) : null}
+
+                  {login.horas === "" ? (
+                    <option disabled selected hidden>
+                      Elija sus horas
+                    </option>
+                  ) : null}
+
+                  {login.curso === "" ? (
+                    <option disabled selected hidden>
+                      Elija un curso
+                    </option>
+                  ) : null}
+
+                  {login.curso === "6to" ? (
+                    <option disabled selected hidden>
+                      96H
+                    </option>
+                  ) : null}
+
+                  {login.curso === "7mo" ? (
+                    <>
+                      <option value="96H">96H</option>
+                      <option value="144H">144H</option>
+                      <option value="240H">240H</option>
+                    </>
+                  ) : null}
+
+                  {login.curso === "8vo" || login.curso === "9no" ? (
+                    <>
+                      <option value="96H">96H</option>
+                      <option value="144H">144H</option>
+                      <option value="240H">240H</option>
+                      <option value="480H">480H</option>
+                    </>
+                  ) : null}
+
+                  {/* <option value="96H">96H</option>
+                  <option value="144H">144H</option>
+                  <option value="240H">240H</option>
+                  <option value="480H">480H</option> */}
+                </select>
+              </label>
+
+              <label>
+                <span>Institucion</span>
+                <select
+                  onChange={(e) => {
+                    setLogin({ ...login, institucion: e.target.value });
+                  }}
+                >
+                  <option disabled selected hidden>
+                    Elija una institucion
+                  </option>
+                  {institucion.map((i) => {
+                    return (
+                      <option key={i._id} value={i._id}>
+                        {i.nombre}
+                      </option>
+                    );
+                  })}
                 </select>
               </label>
 
@@ -596,7 +982,7 @@ const CrearCuenta = () => {
                   transition={{ duration: 0.5 }}
                   className="msgError"
                 >
-                  INTENTA DE NUEVO O MAS TARDE
+                  INTENTA DE NUEVO O MAS TARDEii
                 </motion.span>
               )}
             </AnimatePresence>
@@ -608,10 +994,12 @@ const CrearCuenta = () => {
             <span className="msgError">{msgError.cedula}</span>
             <span className="msgError">{msgError.telefono}</span>
             <span className="msgError">{msgError.correo}</span>
-            <span className="msgError">{msgError.direccion}</span>
-            <span className="msgError">{msgError.supervisora}</span>
-            <span className="msgError">{msgError.tutora}</span>
+            <span className="msgError">{msgError.curso}</span>
+            <span className="msgError">{msgError.horas}</span>
+
             <span className="msgError">{msgError.password}</span>
+            <span className="msgError">{msgError.msgError}</span>
+            <span className="msgError">{msgError.institucion}</span>
             <input className="submit" type="submit" value="CREAR CUENTA" />
           </form>
 

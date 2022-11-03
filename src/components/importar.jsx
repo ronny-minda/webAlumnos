@@ -248,27 +248,59 @@ const Importar = () => {
         // setPedido(data);
 
         const result = data.map((i) => {
-          console.log(i);
+          // console.log(i);
           for (const property in i) {
-            console.log(`${property}: ${i[property]}`);
+            // console.log(`${property}: ${i[property]}`);
+
+            if (property == "fechaFin") {
+              let cadena = i[property].substring(0, i[property].length - 14);
+              i[`${property}`] = cadena;
+            }
+
+            if (property == "fechaInicio") {
+              let cadena = i[property].substring(0, i[property].length - 14);
+              i[`${property}`] = cadena;
+            }
 
             if (property == "tutora") {
               for (const popiedad in i.tutora) {
-                console.log(` >>>> ${popiedad}: ${i.tutora[popiedad]}`);
                 i[`tutora ${popiedad}`] = i.tutora[popiedad];
               }
             }
 
             if (property == "supervisora") {
               for (const popiedad in i.supervisora) {
-                console.log(` >>>> ${popiedad}: ${i.supervisora[popiedad]}`);
                 i[`supervisora ${popiedad}`] = i.supervisora[popiedad];
+              }
+            }
+
+            if (property == "institucion") {
+              for (const popiedad in i.institucion) {
+                i[`institucion ${popiedad}`] = i.institucion[popiedad];
               }
             }
           }
 
+          delete i["institucion"];
+          delete i["institucion __v"];
+          delete i["institucion horasUsadas"];
+          delete i["institucion numeroAsignacion"];
+          delete i["institucion numeroAsignacionBoleano"];
+          delete i["institucion supervisora"];
+          delete i["institucion tutora"];
+          delete i["password"];
+          delete i["rol"];
+          delete i["supervisora"];
+          delete i["supervisora __v"];
+          delete i["supervisora horasUsadas"];
+          delete i["supervisora numeroAsignacion"];
+          delete i["tutora"];
+          delete i["tutora __v"];
+          delete i["__v"];
+
           return i;
         });
+
         console.log({ result });
         setPedido(result);
 
@@ -289,7 +321,7 @@ const Importar = () => {
     //     // console.log(typeof i.supervisora);
     //     if (property == "tutora") {
     //       for (const popiedad in i.tutora) {
-    //         console.log(` >>>> ${popiedad}: ${i.tutora[popiedad]}`);
+    //
     //         i[`tutora ${popiedad}`] = i.tutora[popiedad];
     //       }
     //     }
@@ -343,10 +375,10 @@ const Importar = () => {
       <h1>Importar</h1>
 
       <div className="contenedor">
-        <label className="carga">
+        {/* <label className="carga">
           <span>SUBIR</span>
           <input type="file" onChange={(e) => carga(e)} />
-        </label>
+        </label> */}
 
         <div className="descargar" onClick={() => descargar()}>
           <span>DESCARGAR</span>

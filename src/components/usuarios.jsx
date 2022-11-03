@@ -9,6 +9,7 @@ import Tutores from "./tutores";
 import Supervisores from "./supervisores";
 import { Navigate } from "react-router-dom";
 import { useDatos } from "../context/Context";
+import Intituciones from "./instituciones";
 
 const Main = styled(motion.main)`
   /* background-color: red; */
@@ -25,7 +26,8 @@ const Main = styled(motion.main)`
 
   h1 {
     /* background-color: red; */
-    height: 100px;
+    /* height: 100px; */
+    margin: 20px 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -127,6 +129,15 @@ const Usuarios = () => {
         >
           supervisores
         </span>
+
+        <span
+          style={{
+            backgroundColor: mostrar === "instituciones" ? "#fd8a8a" : null,
+          }}
+          onClick={() => setMostrar("instituciones")}
+        >
+          instituciones
+        </span>
         <div
           style={{
             height: "6px",
@@ -138,9 +149,11 @@ const Usuarios = () => {
               mostrar === "estudiantes"
                 ? "4%"
                 : null || mostrar === "tutores"
-                ? "38%"
+                ? "28%"
                 : null || mostrar === "supervisores"
-                ? "71%"
+                ? "53%"
+                : null || mostrar === "instituciones"
+                ? "79%"
                 : null,
 
             transition: "0.5s",
@@ -152,6 +165,7 @@ const Usuarios = () => {
         {mostrar === "estudiantes" ? <Estudiantes /> : null}
         {mostrar === "tutores" ? <Tutores /> : null}
         {mostrar === "supervisores" ? <Supervisores /> : null}
+        {mostrar === "instituciones" ? <Intituciones /> : null}
       </AnimatePresence>
 
       {/* <div>

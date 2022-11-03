@@ -105,7 +105,36 @@ const EnviarPersonalizado = () => {
 
   const [pedido, setPedido] = useState([]);
 
-  const carga = async (e) => {
+  const cargaTuoras = async (e) => {
+    const file = e.target.files[0];
+    const data = await file.arrayBuffer();
+    const workbook = XLSX.read(data);
+    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+    // console.log(jsonData[0].name);
+    console.log({ jsonData });
+    console.log("jsonData");
+    jsonData.map((i) => {
+      // console.log(i);
+
+      axios
+        .post("http://localhost:8080/api/tutora/crear", i)
+        .then(({ data }) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log("algo ocurrio en Crear supervisora");
+
+          console.log(err);
+        });
+
+      console.log({ datos });
+
+      console.log("si esta listo");
+    });
+  };
+
+  const cargaSupervisora = async (e) => {
     const file = e.target.files[0];
     const data = await file.arrayBuffer();
     const workbook = XLSX.read(data);
@@ -242,7 +271,7 @@ const EnviarPersonalizado = () => {
       <div className="contenedor">
         <label className="carga">
           <span>SUBIR</span>
-          <input type="file" onChange={(e) => carga(e)} />
+          <input type="file" onChange={(e) => cargaSupervisora(e)} />
         </label>
 
         <div className="descargar" onClick={() => descargar()}>
