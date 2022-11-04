@@ -88,3 +88,6 @@ const Home = () => {
 };
 
 export default Home;
+
+
+  // "homepage": "https://ronny-minda.github.io/webAlumnos/",
