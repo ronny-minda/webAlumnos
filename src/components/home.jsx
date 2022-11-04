@@ -81,7 +81,6 @@ const Home = () => {
       transition={{ duration: 1 }}
     >
       <h1>Bienvenida {datos.usuario.primerNombre}</h1>
-
       {/* <input type="file" onChange={(e) => carga(e)} />
       <div onClick={() => exportar()}>exportar</div> */}
     </Main>
