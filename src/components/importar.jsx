@@ -239,10 +239,13 @@ const Importar = () => {
 
   const descargar = () => {
     axios
-      .post("http://localhost:8080/api/alumno/buscarTodasAlumno", {
-        desde: "0",
-        limite: "20",
-      })
+      .post(
+        "https://serveralumnos-production.up.railway.app/api/alumno/buscarTodasAlumno",
+        {
+          desde: "0",
+          limite: "20",
+        }
+      )
       .then(({ data }) => {
         // console.log(data);
         // setPedido(data);

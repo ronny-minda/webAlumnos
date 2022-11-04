@@ -181,9 +181,12 @@ const Tutor = ({ dato }) => {
     console.log(dato._id);
 
     axios
-      .post("http://localhost:8080/api/supervisora/borrar", {
-        id: dato._id,
-      })
+      .post(
+        "https://serveralumnos-production.up.railway.app/api/supervisora/borrar",
+        {
+          id: dato._id,
+        }
+      )
       .then(({ data }) => {
         console.log("data");
         console.log(data);
@@ -214,7 +217,10 @@ const Tutor = ({ dato }) => {
     console.log({ envio });
 
     axios
-      .put("http://localhost:8080/api/supervisora/actualizarDatos", envio)
+      .put(
+        "https://serveralumnos-production.up.railway.app/api/supervisora/actualizarDatos",
+        envio
+      )
       .then((response) => {
         // console.log(response.data);
 

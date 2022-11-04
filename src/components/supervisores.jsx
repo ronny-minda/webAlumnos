@@ -120,7 +120,9 @@ const Supervisores = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/supervisora/pedirTodos")
+      .get(
+        "https://serveralumnos-production.up.railway.app/api/supervisora/pedirTodos"
+      )
       .then(({ data }) => {
         console.log("data");
         console.log(data);

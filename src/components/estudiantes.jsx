@@ -121,10 +121,13 @@ const Estudiantes = () => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:8080/api/alumno/buscarTodasAlumno", {
-        desde: 0,
-        limite: 20,
-      })
+      .post(
+        "https://serveralumnos-production.up.railway.app/api/alumno/buscarTodasAlumno",
+        {
+          desde: 0,
+          limite: 20,
+        }
+      )
       .then(({ data }) => {
         // console.log(response.data);
         setDatos(data);
@@ -147,7 +150,7 @@ const Estudiantes = () => {
   //   console.log("pedido");
 
   //   axios
-  //     .get("http://localhost:8080/api/supervisora/pedirTodos")
+  //     .get("https://serveralumnos-production.up.railway.app/api/supervisora/pedirTodos")
   //     .then((response) => {
   //       console.log("supervisoras");
   //       console.log(response.data);

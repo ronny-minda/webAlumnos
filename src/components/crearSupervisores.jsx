@@ -294,7 +294,7 @@ const CrearSupervisor = () => {
 
   useEffect(() => {
     // axios
-    //   .get("http://localhost:8080/api/supervisora/pedirTodos")
+    //   .get("https://serveralumnos-production.up.railway.app/api/supervisora/pedirTodos")
     //   .then((response) => {
     //     const SUPERVISORA_ROLE = response.data.filter(
     //       (dato) => dato.rol == "SUPERVISORA_ROLE"
@@ -320,7 +320,10 @@ const CrearSupervisor = () => {
       setSpiner(true);
 
       axios
-        .post("http://localhost:8080/api/supervisora/crear", login)
+        .post(
+          "https://serveralumnos-production.up.railway.app/api/supervisora/crear",
+          login
+        )
         .then(({ data }) => {
           console.log(data);
 

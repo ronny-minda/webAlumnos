@@ -295,7 +295,9 @@ const CrearSupervisor = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/supervisora/pedirTodos")
+      .get(
+        "https://serveralumnos-production.up.railway.app/api/supervisora/pedirTodos"
+      )
       .then(({ data }) => {
         // console.log(data);
         setSupervisora(data);
@@ -305,7 +307,9 @@ const CrearSupervisor = () => {
       });
 
     axios
-      .get("http://localhost:8080/api/tutora/pedirTodos")
+      .get(
+        "https://serveralumnos-production.up.railway.app/api/tutora/pedirTodos"
+      )
       .then(({ data }) => {
         console.log(data);
         setTutora(data);
@@ -324,7 +328,10 @@ const CrearSupervisor = () => {
     setSpiner(true);
 
     axios
-      .post("http://localhost:8080/api/institucion/crear", login)
+      .post(
+        "https://serveralumnos-production.up.railway.app/api/institucion/crear",
+        login
+      )
       .then(({ data }) => {
         console.log(data);
 

@@ -313,9 +313,12 @@ const Estudiante = ({ dato, supevisora, tutora }) => {
     console.log(dato._id);
 
     axios
-      .post("http://localhost:8080/api/alumno/borarAlumno", {
-        id: dato._id,
-      })
+      .post(
+        "https://serveralumnos-production.up.railway.app/api/alumno/borarAlumno",
+        {
+          id: dato._id,
+        }
+      )
       .then(({ data }) => {
         console.log("data");
         console.log(data);
@@ -347,7 +350,10 @@ const Estudiante = ({ dato, supevisora, tutora }) => {
     // console.log({ envio });
 
     axios
-      .put("http://localhost:8080/api/alumno/actualizarAlumno", envio)
+      .put(
+        "https://serveralumnos-production.up.railway.app/api/alumno/actualizarAlumno",
+        envio
+      )
       .then(({ data }) => {
         // console.log(response.data);
 

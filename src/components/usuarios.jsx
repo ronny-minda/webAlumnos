@@ -66,7 +66,7 @@ const Usuarios = () => {
 
   useEffect(() => {
     // axios
-    //   .post("http://localhost:8080/api/buscarTodasCuenta", {
+    //   .post("https://serveralumnos-production.up.railway.app/api/buscarTodasCuenta", {
     //     desde: 0,
     //     limite: 2,
     //   })

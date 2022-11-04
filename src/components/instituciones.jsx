@@ -120,7 +120,9 @@ const Intituciones = () => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:8080/api/institucion/buscarTodos")
+      .post(
+        "https://serveralumnos-production.up.railway.app/api/institucion/buscarTodos"
+      )
       .then(({ data }) => {
         console.log("data");
         console.log(data);

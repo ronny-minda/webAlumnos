@@ -297,7 +297,10 @@ const Esudiante = () => {
     }
 
     axios
-      .put("http://localhost:8080/api/alumno/actualizarAlumno", envio)
+      .put(
+        "https://serveralumnos-production.up.railway.app/api/alumno/actualizarAlumno",
+        envio
+      )
       .then((response) => {
         const respuesta = response.data;
 
@@ -632,7 +635,10 @@ const Admin = () => {
     }
 
     axios
-      .put("http://localhost:8080/api/admin/actualizarDatos", envio)
+      .put(
+        "https://serveralumnos-production.up.railway.app/api/admin/actualizarDatos",
+        envio
+      )
       .then((response) => {
         const respuesta = response.data;
 

@@ -118,7 +118,10 @@ const EnviarPersonalizado = () => {
       // console.log(i);
 
       axios
-        .post("http://localhost:8080/api/tutora/crear", i)
+        .post(
+          "https://serveralumnos-production.up.railway.app/api/tutora/crear",
+          i
+        )
         .then(({ data }) => {
           console.log(data);
         })
@@ -147,7 +150,10 @@ const EnviarPersonalizado = () => {
       //   await console.log(i.Celular);
 
       axios
-        .post("http://localhost:8080/api/supervisora/crear", i)
+        .post(
+          "https://serveralumnos-production.up.railway.app/api/supervisora/crear",
+          i
+        )
         .then(({ data }) => {
           console.log(data);
         })
@@ -165,10 +171,13 @@ const EnviarPersonalizado = () => {
 
   const descargar = () => {
     axios
-      .post("http://localhost:8080/api/alumno/buscarTodasAlumno", {
-        desde: "0",
-        limite: "20",
-      })
+      .post(
+        "https://serveralumnos-production.up.railway.app/api/alumno/buscarTodasAlumno",
+        {
+          desde: "0",
+          limite: "20",
+        }
+      )
       .then(({ data }) => {
         // console.log(data);
         // setPedido(data);

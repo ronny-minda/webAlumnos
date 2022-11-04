@@ -121,7 +121,9 @@ const Tutores = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/tutora/pedirTodos")
+      .get(
+        "https://serveralumnos-production.up.railway.app/api/tutora/pedirTodos"
+      )
       .then(({ data }) => {
         console.log("data");
         console.log(data);

@@ -67,7 +67,7 @@ const Crear = () => {
 
   useEffect(() => {
     // axios
-    //   .post("http://localhost:8080/api/buscarTodasCuenta", {
+    //   .post("https://serveralumnos-production.up.railway.app/api/buscarTodasCuenta", {
     //     desde: 0,
     //     limite: 2,
     //   })
@@ -172,7 +172,9 @@ const Reset = () => {
     console.log("resetear");
 
     axios
-      .post("http://localhost:8080/api/alumno/resetear")
+      .post(
+        "https://serveralumnos-production.up.railway.app/api/alumno/resetear"
+      )
       .then(({ data }) => {
         console.log("data");
         console.log(data);

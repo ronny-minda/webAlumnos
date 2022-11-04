@@ -316,7 +316,9 @@ const CrearCuenta = () => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:8080/api/institucion/buscarTodos")
+      .post(
+        "https://serveralumnos-production.up.railway.app/api/institucion/buscarTodos"
+      )
       .then(({ data }) => {
         // console.log(data);
         setInstitucion(data);
@@ -678,7 +680,10 @@ const CrearCuenta = () => {
       console.log(login);
 
       axios
-        .post("http://localhost:8080/api/alumno/crearAlumno", login)
+        .post(
+          "https://serveralumnos-production.up.railway.app/api/alumno/crearAlumno",
+          login
+        )
         .then(({ data }) => {
           const { token, alumno } = data;
 

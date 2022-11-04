@@ -274,7 +274,7 @@ const Login = () => {
     e.preventDefault();
     // return <Navigate to="/home" />;
     axios
-      .post("http://localhost:8080/api/login", {
+      .post("https://serveralumnos-production.up.railway.app/api/login", {
         cedula: login.cedula,
         password: login.contraseña,
       })

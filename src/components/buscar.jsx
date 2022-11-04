@@ -222,9 +222,12 @@ const Buscar = () => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:8080/api/buscar/buscarApellido", {
-        apellido,
-      })
+      .post(
+        "https://serveralumnos-production.up.railway.app/api/buscar/buscarApellido",
+        {
+          apellido,
+        }
+      )
       .then(({ data }) => {
         console.log("apellido");
         console.log(data);
@@ -271,7 +274,10 @@ const Buscar = () => {
     console.log({ envio });
 
     axios
-      .put("http://localhost:8080/api/alumno/actualizarAlumno", envio)
+      .put(
+        "https://serveralumnos-production.up.railway.app/api/alumno/actualizarAlumno",
+        envio
+      )
       .then((response) => {
         // console.log(response.data);
 
