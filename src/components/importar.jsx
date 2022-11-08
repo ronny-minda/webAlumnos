@@ -300,6 +300,12 @@ const Importar = () => {
           delete i["tutora"];
           delete i["tutora __v"];
           delete i["__v"];
+          delete i["supervisora _id"];
+          delete i["tutora _id"];
+          delete i["_id"];
+
+          console.log("i");
+          console.log(i);
 
           return i;
         });
