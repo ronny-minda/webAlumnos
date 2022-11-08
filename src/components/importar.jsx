@@ -255,15 +255,15 @@ const Importar = () => {
           for (const property in i) {
             // console.log(`${property}: ${i[property]}`);
 
-            if (property == "fechaFin") {
-              let cadena = i[property].substring(0, i[property].length - 14);
-              i[`${property}`] = cadena;
-            }
+            // if (property == "fechaFin") {
+            //   let cadena = i[property].substring(0, i[property].length - 14);
+            //   i[`${property}`] = cadena;
+            // }
 
-            if (property == "fechaInicio") {
-              let cadena = i[property].substring(0, i[property].length - 14);
-              i[`${property}`] = cadena;
-            }
+            // if (property == "fechaInicio") {
+            //   let cadena = i[property].substring(0, i[property].length - 14);
+            //   i[`${property}`] = cadena;
+            // }
 
             if (property == "tutora") {
               for (const popiedad in i.tutora) {
