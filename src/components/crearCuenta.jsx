@@ -302,8 +302,8 @@ const CrearCuenta = () => {
     correo: "",
     curso: "",
 
-    fechaInicio: new Date("11/7/2022"),
-    fechaFin: new Date("11/7/2022"),
+    fechaInicio: new Date("11/10/2022"),
+    fechaFin: new Date("11/10/2022"),
     institucion: "",
 
     horas: "",
@@ -600,7 +600,8 @@ const CrearCuenta = () => {
       // login.fechaFin.setDate(login.fechaInicio.getDate() + 60);
       // asignarFecha(60);
 
-      login.fechaFin.setDate(login.fechaInicio.getDate() + 81);
+      // login.fechaFin.setDate(login.fechaInicio.getDate() + 81);
+      login.fechaFin.setDate(login.fechaInicio.getDate() + 83);
 
       // console.log("login");
       // console.log(login);

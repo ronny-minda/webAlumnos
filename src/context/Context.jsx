@@ -14,11 +14,14 @@ export const DatosProvider = ({ children }) => {
     usuario: {},
   });
 
+  const entorno = "http://localhost:8080/";
+  // const entorno = "https://serveralumnos-production.up.railway.app/"
+
   //   const halo = (name) => `hola {name}`;
   //   const loader = () => setLoger(false);
 
   return (
-    <DatosContext.Provider value={{ datos, setDatos }}>
+    <DatosContext.Provider value={{ datos, setDatos, entorno }}>
       {children}
     </DatosContext.Provider>
   );

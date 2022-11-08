@@ -185,9 +185,24 @@ const Reset = () => {
       });
   };
 
+  const cambiarFecha = () => {
+    console.log("cambiarFecha");
+
+    axios
+      .post("http://localhost:8080/api/alumno/cambiarFecha")
+      .then(({ data }) => {
+        console.log("data");
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("algo paso con cambiarFecha");
+      });
+  };
+
   return (
     <>
-      <h1
+      {/* <h1
         onClick={() => resetear()}
         style={{
           backgroundColor: "red",
@@ -197,6 +212,18 @@ const Reset = () => {
         }}
       >
         reset
+      </h1> */}
+
+      <h1
+        onClick={() => cambiarFecha()}
+        style={{
+          backgroundColor: "red",
+          margin: "50px",
+          borderRadius: "5px",
+          padding: "20px",
+        }}
+      >
+        cambiar fecha
       </h1>
     </>
   );

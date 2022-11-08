@@ -180,7 +180,7 @@ const Supervisores = () => {
         )}
       </AnimatePresence>
       <h1>Supervisores</h1>
-      <h2>Total de tutores: {total}</h2>
+      <h2>Total de Supervisores: {total}</h2>
 
       {datos.map((i) => {
         return <Supervisor key={i._id} dato={i} />;

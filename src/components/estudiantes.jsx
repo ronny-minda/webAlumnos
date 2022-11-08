@@ -192,7 +192,7 @@ const Estudiantes = () => {
         )}
       </AnimatePresence>
       <h1>Estudiantes</h1>
-      <h2>Total de tutores: {total}</h2>
+      <h2>Total de Estudiantes: {total}</h2>
 
       {datos.map((i) => {
         return (

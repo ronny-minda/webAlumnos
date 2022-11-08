@@ -173,7 +173,7 @@ const Intituciones = () => {
         )}
       </AnimatePresence>
       <h1>Intituciones</h1>
-      <h2>Total de tutores: {total}</h2>
+      <h2>Total de Intituciones: {total}</h2>
 
       {datos.map((i) => {
         return <Intitucion key={i._id} dato={i} />;
