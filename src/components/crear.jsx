@@ -214,7 +214,7 @@ const Reset = () => {
         reset
       </h1> */}
 
-      <h1
+      {/* <h1
         onClick={() => cambiarFecha()}
         style={{
           backgroundColor: "red",
@@ -224,7 +224,7 @@ const Reset = () => {
         }}
       >
         cambiar fecha
-      </h1>
+      </h1> */}
     </>
   );
 };

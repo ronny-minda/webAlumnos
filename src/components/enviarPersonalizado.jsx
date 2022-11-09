@@ -147,7 +147,7 @@ const EnviarPersonalizado = () => {
     console.log({ jsonData });
     console.log("jsonData");
     jsonData.map((i) => {
-      //   await console.log(i.Celular);
+      // console.log(i);
 
       axios
         .post(
