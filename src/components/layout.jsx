@@ -157,6 +157,9 @@ const Layout = ({ children }) => {
                 <li>
                   <Link to="/importar">importar</Link>
                 </li>
+                <li>
+                  <Link to="/alumnos">alumnos</Link>
+                </li>
                 {/* <li>
                   <Link to="/crear">crear</Link>
                 </li> */}
