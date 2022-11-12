@@ -9,14 +9,39 @@ import { useDatos } from "../context/Context";
 import descarga from "../img/descarga.svg";
 import carga from "../img/carga.svg";
 import fondo1 from "../img/fondoN1.svg";
+import logo from "../img/importar.svg";
 
 const Main = styled(motion.div)`
-  background-image: url(${fondo1});
+  /* background-image: url(${fondo1}); */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #ffffff29;
-  width: 100%;
+  /* background-color: #ffffff29; */
+  background-color: #e6e8ea;
+  padding: 20px;
+  /* width: 100%; */
+  width: calc(100vw - 200px);
+
+  .conte {
+    margin: 20px 0 0 20px;
+    display: flex;
+    align-items: center;
+
+    .logo {
+      height: 80px;
+      width: 80px;
+      /* background-color: blue; */
+      background-image: url(${logo});
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+    span {
+      margin-left: 20px;
+      color: #949599;
+      font-size: 30px;
+    }
+  }
 
   h1 {
     text-align: center;
@@ -381,7 +406,10 @@ const Importar = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
     >
-      <h1>Importar</h1>
+      <div className="conte">
+        <div className="logo"></div>
+        <span>IMPOTAR</span>
+      </div>
 
       <div className="contenedor">
         {/* <label className="carga">

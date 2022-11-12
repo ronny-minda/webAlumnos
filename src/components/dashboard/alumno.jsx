@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useDatos } from "../../context/Context";
+import { Navigate } from "react-router-dom";
 
 const Contenedor = styled.div`
   /* background-color: red; */
@@ -18,7 +20,7 @@ const Contenedor = styled.div`
   .filtro {
     height: 50px;
     width: 380%;
-    background-color: #ff000044;
+    background-color: #7878787e;
     position: absolute;
   }
 
@@ -29,8 +31,9 @@ const Contenedor = styled.div`
   } */
 
   .contador {
+    background-color: #ff00007c;
     display: flex;
-    width: 30px;
+    width: 50px;
     height: 100%;
     align-items: center;
     justify-content: center;
@@ -172,6 +175,8 @@ const Alumno = ({
   const [actualizaar, setActualizaar] = useState("");
   const [filtro, setFiltro] = useState("block");
   const [altura, setAltura] = useState("50px");
+  const [indicadores, setIndicadores] = useState(false);
+  const { datos, setDatos } = useDatos();
 
   const [filtroBorra, setFiltroBorra] = useState(false);
   const [componente, setComponente] = useState(false);
@@ -180,6 +185,9 @@ const Alumno = ({
     supervisora: alumnado.supervisora,
     tutora: alumnado.tutora,
   });
+
+  console.log("alumnado");
+  console.log(alumnado);
 
   const [valores, setValores] = useState({
     primerNombre: alumnado.primerNombre,
@@ -212,6 +220,7 @@ const Alumno = ({
 
       setFiltro("none");
       setAltura("150px");
+      setIndicadores(true);
     }
   };
 
@@ -290,9 +299,25 @@ const Alumno = ({
     setAltura("50px");
   };
 
+  if (datos.usuario.rol == undefined) {
+    return (
+      <>
+        <Navigate to="/" />
+      </>
+    );
+  }
+
+  if (datos.usuario.rol !== "ADMIN_ROLE") {
+    return (
+      <>
+        <Navigate to="/actualizarDatos" />
+      </>
+    );
+  }
+
   return (
     <Contenedor style={{ height: altura }}>
-      {/* <h1>Alumno: {alumnado.primerNombre}</h1> */}
+      {/* <h1>Alumno: {valores.primerApellido}</h1> */}
 
       <div
         className="filtro"
@@ -459,45 +484,48 @@ const Alumno = ({
           </select>
         </div>
 
-        <div>
-          <div style={{ position: "relative" }}>
-            <div className="indicadores" style={{ left: scrol + 150 }}>
-              <input
-                className="actualizar"
-                type="submit"
-                form={`form${contador}`}
-                value="actualizar"
-              />
-              <div
-                className="borrar"
-                onClick={() => {
-                  borrar();
-                }}
-              >
-                borrar
-              </div>
-              <div
-                className="cancelar"
-                onClick={() => {
-                  setFiltro("block");
-                  setAltura("50px");
-                }}
-              >
-                cancelar
-              </div>
-              <div
-                style={{
-                  marginLeft: "0px",
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                  color: "#376d30",
-                }}
-              >
-                {actualizaar}
+        {indicadores && (
+          <div>
+            <div style={{ position: "relative" }}>
+              <div className="indicadores" style={{ left: scrol + 150 }}>
+                <input
+                  className="actualizar"
+                  type="submit"
+                  form={`form${contador}`}
+                  value="actualizar"
+                />
+                <div
+                  className="borrar"
+                  onClick={() => {
+                    borrar();
+                  }}
+                >
+                  borrar
+                </div>
+                <div
+                  className="cancelar"
+                  onClick={() => {
+                    setFiltro("block");
+                    setAltura("50px");
+                    setIndicadores(false);
+                  }}
+                >
+                  cancelar
+                </div>
+                <div
+                  style={{
+                    marginLeft: "0px",
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    color: "#376d30",
+                  }}
+                >
+                  {actualizaar}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </form>
     </Contenedor>
   );

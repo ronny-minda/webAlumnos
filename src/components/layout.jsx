@@ -6,21 +6,26 @@ import { Link, redirect, useLocation } from "react-router-dom";
 import logo from "../img/logo.svg";
 import fondo from "../img/fondo.svg";
 import { useDatos } from "../context/Context";
+import LogoAlumno from "../sgvr/alumnos";
+import ActualizarDatos from "../sgvr/actualizarDatos";
+import Importar from "../sgvr/importar";
+import CrearCuenta from "../sgvr/crearCuenta";
 
 const Main = styled(motion.main)`
   /* background-color: red; */
   display: flex;
 
   aside {
-    border-radius: 0px 30px 30px 0px;
+    /* border-radius: 0px 30px 30px 0px; */
     background-color: #c7c1d0;
 
     height: 100vh;
     width: 200px;
     overflow: hidden;
     box-shadow: 0px 2px 96px 19px #7469b9bd;
+    background-color: #1f272d;
 
-    background-image: url(${fondo});
+    /* background-image: url(${fondo}); */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -30,7 +35,7 @@ const Main = styled(motion.main)`
       justify-content: center;
       align-items: center;
       height: 140px;
-      background-color: #c3c3ff00;
+      background-color: #232e33;
       background-image: url(${logo});
       background-position: center;
       background-repeat: no-repeat;
@@ -50,37 +55,86 @@ const Main = styled(motion.main)`
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
+      /* margin-left: 15px; */
 
       li {
+        /* padding: 5px; */
+        transition: 0.5s;
+        background-color: #181b1e00;
+        width: 100%;
         list-style: none;
+
         /* padding: 15px 0; */
         color: #000000;
-        width: 100%;
+        /* width: 100%; */
         height: 40px;
         margin: 5px 0;
+        display: inline-flex;
+        justify-content: center;
 
         a {
+          width: 163px;
+          /* width: 100%; */
           font-weight: bold;
-          font-size: 25px;
-          color: #000000;
+          font-size: 15px;
+          color: #939598;
           height: 100%;
-          width: 100%;
+          /* width: 100%; */
           display: inline-flex;
-          justify-content: center;
+          justify-content: space-between;
           align-items: center;
+          /* margin-left: 10px; */
 
           /* padding: 10px; */
 
           text-decoration: none;
           transition: 0.5s;
         }
-
-        a:hover {
-          color: #43b4dd;
+        svg {
+          /* margin-right: 30px; */
+          path {
+            fill: #939598;
+            transition: 0.5s;
+          }
         }
         a:active {
           color: #ffffff;
+        }
+      }
+
+      .activo {
+        background-color: #181b1e;
+        a {
+          color: #39b54a;
+        }
+        svg {
+          path {
+            fill: #39b54a;
+          }
+        }
+      }
+
+      li:hover {
+        background-color: #181b1e;
+        a {
+          color: #39b54a;
+        }
+        svg {
+          path {
+            fill: #39b54a;
+          }
+        }
+      }
+
+      li:active {
+        a {
+          color: #fff;
+        }
+        svg {
+          path {
+            fill: #fff;
+          }
         }
       }
     }
@@ -88,18 +142,22 @@ const Main = styled(motion.main)`
     .cerrar {
       background-color: #ff4040;
       height: 40px;
-      width: 80%;
+      width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
       margin: auto;
-      border-radius: 6px;
+      /* border-radius: 6px; */
       transition: 0.5s;
       cursor: pointer;
     }
 
     .cerrar:hover {
-      background-color: #ff1919;
+      background-color: #ff0000;
+    }
+
+    .cerrar:active {
+      background-color: #ff0000;
     }
   }
 `;
@@ -148,26 +206,53 @@ const Layout = ({ children }) => {
           <nav>
             {datos.usuario.rol == "ADMIN_ROLE" ? (
               <>
-                <li>
-                  <Link to="/usuarios">usuarios</Link>
-                </li>
-                <li>
-                  <Link to="/buscar">buscar</Link>
-                </li>
-                <li>
-                  <Link to="/importar">importar</Link>
-                </li>
                 {/* <li>
-                  <Link to="/alumnos">alumnos</Link>
+                  <Link to="/usuarios">usuarios</Link>
                 </li> */}
+                {/* <li>
+                  <Link to="/buscar">buscar</Link>
+                </li> */}
+                <li
+                  className={
+                    location.pathname === "/importar" ? "activo" : null
+                  }
+                >
+                  <Link to="/importar">
+                    <Importar />
+                    IMPORTAR
+                  </Link>
+                </li>
+                <li
+                  className={location.pathname === "/alumnos" ? "activo" : null}
+                >
+                  <Link to="/alumnos">
+                    <LogoAlumno />
+                    ALUMNOS
+                  </Link>
+                </li>
+                <li
+                  className={location.pathname === "/crear" ? "activo" : null}
+                >
+                  <Link to="/crear">
+                    <CrearCuenta />
+                    CREAR
+                  </Link>
+                </li>
                 {/* <li>
                   <Link to="/crear">crear</Link>
                 </li> */}
               </>
             ) : null}
 
-            <li>
-              <Link to="/actualizarDatos">actualizarDatos</Link>
+            <li
+              className={
+                location.pathname === "/actualizarDatos" ? "activo" : null
+              }
+            >
+              <Link to="/actualizarDatos">
+                <ActualizarDatos />
+                ACTUALIZAR
+              </Link>
             </li>
           </nav>
 

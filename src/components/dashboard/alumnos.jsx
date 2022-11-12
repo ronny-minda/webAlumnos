@@ -6,7 +6,7 @@ import logo from "../../img/alumnos.svg";
 import lupa2 from "../../img/lupa2.svg";
 import Alumno from "./alumno";
 
-const Main = styled.main`
+const Main = styled(motion.main)`
   width: calc(100vw - 200px);
   background-color: #e6e8ea;
   padding: 20px;
@@ -40,7 +40,7 @@ const Main = styled.main`
     }
     input {
       height: 40px;
-      width: 400px;
+      width: 500px;
 
       padding-left: 45px;
       background: url(${lupa2}) no-repeat;
@@ -53,6 +53,8 @@ const Main = styled.main`
       border: 2px solid #00073d6f;
       outline: none;
       transition: 0.5s;
+      background-color: #fff;
+      font-size: 18px;
     }
     input:focus {
       padding-left: 0px;
@@ -82,6 +84,7 @@ const Main = styled.main`
     }
     ::-webkit-scrollbar-thumb {
       background-color: #d1d1d1;
+      border: 2px solid #a7a7a7;
       border-radius: 6px;
       /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5); */
     }
@@ -92,7 +95,7 @@ const Main = styled.main`
     .todoAlumnosFiltro {
       height: 100%;
       width: 100%;
-      background-color: #ff000089;
+      background-color: #00000088;
       position: absolute;
       top: 0;
       z-index: 999;
@@ -188,7 +191,7 @@ const Main = styled.main`
     }
 
     .titulo {
-      margin-left: 30px;
+      margin-left: 50px;
       display: flex;
       width: 400%;
       position: sticky;
@@ -196,11 +199,12 @@ const Main = styled.main`
       zindex: 9999999999;
 
       div {
-        width: 187px;
+        padding: 5px;
+        width: 165px;
         font-weight: bold;
         border: 1px solid black;
         border: 1px solid #0000007a;
-        background-color: #d33434;
+        background-color: #00e5ff;
       }
     }
   }
@@ -214,6 +218,7 @@ const Alumnos = () => {
   const [tutora, setTutora] = useState([]);
   const [total, setTotal] = useState(0);
   const [scrol, setScrol] = useState(0);
+  const [render, setRender] = useState();
   // const [contador, setContador] = useState(0);
   const [spiner, setSpiner] = useState(true);
 
@@ -281,7 +286,12 @@ const Alumnos = () => {
   }, []);
 
   return (
-    <Main>
+    <Main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1 }}
+    >
       <div className="conteHead">
         <div className="conte">
           <div className="logo"></div>
@@ -294,18 +304,36 @@ const Alumnos = () => {
           onChange={(e) => {
             console.log(e.target.value);
 
+            setBusqueda("sdfgsdf");
+
             let alumno = alumnado.filter((i) => {
+              // if (
+              //   i.primerApellido
+              //     .toUpperCase()
+              //     .trim()
+              //     .includes(e.target.value.toUpperCase())
+              // ) {
+              //   return i;
+              // }
+
               if (
-                i.primerNombre
+                i.primerApellido
                   .toUpperCase()
-                  .trim()
                   .includes(e.target.value.toUpperCase())
               ) {
                 return i;
               }
+
+              // return (
+              //   i.primerApellido.toUpperCase().trim() ===
+              //   e.target.value.toUpperCase()
+              // );
             });
 
-            setBusqueda(alumno);
+            setBusqueda([]);
+            setTimeout(() => {
+              setBusqueda(alumno);
+            }, 0.01);
             console.log("alumno");
             console.log(alumno);
           }}
@@ -363,6 +391,10 @@ const Alumnos = () => {
           // setContador(contador);
           // console.log("i");
           // console.log(i);
+
+          // {
+          //   console.log("busqueda: " + busqueda);
+          // }
 
           contador++;
 

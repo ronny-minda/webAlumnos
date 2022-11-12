@@ -371,7 +371,6 @@ const CrearSupervisor = () => {
         exit={{ opacity: 0 }}
         transition={{ duration: 1 }}
       >
-        <div className="dice"></div>
         <div className="login">
           <form onSubmit={(e) => enviar(e)}>
             <div className="conteLabel">

@@ -14,6 +14,7 @@ import Usuarios from "./components/usuarios";
 import { AnimatePresence, motion } from "framer-motion";
 import Layout from "./components/layout";
 import CrearCuenta from "./components/crearCuenta";
+import CrearCuentas from "./components/dashboard/creaCuenta";
 import Buscar from "./components/buscar";
 import Importar from "./components/importar";
 import ActualizarDatos from "./components/actualizarDatos";
@@ -46,7 +47,7 @@ const App = () => {
             <Route path="/buscar" element={<Buscar />} />
             <Route path="/importar" element={<Importar />} />
             <Route path="/actualizarDatos" element={<ActualizarDatos />} />
-            <Route path="/crear" element={<Crear />} />
+            <Route path="/crear" element={<CrearCuentas />} />
             <Route path="/alumnos" element={<Alumnos />} />
             {/* <Route path="/completarDatos" element={<CompletarDatos />} /> */}
           </Routes>

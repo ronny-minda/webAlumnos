@@ -5,83 +5,117 @@ import { useDatos } from "../context/Context";
 import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
 
+import logo from "../img/crearCuenta.svg";
 import fondo1 from "../img/fondoN1.svg";
 
 const Main = styled(motion.div)`
-  background-image: url(${fondo1});
+  /* background-image: url(${fondo1});
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; */
+  background-color: #e6e8ea;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  /* align-items: center;
+  justify-content: center; */
   position: relative;
+  padding: 20px;
 
-  width: 100%;
+  width: calc(100vw - 200px);
+
+  .conte {
+    margin: 20px 0 0 20px;
+    display: flex;
+    align-items: center;
+
+    .logo {
+      height: 50px;
+      width: 50px;
+      /* background-color: blue; */
+      background-image: url(${logo});
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+    span {
+      margin-left: 20px;
+      color: #949599;
+      font-size: 30px;
+    }
+  }
 
   h1 {
     /* background-color: red; */
+    text-align: center;
+    margin-top: 50px;
+    color: #393939;
   }
-  .allDatos {
-    padding: 30px;
-    box-shadow: 10px 10px 5px 0px #332b515a;
-    border: 2px solid #00000079;
-    margin-top: 100px;
-    background-color: #c6b6ef7d;
-    height: auto;
-    max-width: 600px;
+
+  .conteAllDatos {
     display: flex;
     align-items: center;
     flex-direction: column;
-    /* clip-path: polygon(0 0, 100% 0, 100% 10%, 0 10%); */
 
-    .conteLabel {
+    .allDatos {
+      padding: 30px;
+      /* box-shadow: 10px 10px 5px 0px #332b515a; */
+      /* border: 2px solid #00000079; */
+      margin-top: 100px;
+      background-color: #ffffff;
+      height: auto;
+      max-width: 600px;
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      /* text-align: center; */
+      /* clip-path: polygon(0 0, 100% 0, 100% 10%, 0 10%); */
 
-      label {
-        width: 250px;
-        background-color: #b7d6ff32;
-        margin: 5px;
+      .conteLabel {
         display: flex;
-        flex-direction: column;
-        padding: 5px;
+        flex-wrap: wrap;
+        justify-content: center;
 
-        select {
-          background-color: #99a0f479;
-          border: none;
-          font-size: 14px;
-          height: 30px;
+        label {
+          width: 250px;
+          background-color: #b7d6ff1c;
+          margin: 5px;
+          display: flex;
+          flex-direction: column;
           padding: 5px;
-          /* width: 250px; */
-          outline: none;
-        }
 
-        span {
-          font-weight: bold;
-          font-size: 18px;
-        }
+          select {
+            background-color: #99a0f479;
+            border: none;
+            font-size: 14px;
+            height: 30px;
+            padding: 5px;
+            /* width: 250px; */
+            outline: none;
+          }
 
-        input {
-          margin: 5px 0;
-          background-color: #ff000000;
-          border: none;
-          border-bottom: 2px solid #001f3d;
-          outline: none;
-          transition: 0.5s;
-        }
-        input:focus {
-          border-bottom: 2px solid #2faec8;
+          span {
+            font-weight: bold;
+            font-size: 18px;
+          }
+
+          input {
+            margin: 5px 0;
+            background-color: #ff000000;
+            border: none;
+            border-bottom: 2px solid #001f3d;
+            outline: none;
+            transition: 0.5s;
+          }
+          input:focus {
+            border-bottom: 2px solid #2faec8;
+          }
         }
       }
-    }
 
-    .submit {
-      background-color: #003756;
-      padding: 15px;
-      /* background-image: linear-gradient(
+      .submit {
+        background-color: #003756;
+        padding: 15px;
+        /* background-image: linear-gradient(
         to right,
         #020024,
         #001f3d,
@@ -89,21 +123,22 @@ const Main = styled(motion.div)`
         #00506d,
         #006b81
       ); */
-      color: #fff;
-      border: none;
-      margin-top: 20px;
-      border-radius: 6px;
-      transition: 0.4s;
-      font-weight: bold;
-    }
+        color: #fff;
+        border: none;
+        margin-top: 20px;
+        border-radius: 6px;
+        transition: 0.4s;
+        font-weight: bold;
+      }
 
-    .submit:hover {
-      color: #fff;
-      background-color: #004e7c;
-    }
-    .submit:active {
-      color: #6b6a77a9;
-      background-color: #ffffff;
+      .submit:hover {
+        color: #fff;
+        background-color: #004e7c;
+      }
+      .submit:active {
+        color: #6b6a77a9;
+        background-color: #ffffff;
+      }
     }
   }
 
@@ -375,183 +410,185 @@ const Esudiante = () => {
     >
       <h1>Actualizar Datos {datos.usuario.primerNombre}</h1>
 
-      <form className="allDatos" onSubmit={(e) => enviar(e)}>
-        <div className="conteLabel">
-          <label>
-            <span>Primer Nombre</span>
-            <input
-              value={valores.primerNombre}
-              onChange={(e) =>
-                setValores({ ...valores, primerNombre: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+      <div className="conteAllDatos">
+        <form className="allDatos" onSubmit={(e) => enviar(e)}>
+          <div className="conteLabel">
+            <label>
+              <span>Primer Nombre</span>
+              <input
+                value={valores.primerNombre}
+                onChange={(e) =>
+                  setValores({ ...valores, primerNombre: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          <label>
-            <span>Segundo Nombre</span>
-            <input
-              value={valores.segundoNombre}
-              onChange={(e) =>
-                setValores({ ...valores, segundoNombre: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+            <label>
+              <span>Segundo Nombre</span>
+              <input
+                value={valores.segundoNombre}
+                onChange={(e) =>
+                  setValores({ ...valores, segundoNombre: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          <label>
-            <span>Primer Apellido</span>
-            <input
-              value={valores.primerApellido}
-              onChange={(e) =>
-                setValores({ ...valores, primerApellido: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+            <label>
+              <span>Primer Apellido</span>
+              <input
+                value={valores.primerApellido}
+                onChange={(e) =>
+                  setValores({ ...valores, primerApellido: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          <label>
-            <span>Segundo Apellido</span>
-            <input
-              value={valores.segundoApellido}
-              onChange={(e) =>
-                setValores({ ...valores, segundoApellido: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+            <label>
+              <span>Segundo Apellido</span>
+              <input
+                value={valores.segundoApellido}
+                onChange={(e) =>
+                  setValores({ ...valores, segundoApellido: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          <label>
-            <span>Curso</span>
-            <input
-              disabled
-              value={valores.curso}
-              onChange={(e) =>
-                setValores({ ...valores, curso: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+            <label>
+              <span>Curso</span>
+              <input
+                disabled
+                value={valores.curso}
+                onChange={(e) =>
+                  setValores({ ...valores, curso: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          <label>
-            <span>Fecha Inicio</span>
-            <input
-              disabled
-              value={valores.fechaInicio}
-              onChange={(e) =>
-                setValores({ ...valores, fechaInicio: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+            <label>
+              <span>Fecha Inicio</span>
+              <input
+                disabled
+                value={valores.fechaInicio}
+                onChange={(e) =>
+                  setValores({ ...valores, fechaInicio: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          <label>
-            <span>Fecha Fin</span>
-            <input
-              disabled
-              value={valores.fechaFin}
-              onChange={(e) =>
-                setValores({ ...valores, fechaFin: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+            <label>
+              <span>Fecha Fin</span>
+              <input
+                disabled
+                value={valores.fechaFin}
+                onChange={(e) =>
+                  setValores({ ...valores, fechaFin: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          <label>
-            <span>Horas</span>
-            <input
-              disabled
-              value={valores.horas}
-              onChange={(e) =>
-                setValores({ ...valores, horas: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+            <label>
+              <span>Horas</span>
+              <input
+                disabled
+                value={valores.horas}
+                onChange={(e) =>
+                  setValores({ ...valores, horas: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          <label>
-            <span>Institucion</span>
-            <input
-              disabled
-              value={valores.institucion}
-              onChange={(e) =>
-                setValores({ ...valores, institucion: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+            <label>
+              <span>Institucion</span>
+              <input
+                disabled
+                value={valores.institucion}
+                onChange={(e) =>
+                  setValores({ ...valores, institucion: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          <label>
-            <span>Cedula</span>
-            <input
-              value={valores.cedula}
-              onChange={(e) =>
-                setValores({ ...valores, cedula: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+            <label>
+              <span>Cedula</span>
+              <input
+                value={valores.cedula}
+                onChange={(e) =>
+                  setValores({ ...valores, cedula: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          <label>
-            <span>Telefono</span>
-            <input
-              value={valores.telefono}
-              onChange={(e) =>
-                setValores({ ...valores, telefono: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+            <label>
+              <span>Telefono</span>
+              <input
+                value={valores.telefono}
+                onChange={(e) =>
+                  setValores({ ...valores, telefono: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          <label>
-            <span>Correo</span>
-            <input
-              value={valores.correo}
-              onChange={(e) =>
-                setValores({ ...valores, correo: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+            <label>
+              <span>Correo</span>
+              <input
+                value={valores.correo}
+                onChange={(e) =>
+                  setValores({ ...valores, correo: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          <label>
-            <span>Supervisora</span>
-            <input
-              disabled
-              value={valores.supervisora}
-              onChange={(e) =>
-                setValores({ ...valores, supervisora: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+            <label>
+              <span>Supervisora</span>
+              <input
+                disabled
+                value={valores.supervisora}
+                onChange={(e) =>
+                  setValores({ ...valores, supervisora: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          <label>
-            <span>Tutora</span>
-            <input
-              disabled
-              value={valores.tutora}
-              onChange={(e) =>
-                setValores({ ...valores, tutora: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+            <label>
+              <span>Tutora</span>
+              <input
+                disabled
+                value={valores.tutora}
+                onChange={(e) =>
+                  setValores({ ...valores, tutora: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          <label>
-            <span>Password</span>
-            <input
-              value={valores.password}
-              onChange={(e) =>
-                setValores({ ...valores, password: e.target.value })
-              }
-              type="text"
-            />
-          </label>
-        </div>
+            <label>
+              <span>Password</span>
+              <input
+                value={valores.password}
+                onChange={(e) =>
+                  setValores({ ...valores, password: e.target.value })
+                }
+                type="text"
+              />
+            </label>
+          </div>
 
-        <input className="submit" type="submit" value="ACTUALIZAR DATOS" />
-      </form>
+          <input className="submit" type="submit" value="ACTUALIZAR DATOS" />
+        </form>
+      </div>
 
       <AnimatePresence>
         {guardar && (
@@ -704,59 +741,64 @@ const Admin = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
     >
+      <div className="conte">
+        <div className="logo"></div>
+        <span>Actualizar Datos</span>
+      </div>
       <h1>Actualizar Datos {datos.usuario.primerNombre}</h1>
 
-      <form className="allDatos" onSubmit={(e) => enviar(e)}>
-        <div className="conteLabel">
-          <label>
-            <span>Nombre</span>
-            <input
-              value={valores.primerNombre}
-              name="Primer"
-              onChange={(e) =>
-                setValores({ ...valores, primerNombre: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+      <div className="conteAllDatos">
+        <form className="allDatos" onSubmit={(e) => enviar(e)}>
+          <div className="conteLabel">
+            <label>
+              <span>Nombre</span>
+              <input
+                value={valores.primerNombre}
+                name="Primer"
+                onChange={(e) =>
+                  setValores({ ...valores, primerNombre: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          <label>
-            <span>Cedula</span>
-            <input
-              value={valores.cedula}
-              name="Cedula"
-              onChange={(e) =>
-                setValores({ ...valores, cedula: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+            <label>
+              <span>Cedula</span>
+              <input
+                value={valores.cedula}
+                name="Cedula"
+                onChange={(e) =>
+                  setValores({ ...valores, cedula: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          <label>
-            <span>Telefono</span>
-            <input
-              value={valores.telefono}
-              name="Telefono"
-              onChange={(e) =>
-                setValores({ ...valores, telefono: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+            <label>
+              <span>Telefono</span>
+              <input
+                value={valores.telefono}
+                name="Telefono"
+                onChange={(e) =>
+                  setValores({ ...valores, telefono: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          <label>
-            <span>Correo</span>
-            <input
-              value={valores.correo}
-              name="Correo"
-              onChange={(e) =>
-                setValores({ ...valores, correo: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+            <label>
+              <span>Correo</span>
+              <input
+                value={valores.correo}
+                name="Correo"
+                onChange={(e) =>
+                  setValores({ ...valores, correo: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          {/* <label>
+            {/* <label>
                 <span>Institucion</span>
                 <input
                   value={valores.institucion}
@@ -768,19 +810,19 @@ const Admin = () => {
                 />
               </label> */}
 
-          <label>
-            <span>Direccion</span>
-            <input
-              value={valores.direccion}
-              name="Direccion"
-              onChange={(e) =>
-                setValores({ ...valores, direccion: e.target.value })
-              }
-              type="text"
-            />
-          </label>
+            <label>
+              <span>Direccion</span>
+              <input
+                value={valores.direccion}
+                name="Direccion"
+                onChange={(e) =>
+                  setValores({ ...valores, direccion: e.target.value })
+                }
+                type="text"
+              />
+            </label>
 
-          {/* <label>
+            {/* <label>
               <span>USUARIO</span>
               <input
                 onChange={(e) => setValores({ ...valores, nombre: e.target.value })}
@@ -788,58 +830,59 @@ const Admin = () => {
               />
             </label> */}
 
-          <label>
-            <span>CONTRASEÑA</span>
-            <input
-              value={valores.password}
-              name="CONTRASEÑA"
-              onChange={(e) => {
-                setValores({ ...valores, password: e.target.value });
+            <label>
+              <span>CONTRASEÑA</span>
+              <input
+                value={valores.password}
+                name="CONTRASEÑA"
+                onChange={(e) => {
+                  setValores({ ...valores, password: e.target.value });
 
-                // setValores({ ...valores, nombre: e.target.value })
+                  // setValores({ ...valores, nombre: e.target.value })
 
-                setValidarContraseña({
-                  ...validarContraseña,
-                  pass1: e.target.value,
-                });
-              }}
-              type="text"
-            />
-          </label>
-          <label>
-            <span>REPETIR CONTRASEÑA</span>
-            <input
-              value={valores.password}
-              name="REPETIR CONTRASEÑA"
-              onChange={(e) => {
-                // setValores({ ...valores, nombre: e.target.value })
+                  setValidarContraseña({
+                    ...validarContraseña,
+                    pass1: e.target.value,
+                  });
+                }}
+                type="text"
+              />
+            </label>
+            <label>
+              <span>REPETIR CONTRASEÑA</span>
+              <input
+                value={valores.password}
+                name="REPETIR CONTRASEÑA"
+                onChange={(e) => {
+                  // setValores({ ...valores, nombre: e.target.value })
 
-                setValidarContraseña({
-                  ...validarContraseña,
-                  pass2: e.target.value,
-                });
-              }}
-              type="text"
-            />
-          </label>
-        </div>
+                  setValidarContraseña({
+                    ...validarContraseña,
+                    pass2: e.target.value,
+                  });
+                }}
+                type="text"
+              />
+            </label>
+          </div>
 
-        <AnimatePresence>
-          {error && (
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              className="msgError"
-            >
-              INTENTA DE NUEVO O MAS TARDE
-            </motion.span>
-          )}
-        </AnimatePresence>
+          <AnimatePresence>
+            {error && (
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+                className="msgError"
+              >
+                INTENTA DE NUEVO O MAS TARDE
+              </motion.span>
+            )}
+          </AnimatePresence>
 
-        <input className="submit" type="submit" value="ACTUALIZAR DATOS" />
-      </form>
+          <input className="submit" type="submit" value="ACTUALIZAR DATOS" />
+        </form>
+      </div>
 
       <AnimatePresence>
         {guardar && (
