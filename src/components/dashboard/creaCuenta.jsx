@@ -6,6 +6,8 @@ import { useDatos } from "../../context/Context";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 
+import Select from "react-select";
+
 const Main = styled(motion.div)`
   /* max-width: calc(100vw - 200px); */
   width: calc(100vw - 200px);
@@ -790,6 +792,7 @@ const FormAlumno = () => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 1 }}
+        style={{ maxWidth: "900px" }}
         onSubmit={(e) => enviar(e)}
       >
         <div className="conteLabel">
@@ -1109,6 +1112,7 @@ const FormTutor = () => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 1 }}
+        style={{ maxWidth: "900px" }}
         onSubmit={(e) => enviar(e)}
       >
         <div className="conteLabel">
@@ -1222,6 +1226,7 @@ const FormSupervisor = () => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 1 }}
+        style={{ maxWidth: "900px" }}
         onSubmit={(e) => enviar(e)}
       >
         <div className="conteLabel">
@@ -1326,7 +1331,12 @@ const FormInstiucion = () => {
       )
       .then(({ data }) => {
         // console.log(data);
-        setSupervisora(data);
+
+        const result = data.map((i) => {
+          return { value: i._id, label: i.nombre };
+        });
+
+        setSupervisora(result);
       })
       .catch((err) => {
         console.log("algo salio mal en pedido supevisoras!");
@@ -1337,8 +1347,13 @@ const FormInstiucion = () => {
         "https://serveralumnos-production.up.railway.app/api/tutora/pedirTodos"
       )
       .then(({ data }) => {
-        console.log(data);
-        setTutora(data);
+        // console.log(data);
+
+        const result = data.map((i) => {
+          return { value: i._id, label: i.nombre };
+        });
+
+        setTutora(result);
       })
       .catch((err) => {
         console.log("algo salio mal en pedido supevisoras!");
@@ -1388,9 +1403,15 @@ const FormInstiucion = () => {
     //   console.log("si esta listo");
   };
 
+  const options = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
+
   return (
     <>
-      <h1 style={{ margin: "400px 0 0 0 " }}>CREAR INSTITUCION</h1>
+      <h1>CREAR INSTITUCION</h1>
       <motion.form
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -1420,61 +1441,33 @@ const FormInstiucion = () => {
           <label className="formTutora">
             <span style={{ margin: "0 0 20px 0" }}>Tutora</span>
 
-            <select
+            <Select
+              isMulti
+              options={tutora}
               onChange={(e) => {
-                var options = e.target.options;
-                var value = [];
-                for (var i = 0, l = options.length; i < l; i++) {
-                  if (options[i].selected) {
-                    value.push(options[i].value);
-                  }
-                }
+                const result = e.map((i) => i.value);
 
-                console.log("value");
-                console.log(value);
-                setLogin({ ...login, tutora: value });
+                setLogin({ ...login, tutora: result });
               }}
-              style={{ height: "200px" }}
-              multiple={true}
-            >
-              {tutora.map((i) => {
-                return (
-                  <option key={i._id} value={i._id}>
-                    {i.nombre}
-                  </option>
-                );
-              })}
-            </select>
+            />
           </label>
 
           <label className="fromSupevisora">
             <span style={{ margin: "0 0 20px 0" }}>Supervisora</span>
 
-            <select
+            <Select
+              isMulti
+              options={supervisora}
               onChange={(e) => {
-                var options = e.target.options;
-                var value = [];
-                for (var i = 0, l = options.length; i < l; i++) {
-                  if (options[i].selected) {
-                    value.push(options[i].value);
-                  }
-                }
+                // console.log(e);
 
-                console.log("value");
-                console.log(value);
-                setLogin({ ...login, supervisora: value });
+                const result = e.map((i) => i.value);
+
+                // console.log(result);
+
+                setLogin({ ...login, supervisora: result });
               }}
-              style={{ height: "500px" }}
-              multiple={true}
-            >
-              {supervisora.map((i) => {
-                return (
-                  <option key={i._id} value={i._id}>
-                    {i.nombre}
-                  </option>
-                );
-              })}
-            </select>
+            />
           </label>
         </div>
         <AnimatePresence>

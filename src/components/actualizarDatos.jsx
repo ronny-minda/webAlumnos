@@ -5,7 +5,7 @@ import { useDatos } from "../context/Context";
 import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
 
-import logo from "../img/crearCuenta.svg";
+import logo from "../img/actualizarDatos.svg";
 import fondo1 from "../img/fondoN1.svg";
 
 const Main = styled(motion.div)`

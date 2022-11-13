@@ -275,7 +275,19 @@ const Importar = () => {
         // console.log(data);
         // setPedido(data);
 
-        const result = data.map((i) => {
+        const dataOrdenado = data.sort((a, b) => {
+          if (a.institucion.nombre < b.institucion.nombre) {
+            return -1;
+          }
+
+          if (a.institucion.nombre > b.institucion.nombre) {
+            return 1;
+          }
+
+          return 0;
+        });
+
+        const result = dataOrdenado.map((i) => {
           // console.log(i);
           for (const property in i) {
             // console.log(`${property}: ${i[property]}`);
@@ -310,6 +322,7 @@ const Importar = () => {
           }
 
           delete i["institucion"];
+          delete i["institucion _id"];
           delete i["institucion __v"];
           delete i["institucion horasUsadas"];
           delete i["institucion numeroAsignacion"];

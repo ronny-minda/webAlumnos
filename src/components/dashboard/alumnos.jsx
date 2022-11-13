@@ -235,7 +235,7 @@ const Alumnos = () => {
       )
       .then(({ data }) => {
         // console.log(data);
-        setAlumnado(data);
+
         setBusqueda(data);
         setSpiner(false);
         let contador = 0;
@@ -243,6 +243,24 @@ const Alumnos = () => {
           contador++;
         });
         setTotal(contador);
+
+        console.log(data);
+
+        const result = data.sort((a, b) => {
+          if (a.institucion.nombre < b.institucion.nombre) {
+            return -1;
+          }
+
+          if (a.institucion.nombre > b.institucion.nombre) {
+            return 1;
+          }
+
+          return 0;
+        });
+
+        console.log("result");
+        console.log(result);
+        setAlumnado(result);
       })
       .catch((err) => {
         console.log("algo salio mal en el login!");

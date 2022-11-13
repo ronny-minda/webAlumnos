@@ -186,8 +186,8 @@ const Alumno = ({
     tutora: alumnado.tutora,
   });
 
-  console.log("alumnado");
-  console.log(alumnado);
+  // console.log("alumnado");
+  // console.log(alumnado);
 
   const [valores, setValores] = useState({
     primerNombre: alumnado.primerNombre,
