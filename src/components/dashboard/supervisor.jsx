@@ -228,7 +228,10 @@ const Supervisor = ({
     // console.log({ envio });
 
     axios
-      .put("http://localhost:8080/api/supervisora/actualizarDatos", envio)
+      .put(
+        "https://serveralumnos-production.up.railway.app/api/supervisora/actualizarDatos",
+        envio
+      )
       .then(({ data }) => {
         console.log(data);
 
@@ -252,9 +255,12 @@ const Supervisor = ({
     console.log("borrar");
     console.log(borrar);
     axios
-      .post("http://localhost:8080/api/supervisora/borrar", {
-        id: supervisora._id,
-      })
+      .post(
+        "https://serveralumnos-production.up.railway.app/api/supervisora/borrar",
+        {
+          id: supervisora._id,
+        }
+      )
       .then(({ data }) => {
         console.log("data");
         console.log(data);

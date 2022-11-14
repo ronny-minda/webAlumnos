@@ -302,9 +302,12 @@ const Institucion = ({ institucion, todasSupervisora, todasTutoras }) => {
 
   const eliminar = () => {
     axios
-      .post("http://localhost:8080/api/institucion/borrar", {
-        id: valores.id,
-      })
+      .post(
+        "https://serveralumnos-production.up.railway.app/api/institucion/borrar",
+        {
+          id: valores.id,
+        }
+      )
       .then(({ data }) => {
         setMsg("Insitucion Borrada");
         setTimeout(() => {
@@ -330,7 +333,10 @@ const Institucion = ({ institucion, todasSupervisora, todasTutoras }) => {
     e.preventDefault();
 
     axios
-      .put("http://localhost:8080/api/institucion/actualizarDatos", valores)
+      .put(
+        "https://serveralumnos-production.up.railway.app/api/institucion/actualizarDatos",
+        valores
+      )
       .then(({ data }) => {
         setMsg("Datos estan guardados");
         setTimeout(() => {

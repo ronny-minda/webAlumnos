@@ -219,7 +219,10 @@ const Tutor = ({
     // console.log({ envio });
 
     axios
-      .put("http://localhost:8080/api/tutora/actualizarDatos", envio)
+      .put(
+        "https://serveralumnos-production.up.railway.app/api/tutora/actualizarDatos",
+        envio
+      )
       .then(({ data }) => {
         console.log(data);
 
@@ -243,9 +246,12 @@ const Tutor = ({
     console.log("borrar");
     console.log(borrar);
     axios
-      .post("http://localhost:8080/api/tutora/borrar", {
-        id: tutora._id,
-      })
+      .post(
+        "https://serveralumnos-production.up.railway.app/api/tutora/borrar",
+        {
+          id: tutora._id,
+        }
+      )
       .then(({ data }) => {
         console.log("data");
         console.log(data);
