@@ -9,17 +9,17 @@ const Contenedor = styled.div`
   /* border-bottom: 1px solid #0000007a;
   border-right: 1px solid #0000007a; */
   border: 1px solid #0000007a;
-  width: 380%;
+  width: 1260px;
   height: 50px;
   display: flex;
   /* position: relative; */
-  /* z-index: 99; */
+  z-index: 99;
   transition: 0.5s;
   overflow: hidden;
 
   .filtro {
     height: 50px;
-    width: 380%;
+    width: 1260px;
     background-color: #7878787e;
     position: absolute;
   }
@@ -41,6 +41,7 @@ const Contenedor = styled.div`
 
     .conte {
       /* background-color: red; */
+
       height: auto;
       display: block;
     }
@@ -48,12 +49,12 @@ const Contenedor = styled.div`
 
   .filtroBorra {
     height: 100%;
-    width: 1500px;
+    width: 100%;
     background-color: #ff000061;
-    /* position: absolute; */
+    position: absolute;
     top: 0px;
     left: 0px;
-    z-index: 99;
+    z-index: 9999999;
     backdrop-filter: blur(2px);
 
     .msg {
@@ -68,9 +69,15 @@ const Contenedor = styled.div`
   }
 
   form {
+    flex-wrap: wrap;
+    width: 1210px;
+    display: flex;
+    /* background-color: red; */
+
     input {
       height: 50px;
       padding: 5px;
+      width: 200px;
     }
 
     .conteSelec {
@@ -93,8 +100,9 @@ const Contenedor = styled.div`
   .indicadores {
     height: 40px;
     width: 500px;
+    margin-left: 20px;
     /* background-color: #6474f3; */
-    position: absolute;
+    /* position: absolute; */
     top: 30px;
     /* left: 105px; */
     display: flex;
@@ -164,11 +172,11 @@ const Contenedor = styled.div`
   }
 `;
 
-const Alumno = ({
+const Supervisor = ({
   institucion,
   supervisora,
   tutora,
-  alumnado,
+
   contador,
   scrol,
 }) => {
@@ -180,33 +188,17 @@ const Alumno = ({
 
   const [filtroBorra, setFiltroBorra] = useState(false);
   const [componente, setComponente] = useState(false);
-  const [extra, setExtra] = useState({
-    institucion: alumnado.institucion,
-    supervisora: alumnado.supervisora,
-    tutora: alumnado.tutora,
-  });
 
   // console.log("alumnado");
   // console.log(alumnado);
 
   const [valores, setValores] = useState({
-    primerNombre: alumnado.primerNombre,
-    segundoNombre: alumnado.segundoNombre,
-    primerApellido: alumnado.primerApellido,
-    segundoApellido: alumnado.segundoApellido,
-    cedula: alumnado.cedula,
-    telefono: alumnado.telefono,
-    correo: alumnado.correo,
-    institucion: alumnado.institucion._id,
-
-    fechaInicio: alumnado.fechaInicio,
-    fechaFin: alumnado.fechaFin,
-    horas: alumnado.horas,
-
-    supervisora: alumnado.supervisora._id,
-    curso: alumnado.curso,
-    tutora: alumnado.tutora._id,
-    password: "",
+    nombre: supervisora.nombre,
+    cedula: supervisora.cedula,
+    telefono: supervisora.telefono,
+    horasUsadas: supervisora.horasUsadas,
+    numeroAsignacion: supervisora.numeroAsignacion,
+    correo: supervisora.correo,
   });
 
   if (componente) {
@@ -230,16 +222,13 @@ const Alumno = ({
 
     const envio = {
       ...valores,
-      id: alumnado._id,
+      id: supervisora._id,
     };
 
     // console.log({ envio });
 
     axios
-      .put(
-        "https://serveralumnos-production.up.railway.app/api/alumno/actualizarAlumno",
-        envio
-      )
+      .put("http://localhost:8080/api/supervisora/actualizarDatos", envio)
       .then(({ data }) => {
         console.log(data);
 
@@ -252,7 +241,7 @@ const Alumno = ({
         console.log(err);
         console.log("paso algo al actualizar estudiante");
 
-        setActualizaar("datos no actualizados (recargar la paginay)");
+        setActualizaar("datos no actualizados (recargar la pagina)");
         setTimeout(() => {
           setActualizaar("");
         }, 3000);
@@ -261,24 +250,20 @@ const Alumno = ({
 
   const borrar = (e) => {
     console.log("borrar");
-    console.log(alumnado);
+    console.log(borrar);
     axios
-      .post(
-        "https://serveralumnos-production.up.railway.app/api/alumno/borarAlumno",
-        {
-          id: alumnado._id,
-        }
-      )
+      .post("http://localhost:8080/api/supervisora/borrar", {
+        id: supervisora._id,
+      })
       .then(({ data }) => {
         console.log("data");
         console.log(data);
 
-        setActualizaar("alumno borrado");
+        setActualizaar("tutor borrado");
         setTimeout(() => {
           setActualizaar("");
         }, 2000);
 
-        setFiltroBorra(true);
         setTimeout(() => {
           setComponente(true);
         }, 3000);
@@ -287,16 +272,11 @@ const Alumno = ({
         console.log("err");
         console.log(err);
 
-        // setActualizaar("alumno borrado");
-        // setTimeout(() => {
-        //   setActualizaar("");
-        // }, 2000);
+        setActualizaar("no se pudo borrar");
+        setTimeout(() => {
+          setActualizaar("");
+        }, 2000);
       });
-  };
-
-  const prueba = () => {
-    setFiltro("block");
-    setAltura("50px");
   };
 
   if (datos.usuario.rol == undefined) {
@@ -332,44 +312,25 @@ const Alumno = ({
       </div>
 
       {filtroBorra && (
-        <div className="filtroBorra">
-          <div className="msg">Alumno borrado</div>
+        <div>
+          <div style={{ position: "relative" }}>
+            <div className="filtroBorra">
+              <div className="msg">tutor borrado</div>
+            </div>
+          </div>
         </div>
       )}
 
       <form id={`form${contador}`} onSubmit={(e) => actualizar(e)}>
         <input
           type="text"
-          value={valores.primerNombre}
+          value={valores.nombre}
           onChange={(e) => {
-            setValores({ ...valores, primerNombre: e.target.value });
+            setValores({ ...valores, nombre: e.target.value });
             console.log(e.target.value);
           }}
         />
-        <input
-          type="text"
-          value={valores.segundoNombre}
-          onChange={(e) => {
-            setValores({ ...valores, segundoNombre: e.target.value });
-            console.log(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          value={valores.primerApellido}
-          onChange={(e) => {
-            setValores({ ...valores, primerApellido: e.target.value });
-            console.log(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          value={valores.segundoApellido}
-          onChange={(e) => {
-            setValores({ ...valores, segundoApellido: e.target.value });
-            console.log(e.target.value);
-          }}
-        />
+
         <input
           type="text"
           value={valores.cedula}
@@ -378,6 +339,7 @@ const Alumno = ({
             console.log(e.target.value);
           }}
         />
+
         <input
           type="text"
           value={valores.telefono}
@@ -386,6 +348,27 @@ const Alumno = ({
             console.log(e.target.value);
           }}
         />
+
+        <input
+          disabled
+          type="text"
+          value={valores.horasUsadas}
+          onChange={(e) => {
+            setValores({ ...valores, horasUsadas: e.target.value });
+            console.log(e.target.value);
+          }}
+        />
+
+        <input
+          disabled
+          type="text"
+          value={valores.numeroAsignacion}
+          onChange={(e) => {
+            setValores({ ...valores, numeroAsignacion: e.target.value });
+            console.log(e.target.value);
+          }}
+        />
+
         <input
           type="text"
           value={valores.correo}
@@ -394,135 +377,42 @@ const Alumno = ({
             console.log(e.target.value);
           }}
         />
-        <input
-          type="text"
-          value={valores.curso}
-          onChange={(e) => {
-            setValores({ ...valores, curso: e.target.value });
-            console.log(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          value={valores.horas}
-          onChange={(e) => {
-            setValores({ ...valores, horas: e.target.value });
-            console.log(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          value={valores.fechaInicio}
-          onChange={(e) => {
-            setValores({ ...valores, fechaInicio: e.target.value });
-            console.log(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          value={valores.fechaFin}
-          onChange={(e) => {
-            setValores({ ...valores, fechaFin: e.target.value });
-            console.log(e.target.value);
-          }}
-        />
-
-        <div className="conteSelec">
-          <select
-            onChange={(e) => {
-              setValores({ ...valores, institucion: e.target.value });
-            }}
-          >
-            <option disabled selected hidden>
-              {extra.institucion.nombre}
-            </option>
-            {institucion.map((i) => {
-              return (
-                <option key={i._id} value={i._id}>
-                  {i.nombre}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-
-        <div className="conteSelec">
-          <select
-            onChange={(e) => {
-              setValores({ ...valores, supervisora: e.target.value });
-            }}
-          >
-            <option disabled selected hidden>
-              {extra.supervisora.nombre}
-            </option>
-            {supervisora.map((i) => {
-              return (
-                <option key={i._id} value={i._id}>
-                  {i.nombre}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-
-        <div className="conteSelec">
-          <select
-            onChange={(e) => {
-              setValores({ ...valores, tutora: e.target.value });
-            }}
-          >
-            <option disabled selected hidden>
-              {extra.tutora.nombre}
-            </option>
-            {tutora.map((i) => {
-              return (
-                <option key={i._id} value={i._id}>
-                  {i.nombre}
-                </option>
-              );
-            })}
-          </select>
-        </div>
 
         {indicadores && (
-          <div>
-            <div style={{ position: "relative" }}>
-              <div className="indicadores" style={{ left: scrol + 150 }}>
-                <input
-                  className="actualizar"
-                  type="submit"
-                  form={`form${contador}`}
-                  value="actualizar"
-                />
-                <div
-                  className="borrar"
-                  onClick={() => {
-                    borrar();
-                  }}
-                >
-                  borrar
-                </div>
-                <div
-                  className="cancelar"
-                  onClick={() => {
-                    setFiltro("block");
-                    setAltura("50px");
-                    setIndicadores(false);
-                  }}
-                >
-                  cancelar
-                </div>
-                <div
-                  style={{
-                    marginLeft: "0px",
-                    fontSize: "20px",
-                    fontWeight: "bold",
-                    color: "#376d30",
-                  }}
-                >
-                  {actualizaar}
-                </div>
-              </div>
+          <div className="indicadores" style={{ left: 0 }}>
+            <input
+              className="actualizar"
+              type="submit"
+              form={`form${contador}`}
+              value="actualizar"
+            />
+            <div
+              className="borrar"
+              onClick={() => {
+                borrar();
+              }}
+            >
+              borrar
+            </div>
+            <div
+              className="cancelar"
+              onClick={() => {
+                setFiltro("block");
+                setAltura("50px");
+                setIndicadores(false);
+              }}
+            >
+              cancelar
+            </div>
+            <div
+              style={{
+                marginLeft: "0px",
+                fontSize: "20px",
+                fontWeight: "bold",
+                color: "#376d30",
+              }}
+            >
+              {actualizaar}
             </div>
           </div>
         )}
@@ -531,4 +421,4 @@ const Alumno = ({
   );
 };
 
-export default Alumno;
+export default Supervisor;

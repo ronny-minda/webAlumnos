@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import { useDatos } from "../context/Context";
 import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
+import Select from "react-select";
 
 import logo from "../img/actualizarDatos.svg";
 import fondo1 from "../img/fondoN1.svg";
@@ -282,6 +283,8 @@ const Esudiante = () => {
   const [guardar, setGuardar] = useState(false);
   const { datos, setDatos } = useDatos();
   const [error, setError] = useState(false);
+  const [total, setTotal] = useState(0);
+  const [institucion, setInstitucion] = useState([]);
   const [validarContraseña, setValidarContraseña] = useState({
     pass1: "",
     pass2: "",
@@ -301,7 +304,7 @@ const Esudiante = () => {
     fechaInicio: datos.usuario.fechaInicio,
     fechaFin: datos.usuario.fechaFin,
     horas: datos.usuario.horas,
-    institucion: datos.usuario.institucion.nombre,
+    institucion: datos.usuario.institucion._id,
     supervisora: datos.usuario.supervisora.nombre,
     tutora: datos.usuario.tutora.nombre,
     password: "",
@@ -310,6 +313,37 @@ const Esudiante = () => {
   // console.log("datos");
   // console.log(datos.rol);
 
+  useEffect(() => {
+    axios
+      .post(
+        "https://serveralumnos-production.up.railway.app/api/institucion/buscarTodos"
+      )
+      .then(({ data }) => {
+        // console.log("data");
+        // console.log(data);
+
+        const result = data.map((i) => {
+          return { value: i._id, label: i.nombre };
+        });
+
+        setInstitucion(result);
+        // setBusqueda(data);
+
+        // setSpiner(false);
+
+        let contador = 0;
+
+        data.map((i) => {
+          contador++;
+        });
+
+        setTotal(contador);
+      })
+      .catch((err) => {
+        console.log("algo salio mal en institucion!");
+      });
+  }, []);
+
   const enviar = (e) => {
     setSpiner(true);
     e.preventDefault();
@@ -317,14 +351,13 @@ const Esudiante = () => {
     let envio;
 
     if (valores.password.length == 0) {
-      const { supervisora, tutora, institucion, horas, password, ...resto } =
-        valores;
+      const { supervisora, tutora, horas, password, ...resto } = valores;
 
       envio = {
         ...resto,
       };
     } else {
-      const { supervisora, tutora, institucion, horas, ...resto } = valores;
+      const { supervisora, tutora, horas, ...resto } = valores;
 
       envio = {
         ...resto,
@@ -514,6 +547,21 @@ const Esudiante = () => {
                   setValores({ ...valores, institucion: e.target.value })
                 }
                 type="text"
+              />
+
+              <Select
+                options={institucion}
+                defaultValue={{
+                  value: datos.usuario.institucion._id,
+                  label: datos.usuario.institucion.nombre,
+                }}
+                onChange={(e) => {
+                  console.log(e);
+
+                  // const result = e.map((i) => i.value);
+
+                  setValores({ ...valores, institucion: e.value });
+                }}
               />
             </label>
 

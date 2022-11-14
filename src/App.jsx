@@ -20,6 +20,9 @@ import Importar from "./components/importar";
 import ActualizarDatos from "./components/actualizarDatos";
 import Crear from "./components/crear";
 import Alumnos from "./components/dashboard/alumnos";
+import Tutores from "./components/dashboard/tutores";
+import Supervisores from "./components/dashboard/supervisores";
+import Insituciones from "./components/dashboard/instituciones";
 // import CompletarDatos from "./components/completarDatos";
 
 const H1 = styled.h1`
@@ -43,12 +46,15 @@ const App = () => {
         <Layout>
           <Routes>
             <Route path="/home" element={<Home />} />
-            <Route path="/usuarios" element={<Usuarios />} />
-            <Route path="/buscar" element={<Buscar />} />
+            {/* <Route path="/usuarios" element={<Usuarios />} />
+            <Route path="/buscar" element={<Buscar />} /> */}
             <Route path="/importar" element={<Importar />} />
             <Route path="/actualizarDatos" element={<ActualizarDatos />} />
             <Route path="/crear" element={<CrearCuentas />} />
             <Route path="/alumnos" element={<Alumnos />} />
+            <Route path="/supervisores" element={<Supervisores />} />
+            <Route path="/tutores" element={<Tutores />} />
+            <Route path="/insituciones" element={<Insituciones />} />
             {/* <Route path="/completarDatos" element={<CompletarDatos />} /> */}
           </Routes>
         </Layout>

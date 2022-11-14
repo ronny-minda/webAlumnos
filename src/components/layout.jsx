@@ -231,6 +231,34 @@ const Layout = ({ children }) => {
                   </Link>
                 </li>
                 <li
+                  className={
+                    location.pathname === "/supervisores" ? "activo" : null
+                  }
+                >
+                  <Link to="/supervisores">
+                    <LogoAlumno />
+                    SUPERVISORES
+                  </Link>
+                </li>
+                <li
+                  className={location.pathname === "/tutores" ? "activo" : null}
+                >
+                  <Link to="/tutores">
+                    <LogoAlumno />
+                    TUTORES
+                  </Link>
+                </li>
+                <li
+                  className={
+                    location.pathname === "/insituciones" ? "activo" : null
+                  }
+                >
+                  <Link to="/insituciones">
+                    <LogoAlumno />
+                    INSTITUCIONES
+                  </Link>
+                </li>
+                <li
                   className={location.pathname === "/crear" ? "activo" : null}
                 >
                   <Link to="/crear">
@@ -238,6 +266,7 @@ const Layout = ({ children }) => {
                     CREAR
                   </Link>
                 </li>
+
                 {/* <li>
                   <Link to="/crear">crear</Link>
                 </li> */}

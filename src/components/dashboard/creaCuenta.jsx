@@ -1297,6 +1297,7 @@ const FormInstiucion = () => {
   const { datos, setDatos } = useDatos();
   const [spiner, setSpiner] = useState(false);
   const [error, setError] = useState(false);
+  const [MensajeError, setMensajeError] = useState("");
 
   const [validarContraseña, setValidarContraseña] = useState({
     pass1: "",
@@ -1376,15 +1377,12 @@ const FormInstiucion = () => {
       .then(({ data }) => {
         console.log(data);
 
-        setSpiner(false);
+        setMensajeError("Institucion creada");
+        setTimeout(() => {
+          setMensajeError("");
+        }, 3000);
 
-        setLogin({
-          nombre: "",
-          direccion: "",
-          tutora: [],
-          numeroAsignacion: "",
-          supervisora: [],
-        });
+        setSpiner(false);
       })
       .catch((err) => {
         console.log("algo ocurrio en Crear Cuenta");
@@ -1396,6 +1394,11 @@ const FormInstiucion = () => {
           setError(false);
         }, 4000);
         setSpiner(false);
+
+        setMensajeError("No se pudo crear la institucion");
+        setTimeout(() => {
+          setMensajeError("");
+        }, 3000);
       });
 
     //   console.log({ datos });
@@ -1483,6 +1486,9 @@ const FormInstiucion = () => {
             </motion.span>
           )}
         </AnimatePresence>
+
+        <span className="msgError">{MensajeError}</span>
+
         <input className="submit" type="submit" value="CREAR CUENTA" />
       </motion.form>
 
