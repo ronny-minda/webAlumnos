@@ -344,6 +344,90 @@ const Esudiante = () => {
       });
   }, []);
 
+  useEffect(() => {
+    const asignarFecha = async (limite) => {
+      let i = 1;
+      let contado = 0;
+
+      console.log(valores.fechaInicio.split("-"));
+
+      let fechaInicio = valores.fechaInicio.split("-");
+
+      while (i <= limite) {
+        let datooo = new Date(
+          `${fechaInicio[1]}/${fechaInicio[2]}/${fechaInicio[0]}`
+        );
+        datooo.setDate(datooo.getDate() + contado);
+
+        let arregloFlecha = datooo.toDateString().split(" ");
+        // https://www.jezl-auditores.com/index.php/tributario/126-feriados-2022-ecuador
+        if (arregloFlecha[0] != "Sat" && arregloFlecha[0] != "Sun") {
+          console.log("arregloFlecha");
+          console.log(arregloFlecha);
+          // login.fechaFin.setDate(datooo.getDate());
+          i++;
+        }
+        contado++;
+      }
+      // contado = contado - 1;
+      console.log("contado");
+      console.log(contado);
+
+      let resultFecha = new Date();
+
+      resultFecha.setDate(resultFecha.getDate() + contado);
+
+      console.log("resultFecha");
+      console.log(resultFecha);
+
+      let ano = resultFecha.getFullYear();
+      let mes = resultFecha.getMonth() + 1;
+      let dia = resultFecha.getDate();
+
+      dia = dia.toString().length == 1 ? `0${dia}` : `${dia}`;
+      mes = mes.toString().length == 1 ? `0${mes}` : `${mes}`;
+
+      let resulado = `${ano}-${mes}-${dia}`;
+
+      setValores({
+        ...valores,
+        fechaFin: resulado,
+      });
+
+      return resulado;
+    };
+
+    let dias = valores.horas / 8;
+
+    console.log("e.target.value / 8");
+    console.log(Math.floor(dias));
+
+    asignarFecha(Math.floor(dias));
+    // let resultado = await asignarFecha(Math.floor(dias));
+
+    // console.log("desde horas");
+    // console.log(resultado);
+  }, [valores.fechaInicio, valores.horas]);
+
+  // let prueba = new Date();
+  // let prueba1 = new Date().setHours(prueba.getHours() + 1);
+
+  // let resPrueba = new Date(prueba1);
+
+  // console.log("prueba");
+  // console.log(prueba);
+
+  // console.log("resPrueba");
+  // console.log(resPrueba);
+
+  // let horas = 144;
+  // let dias = 0;
+
+  // let resul = 144 / 8;
+
+  // console.log("144 / 8");
+  // console.log(Math.floor(resul));
+
   const enviar = (e) => {
     setSpiner(true);
     e.preventDefault();
@@ -351,13 +435,13 @@ const Esudiante = () => {
     let envio;
 
     if (valores.password.length == 0) {
-      const { supervisora, tutora, horas, password, ...resto } = valores;
+      const { supervisora, tutora, password, ...resto } = valores;
 
       envio = {
         ...resto,
       };
     } else {
-      const { supervisora, tutora, horas, ...resto } = valores;
+      const { supervisora, tutora, ...resto } = valores;
 
       envio = {
         ...resto,
@@ -372,6 +456,9 @@ const Esudiante = () => {
       .then((response) => {
         const respuesta = response.data;
 
+        console.log("respuesta");
+        console.log(respuesta);
+
         const usuario = {
           ...datos,
           usuario: {
@@ -383,6 +470,7 @@ const Esudiante = () => {
             segundoNombre: respuesta.segundoNombre,
             primerApellido: respuesta.primerApellido,
             segundoApellido: respuesta.segundoApellido,
+            horas: respuesta.horas,
 
             telefono: respuesta.telefono,
 
@@ -504,50 +592,73 @@ const Esudiante = () => {
 
             <label>
               <span>Fecha Inicio</span>
-              <input
+              {/* <input
                 disabled
                 value={valores.fechaInicio}
                 onChange={(e) =>
                   setValores({ ...valores, fechaInicio: e.target.value })
                 }
                 type="text"
+              /> */}
+
+              <input
+                type="date"
+                value={valores.fechaInicio}
+                onChange={(e) => {
+                  console.log(e.target.value);
+                  setValores({ ...valores, fechaInicio: e.target.value });
+                }}
               />
             </label>
 
             <label>
               <span>Fecha Fin</span>
-              <input
+              {/* <input
                 disabled
                 value={valores.fechaFin}
                 onChange={(e) =>
                   setValores({ ...valores, fechaFin: e.target.value })
                 }
                 type="text"
-              />
+              /> */}
+
+              <input type="date" value={valores.fechaFin} />
             </label>
 
             <label>
               <span>Horas</span>
               <input
-                disabled
+                // disabled
                 value={valores.horas}
-                onChange={(e) =>
-                  setValores({ ...valores, horas: e.target.value })
-                }
+                onChange={async (e) => {
+                  setValores({
+                    ...valores,
+                    horas: e.target.value,
+                  });
+                  // let dias = e.target.value / 8;
+
+                  // console.log("e.target.value / 8");
+                  // console.log(Math.floor(dias));
+
+                  // let resultado = await asignarFecha(Math.floor(dias));
+
+                  // console.log("desde horas");
+                  // console.log(resultado);
+                }}
                 type="text"
               />
             </label>
 
             <label>
               <span>Institucion</span>
-              <input
+              {/* <input
                 disabled
                 value={valores.institucion}
                 onChange={(e) =>
                   setValores({ ...valores, institucion: e.target.value })
                 }
                 type="text"
-              />
+              /> */}
 
               <Select
                 options={institucion}

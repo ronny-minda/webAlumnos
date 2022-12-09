@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
+import moment from "moment";
 import { Link } from "react-router-dom";
 
 import img from "../img/login.jpg";
@@ -178,9 +179,9 @@ const Main = styled(motion.main)`
     }
 
     form {
-      border: 2px solid #ffffff63;
+      border: 2px solid #41404062;
       padding: 25px 0;
-      background-color: #d9e1ff14;
+      background-color: #d9e1ff4d;
       border-radius: 20px;
       backdrop-filter: blur(6px);
       display: flex;
@@ -288,9 +289,12 @@ const CrearCuenta = () => {
     curso: "",
     horas: "",
     institucion: "",
+    fechaInicio: "",
     password: "",
     msgError: "",
   });
+
+  const [feefa, setFeefa] = useState(new Date("11/10/2022"));
 
   const [login, setLogin] = useState({
     primerNombre: "",
@@ -302,8 +306,8 @@ const CrearCuenta = () => {
     correo: "",
     curso: "",
 
-    fechaInicio: new Date("11/10/2022"),
-    fechaFin: new Date("11/10/2022"),
+    fechaInicio: new Date("01/01/2001"),
+    fechaFin: new Date("01/01/2001"),
     institucion: "",
 
     horas: "",
@@ -327,6 +331,14 @@ const CrearCuenta = () => {
         console.log("algo salio mal en pedido institucion!");
       });
   }, []);
+
+  // let d1 = moment("2018-06-03");
+  // console.log("d1");
+  // console.log("antes: ");
+  // console.log(d1);
+  // d1.add(1, "days");
+  // console.log("despues: ");
+  // console.log(d1);
 
   // let fecha = login.fechaInicio;
 
@@ -433,146 +445,52 @@ const CrearCuenta = () => {
     // }
   };
 
-  const asignarFecha = (limite) => {
-    const dias = [
-      "domingo",
-      "lunes",
-      "martes",
-      "miércoles",
-      "jueves",
-      "viernes",
-      "sábado",
-      "domingo",
-      "lunes",
-      "martes",
-      "miércoles",
-      "jueves",
-      "viernes",
-      "sábado",
-      "domingo",
-      "lunes",
-      "martes",
-      "miércoles",
-      "jueves",
-      "viernes",
-      "sábado",
-      "domingo",
-      "lunes",
-      "martes",
-      "miércoles",
-      "jueves",
-      "viernes",
-      "sábado",
-      "domingo",
-      "lunes",
-      "martes",
-      "miércoles",
-      "jueves",
-      "viernes",
-      "sábado",
-      "domingo",
-      "lunes",
-      "martes",
-      "miércoles",
-      "jueves",
-      "viernes",
-      "sábado",
-      "domingo",
-      "lunes",
-      "martes",
-      "miércoles",
-      "jueves",
-      "viernes",
-      "sábado",
-      "domingo",
-      "lunes",
-      "martes",
-      "miércoles",
-      "jueves",
-      "viernes",
-      "sábado",
-      "domingo",
-      "lunes",
-      "martes",
-      "miércoles",
-      "jueves",
-      "viernes",
-      "sábado",
-      "domingo",
-      "lunes",
-      "martes",
-      "miércoles",
-      "jueves",
-      "viernes",
-      "sábado",
-      "domingo",
-      "lunes",
-      "martes",
-      "miércoles",
-      "jueves",
-      "viernes",
-      "sábado",
-      "domingo",
-      "lunes",
-      "martes",
-      "miércoles",
-      "jueves",
-      "viernes",
-      "sábado",
-      "domingo",
-      "lunes",
-      "martes",
-      "miércoles",
-      "jueves",
-      "viernes",
-      "sábado",
-      "domingo",
-      "lunes",
-      "martes",
-      "miércoles",
-      "jueves",
-      "viernes",
-      "sábado",
-      "domingo",
-      "lunes",
-      "martes",
-      "miércoles",
-      "jueves",
-      "viernes",
-      "sábado",
-      "domingo",
-      "lunes",
-      "martes",
-      "miércoles",
-      "jueves",
-      "viernes",
-      "sábado",
-    ];
-
+  const asignarFecha = async (limite) => {
     let i = 1;
     let contado = 0;
+    console.log(
+      `${login.fechaInicio.getMonth()}/${login.fechaInicio.getDate()}/${login.fechaInicio.getFullYear()}`
+    );
 
     while (i <= limite) {
-      const nombreDia = dias[login.fechaInicio.getDay() + contado];
+      let datooo = new Date(
+        `${
+          login.fechaInicio.getMonth() + 1
+        }/${login.fechaInicio.getDate()}/${login.fechaInicio.getFullYear()}`
+      );
+      datooo.setDate(datooo.getDate() + contado);
 
-      console.log(nombreDia);
-      console.log(login.fechaFin.getDay());
-      console.log(login.fechaInicio.getDay() + contado);
+      console.log(login.fechaFin.toDateString());
 
-      if (nombreDia != "sábado" && nombreDia != "domingo") {
-        console.log("Nombre de día de la semana: ", nombreDia);
-
-        console.log(login.fechaInicio);
-
+      let arregloFlecha = datooo.toDateString().split(" ");
+      // https://www.jezl-auditores.com/index.php/tributario/126-feriados-2022-ecuador
+      if (
+        (arregloFlecha[0] != "Sat" && arregloFlecha[0] != "Sun") ||
+        (arregloFlecha[1] != "Dec" && arregloFlecha[2] != "25") ||
+        (arregloFlecha[1] != "Dec" && arregloFlecha[2] != "31") ||
+        (arregloFlecha[1] != "Jan" && arregloFlecha[2] != "01") ||
+        (arregloFlecha[1] != "Feb" && arregloFlecha[2] != "20") ||
+        (arregloFlecha[1] != "Feb" && arregloFlecha[2] != "21") ||
+        (arregloFlecha[1] != "Apr" && arregloFlecha[2] != "07") ||
+        (arregloFlecha[1] != "May" && arregloFlecha[2] != "01") ||
+        (arregloFlecha[1] != "Aug" && arregloFlecha[2] != "10") ||
+        (arregloFlecha[1] != "Oct" && arregloFlecha[2] != "09") ||
+        (arregloFlecha[1] != "Nov" && arregloFlecha[2] != "02")
+      ) {
+        console.log("arregloFlecha");
+        console.log(arregloFlecha);
+        // login.fechaFin.setDate(datooo.getDate());
         i++;
       }
       contado++;
-      console.log("");
     }
+    // contado = contado - 1;
+    console.log("contado");
+    console.log(contado);
 
-    contado = contado - 1;
+    let resultFecha = new Date();
 
-    login.fechaFin.setDate(login.fechaInicio.getDate() + contado);
+    login.fechaFin.setDate(resultFecha.getDate() + contado);
 
     console.log("login.fechaFin");
     console.log(login.fechaFin);
@@ -587,21 +505,26 @@ const CrearCuenta = () => {
     if (login.horas === "96H") {
       // login.fechaFin.setDate(login.fechaInicio.getDate() + 12);
       asignarFecha(12);
+      // diciembre 23
     }
     if (login.horas === "144H") {
       // login.fechaFin.setDate(login.fechaInicio.getDate() + 18);
       asignarFecha(18);
+      // enero 2
     }
     if (login.horas === "240H") {
       // login.fechaFin.setDate(login.fechaInicio.getDate() + 30);
       asignarFecha(30);
+      //  enero 18
     }
+
     if (login.horas === "480H") {
       // login.fechaFin.setDate(login.fechaInicio.getDate() + 60);
-      // asignarFecha(60);
+      asignarFecha(60);
+      // marzo 1
 
       // login.fechaFin.setDate(login.fechaInicio.getDate() + 81);
-      login.fechaFin.setDate(login.fechaInicio.getDate() + 83);
+      // login.fechaFin.setDate(login.fechaInicio.getDate() + 83);
 
       // console.log("login");
       // console.log(login);
@@ -671,6 +594,12 @@ const CrearCuenta = () => {
       if (login.institucion.length === 0) {
         return setMsgError({
           institucion: "falta completar elegir la institucion",
+        });
+      }
+
+      if (login.fechaInicio.toDateString() == "Mon Jan 01 2001") {
+        return setMsgError({
+          fechaInicio: "falta completar la fecha de inicio",
         });
       }
 
@@ -811,6 +740,41 @@ const CrearCuenta = () => {
                     setLogin({ ...login, segundoApellido: e.target.value })
                   }
                   type="text"
+                />
+              </label>
+
+              <label>
+                <span>Fecha de Inicio</span>
+                <input
+                  type="date"
+                  onChange={(e) => {
+                    // console.log(e.target.value.split("-"));
+                    let arregloFecha = e.target.value.split("-");
+
+                    console.log(arregloFecha);
+
+                    login.fechaInicio.setDate(arregloFecha[2]);
+                    login.fechaInicio.setMonth(parseInt(arregloFecha[1]) - 1);
+                    login.fechaInicio.setFullYear(arregloFecha[0]);
+
+                    login.fechaFin.setDate(arregloFecha[2]);
+                    login.fechaFin.setMonth(parseInt(arregloFecha[1]) - 1);
+                    login.fechaFin.setFullYear(arregloFecha[0]);
+
+                    feefa.setDate(arregloFecha[2]);
+                    feefa.setMonth(parseInt(arregloFecha[1]) - 1);
+                    feefa.setFullYear(arregloFecha[0]);
+
+                    // let fecha = new Date(
+                    //   `${arregloFecha[1]}/${arregloFecha[2]}/${arregloFecha[0]}`
+                    // );
+
+                    // setLogin({ ...login, fechaInicio: fecha });
+
+                    // console.log("antes: " + fecha.toDateString());
+                    // fecha.setDate(fecha.getDate() + 1);
+                    console.log("despues: " + login.fechaInicio.toDateString());
+                  }}
                 />
               </label>
 
@@ -1006,6 +970,7 @@ const CrearCuenta = () => {
             <span className="msgError">{msgError.password}</span>
             <span className="msgError">{msgError.msgError}</span>
             <span className="msgError">{msgError.institucion}</span>
+            <span className="msgError">{msgError.fechaInicio}</span>
             <input className="submit" type="submit" value="CREAR CUENTA" />
           </form>
 
