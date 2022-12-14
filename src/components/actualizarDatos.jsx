@@ -285,6 +285,7 @@ const Esudiante = () => {
   const [error, setError] = useState(false);
   const [total, setTotal] = useState(0);
   const [institucion, setInstitucion] = useState([]);
+  const [ fechaIn, setFechaIn ] = useState("");
   const [validarContraseña, setValidarContraseña] = useState({
     pass1: "",
     pass2: "",
@@ -314,6 +315,18 @@ const Esudiante = () => {
   // console.log(datos.rol);
 
   useEffect(() => {
+
+    let f = new Date();
+
+
+    let fechaActual =`${f.getFullYear()}-${(f.getMonth() +1)}-${f.getDate()}`
+
+    console.log(fechaActual)
+
+    setFechaIn(fechaActual)
+
+
+
     axios
       .post(
         "https://serveralumnos-production.up.railway.app/api/institucion/buscarTodos"
@@ -399,10 +412,10 @@ const Esudiante = () => {
 
     let dias = valores.horas / 8;
 
-    console.log("e.target.value / 8");
-    console.log(Math.floor(dias));
+    // console.log("e.target.value / 8");
+    // console.log(Math.floor(dias));
 
-    asignarFecha(Math.floor(dias));
+    // asignarFecha(Math.floor(dias));
     // let resultado = await asignarFecha(Math.floor(dias));
 
     // console.log("desde horas");
@@ -603,6 +616,7 @@ const Esudiante = () => {
 
               <input
                 type="date"
+                min={fechaIn}
                 value={valores.fechaInicio}
                 onChange={(e) => {
                   console.log(e.target.value);

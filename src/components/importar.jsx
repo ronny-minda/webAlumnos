@@ -290,6 +290,9 @@ const Importar = () => {
         const result = dataOrdenado.map((i) => {
           // console.log(i);
           for (const property in i) {
+
+            let primerApellido = ""
+
             // console.log(`${property}: ${i[property]}`);
 
             // if (property == "fechaFin") {
@@ -301,6 +304,22 @@ const Importar = () => {
             //   let cadena = i[property].substring(0, i[property].length - 14);
             //   i[`${property}`] = cadena;
             // }
+
+            if (property == "primerNombre") {
+              i["Nombre"] = `${i.primerNombre} `
+            }
+            if (property == "segundoNombre") {
+              i["Nombre"] = `${i.Nombre}${i.segundoNombre} `;
+            }
+            if (property == "primerApellido") {
+              i["Apellido"] = `${i.primerApellido}`;
+            }
+            if (property == "segundoApellido") {
+              i["Nombre"] = `${i.Apellido} ${i.segundoApellido} ${i.Nombre}`;
+            }
+
+
+          
 
             if (property == "tutora") {
               for (const popiedad in i.tutora) {
@@ -341,6 +360,12 @@ const Importar = () => {
           delete i["supervisora _id"];
           delete i["tutora _id"];
           delete i["_id"];
+
+          delete i["primerNombre"];
+          delete i["segundoNombre"];
+          delete i["primerApellido"];
+          delete i["segundoApellido"];
+          delete i["Apellido"];
 
           console.log("i");
           console.log(i);
