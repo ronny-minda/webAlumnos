@@ -69,8 +69,12 @@ const Contenedor = styled.div`
 
   form {
     input {
+      /* background-color: red; */
       height: 50px;
-      padding: 5px;
+      border: 0px solid red;
+      width: 165px;
+      border: 1px solid #0000007a;
+      /* padding: 5px; */
     }
 
     .conteSelec {
@@ -197,15 +201,15 @@ const Alumno = ({
     cedula: alumnado.cedula,
     telefono: alumnado.telefono,
     correo: alumnado.correo,
-    institucion: alumnado.institucion._id,
+    institucion: alumnado.institucion?._id,
 
     fechaInicio: alumnado.fechaInicio,
     fechaFin: alumnado.fechaFin,
     horas: alumnado.horas,
 
-    supervisora: alumnado.supervisora._id,
+    supervisora: alumnado.supervisora?._id,
     curso: alumnado.curso,
-    tutora: alumnado.tutora._id,
+    tutora: alumnado.tutora?._id,
     password: "",
   });
 
@@ -472,7 +476,7 @@ const Alumno = ({
             }}
           >
             <option disabled selected hidden>
-              {extra.tutora.nombre}
+              {extra.tutora?.nombre}
             </option>
             {tutora.map((i) => {
               return (

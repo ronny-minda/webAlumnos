@@ -5,6 +5,7 @@ import styled from "styled-components";
 import logo from "../../img/alumnos.svg";
 import lupa2 from "../../img/lupa2.svg";
 import Supervisor from "./supervisor";
+import { useDatos } from "../../context/Context";
 
 const Main = styled(motion.main)`
   width: calc(100vw - 200px);
@@ -191,7 +192,7 @@ const Main = styled(motion.main)`
     }
 
     .titulo {
-      margin-left: 50px;
+      margin-left: 51px;
       display: flex;
       /* width: auto; */
       width: 1260px;
@@ -201,9 +202,8 @@ const Main = styled(motion.main)`
 
       div {
         padding: 5px;
-        width: 201px;
+        width: 200px;
         font-weight: bold;
-        border: 1px solid black;
         border: 1px solid #0000007a;
         background-color: #00e5ff;
       }
@@ -212,6 +212,7 @@ const Main = styled(motion.main)`
 `;
 
 const Supervisores = () => {
+  const { datos, setDatos, entorno } = useDatos();
   const [alumnado, setAlumnado] = useState([]);
   const [busqueda, setBusqueda] = useState([]);
   const [institucion, setInstitucion] = useState([]);
@@ -228,7 +229,7 @@ const Supervisores = () => {
   useEffect(() => {
     axios
       .get(
-        "https://serveralumnos-production.up.railway.app/api/supervisora/pedirTodos"
+        `${entorno}api/supervisora/pedirTodos`
       )
       .then(({ data }) => {
         console.log(data);

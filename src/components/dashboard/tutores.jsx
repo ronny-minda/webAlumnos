@@ -5,6 +5,7 @@ import styled from "styled-components";
 import logo from "../../img/alumnos.svg";
 import lupa2 from "../../img/lupa2.svg";
 import Tutor from "./tutor";
+import { useDatos } from "../../context/Context";
 
 const Main = styled(motion.main)`
   width: calc(100vw - 200px);
@@ -223,13 +224,15 @@ const Tutores = () => {
   const [render, setRender] = useState();
   // const [contador, setContador] = useState(0);
   const [spiner, setSpiner] = useState(true);
+  const { datos, setDatos, entorno } = useDatos();
+  
 
   let contador = 0;
 
   useEffect(() => {
     axios
       .get(
-        "https://serveralumnos-production.up.railway.app/api/tutora/pedirTodos"
+        `${entorno}api/tutora/pedirTodos`
       )
       .then(({ data }) => {
         console.log(data);

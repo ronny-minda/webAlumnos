@@ -189,7 +189,7 @@ const Main = styled(motion.main)`
       align-items: center;
       flex-wrap: wrap;
       flex-direction: column;
-      width: 80%;
+      max-width: 770px;
 
       .conteLabel {
         display: flex;
@@ -270,7 +270,7 @@ const CrearCuenta = () => {
   const [supevisora, setSupevisora] = useState([]);
   const [tutora, setTutora] = useState([]);
   const [institucion, setInstitucion] = useState([]);
-  const { datos, setDatos } = useDatos();
+  const { datos, setDatos, entorno } = useDatos();
   const [spiner, setSpiner] = useState(false);
   const [error, setError] = useState(false);
 
@@ -321,7 +321,7 @@ const CrearCuenta = () => {
   useEffect(() => {
     axios
       .post(
-        "https://serveralumnos-production.up.railway.app/api/institucion/buscarTodos"
+        `${entorno}api/institucion/buscarTodos`
       )
       .then(({ data }) => {
         // console.log(data);
@@ -611,7 +611,7 @@ const CrearCuenta = () => {
 
       axios
         .post(
-          "https://serveralumnos-production.up.railway.app/api/alumno/crearAlumno",
+          `${entorno}api/alumno/crearAlumno`,
           login
         )
         .then(({ data }) => {

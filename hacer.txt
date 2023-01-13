@@ -1,2 +1,4 @@
-leer arcibo de exel de pedodo http
-escribir arcibo de exel de pedodo http
+listado de portapapeles de los alumnos
+parametro de cantidad de usuarios por institucion
+fecha de inicio de cada instiucion como por defecto y tene opcion de cambiar a cada una de las instituciones
+quitar del exel los alumnos terminado el proceso

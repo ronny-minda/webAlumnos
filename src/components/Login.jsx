@@ -226,7 +226,7 @@ const Main = styled(motion.main)`
 `;
 
 const Login = () => {
-  const { datos, setDatos } = useDatos();
+  const { datos, setDatos, entorno } = useDatos();
   const [error, setError] = useState(false);
   const [login, setLogin] = useState({
     cedula: "",
@@ -267,14 +267,14 @@ const Login = () => {
     }
   }, []);
 
-  console.log({ datos });
+  console.log({ entorno });
 
   const enviar = (e) => {
     setSpiner(true);
     e.preventDefault();
     // return <Navigate to="/home" />;
     axios
-      .post("https://serveralumnos-production.up.railway.app/api/login", {
+      .post(`${entorno}api/login`, {
         cedula: login.cedula,
         password: login.contraseña,
       })

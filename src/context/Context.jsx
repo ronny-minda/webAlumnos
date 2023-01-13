@@ -14,8 +14,10 @@ export const DatosProvider = ({ children }) => {
     usuario: {},
   });
 
-  const entorno = "http://localhost:8080/";
-  // const entorno = "https://serveralumnos-production.up.railway.app/"
+  const entornoDesarrollo = "http://localhost:8080/";
+  const entornoProduccion = "https://serveralumnos-production.up.railway.app/"
+
+  const entorno = entornoDesarrollo
 
   //   const halo = (name) => `hola {name}`;
   //   const loader = () => setLoger(false);

@@ -320,7 +320,7 @@ const Main = styled(motion.div)`
 `;
 
 const CrearCuenta = () => {
-  const { datos, setDatos } = useDatos();
+  const { datos, setDatos, entorno } = useDatos();
   const [activo, setActivo] = useState({
     alumno: "iten activo",
     tutor: "iten",
@@ -424,6 +424,7 @@ const CrearCuenta = () => {
 };
 
 const FormAlumno = () => {
+  
   const [institucion, setInstitucion] = useState([]);
   const [error, setError] = useState(false);
 
@@ -465,12 +466,12 @@ const FormAlumno = () => {
   });
   const [spiner, setSpiner] = useState(false);
 
-  const { datos, setDatos } = useDatos();
+  const { datos, setDatos, entorno } = useDatos();
 
   useEffect(() => {
     axios
       .post(
-        "https://serveralumnos-production.up.railway.app/api/institucion/buscarTodos"
+        `${entorno}api/institucion/buscarTodos`
       )
       .then(({ data }) => {
         // console.log(data);
@@ -730,7 +731,7 @@ const FormAlumno = () => {
 
       axios
         .post(
-          "https://serveralumnos-production.up.railway.app/api/alumno/crearAlumno",
+          `${entorno}api/alumno/crearAlumno`,
           login
         )
         .then(({ data }) => {
@@ -1056,6 +1057,7 @@ const FormAlumno = () => {
 };
 
 const FormTutor = () => {
+  const { datos, setDatos, entorno } = useDatos();
   const [login, setLogin] = useState({
     nombre: "",
   });
@@ -1074,7 +1076,7 @@ const FormTutor = () => {
 
     axios
       .post(
-        "https://serveralumnos-production.up.railway.app/api/tutora/crear",
+        `${entorno}api/tutora/crear`,
         login
       )
       .then(({ data }) => {
@@ -1148,6 +1150,7 @@ const FormTutor = () => {
 };
 
 const FormSupervisor = () => {
+  const { datos, setDatos, entorno } = useDatos();
   const [login, setLogin] = useState({
     nombre: "",
     cedula: "",
@@ -1188,7 +1191,7 @@ const FormSupervisor = () => {
 
     axios
       .post(
-        "https://serveralumnos-production.up.railway.app/api/supervisora/crear",
+        `${entorno}api/supervisora/crear`,
         login
       )
       .then(({ data }) => {
@@ -1294,7 +1297,7 @@ const FormSupervisor = () => {
 const FormInstiucion = () => {
   const [supervisora, setSupervisora] = useState([]);
   const [tutora, setTutora] = useState([]);
-  const { datos, setDatos } = useDatos();
+  const { datos, setDatos, entorno } = useDatos();
   const [spiner, setSpiner] = useState(false);
   const [error, setError] = useState(false);
   const [MensajeError, setMensajeError] = useState("");
@@ -1328,7 +1331,7 @@ const FormInstiucion = () => {
   useEffect(() => {
     axios
       .get(
-        "https://serveralumnos-production.up.railway.app/api/supervisora/pedirTodos"
+        `${entorno}api/supervisora/pedirTodos`
       )
       .then(({ data }) => {
         // console.log(data);
@@ -1345,7 +1348,7 @@ const FormInstiucion = () => {
 
     axios
       .get(
-        "https://serveralumnos-production.up.railway.app/api/tutora/pedirTodos"
+        `${entorno}api/tutora/pedirTodos`
       )
       .then(({ data }) => {
         // console.log(data);
@@ -1371,7 +1374,7 @@ const FormInstiucion = () => {
 
     axios
       .post(
-        "https://serveralumnos-production.up.railway.app/api/institucion/crear",
+        `${entorno}api/institucion/crear`,
         login
       )
       .then(({ data }) => {

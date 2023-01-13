@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useDatos } from "../../context/Context";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
@@ -191,7 +192,7 @@ const Main = styled(motion.main)`
     }
 
     .titulo {
-      margin-left: 50px;
+      margin-left: 51px;
       display: flex;
       width: 400%;
       position: sticky;
@@ -202,7 +203,6 @@ const Main = styled(motion.main)`
         padding: 5px;
         width: 165px;
         font-weight: bold;
-        border: 1px solid black;
         border: 1px solid #0000007a;
         background-color: #00e5ff;
       }
@@ -211,6 +211,7 @@ const Main = styled(motion.main)`
 `;
 
 const Alumnos = () => {
+  const { datos, setDatos, entorno } = useDatos();
   const [alumnado, setAlumnado] = useState([]);
   const [busqueda, setBusqueda] = useState([]);
   const [institucion, setInstitucion] = useState([]);
@@ -227,7 +228,7 @@ const Alumnos = () => {
   useEffect(() => {
     axios
       .post(
-        "https://serveralumnos-production.up.railway.app/api/alumno/buscarTodasAlumno",
+        `${entorno}api/alumno/buscarTodasAlumno`,
         {
           desde: 0,
           limite: 20,
@@ -268,7 +269,7 @@ const Alumnos = () => {
 
     axios
       .post(
-        "https://serveralumnos-production.up.railway.app/api/institucion/buscarTodos"
+        `${entorno}api/institucion/buscarTodos`
       )
       .then(({ data }) => {
         // console.log(data);
@@ -280,7 +281,7 @@ const Alumnos = () => {
 
     axios
       .get(
-        "https://serveralumnos-production.up.railway.app/api/tutora/pedirTodos"
+        `${entorno}api/tutora/pedirTodos`
       )
       .then(({ data }) => {
         // console.log(data);
@@ -292,7 +293,7 @@ const Alumnos = () => {
 
     axios
       .get(
-        "https://serveralumnos-production.up.railway.app/api/supervisora/pedirTodos"
+        `${entorno}api/supervisora/pedirTodos`
       )
       .then(({ data }) => {
         // console.log(data);

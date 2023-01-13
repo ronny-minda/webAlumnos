@@ -4,6 +4,7 @@ import styled from "styled-components";
 import logo from "../../img/alumnos.svg";
 import lupa2 from "../../img/lupa2.svg";
 import axios from "axios";
+import { useDatos } from "../../context/Context";
 
 import Institucion from "./instiucion";
 
@@ -102,13 +103,14 @@ const Insituciones = () => {
   const [todasTutoras, settodasTutoras] = useState([]);
   const [spiner, setSpiner] = useState(true);
   const [total, setTotal] = useState(0);
+  const { datos, setDatos, entorno } = useDatos();
 
   let contador = 0;
 
   useEffect(() => {
     axios
       .post(
-        "https://serveralumnos-production.up.railway.app/api/institucion/buscarTodos"
+        `${entorno}api/institucion/buscarTodos`
       )
       .then(({ data }) => {
         // console.log("data");
@@ -132,7 +134,7 @@ const Insituciones = () => {
 
     axios
       .get(
-        "https://serveralumnos-production.up.railway.app/api/supervisora/pedirTodos"
+        `${entorno}api/supervisora/pedirTodos`
       )
       .then(({ data }) => {
         // console.log("data");
@@ -153,7 +155,7 @@ const Insituciones = () => {
 
     axios
       .get(
-        "https://serveralumnos-production.up.railway.app/api/tutora/pedirTodos"
+        `${entorno}api/tutora/pedirTodos`
       )
       .then(({ data }) => {
         console.log("data");

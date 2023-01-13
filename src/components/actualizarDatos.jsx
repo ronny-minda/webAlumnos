@@ -251,7 +251,7 @@ const Main = styled(motion.div)`
 `;
 
 const ActualizarDatos = () => {
-  const { datos, setDatos } = useDatos();
+  const { datos, setDatos, entorno } = useDatos();
 
   if (datos.usuario.rol == undefined) {
     return (
@@ -281,7 +281,7 @@ const ActualizarDatos = () => {
 const Esudiante = () => {
   const [spiner, setSpiner] = useState(false);
   const [guardar, setGuardar] = useState(false);
-  const { datos, setDatos } = useDatos();
+  const { datos, setDatos, entorno } = useDatos();
   const [error, setError] = useState(false);
   const [total, setTotal] = useState(0);
   const [institucion, setInstitucion] = useState([]);
@@ -329,7 +329,7 @@ const Esudiante = () => {
 
     axios
       .post(
-        "https://serveralumnos-production.up.railway.app/api/institucion/buscarTodos"
+        `${entorno}api/institucion/buscarTodos`
       )
       .then(({ data }) => {
         // console.log("data");

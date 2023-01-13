@@ -126,7 +126,7 @@ const Main = styled(motion.div)`
 `;
 
 const Importar = () => {
-  const { datos, setDatos } = useDatos();
+  const { datos, setDatos, entorno } = useDatos();
 
   const [pedido, setPedido] = useState([]);
 
@@ -265,7 +265,7 @@ const Importar = () => {
   const descargar = () => {
     axios
       .post(
-        "https://serveralumnos-production.up.railway.app/api/alumno/buscarTodasAlumno",
+        `${entorno}api/alumno/buscarTodasAlumno`,
         {
           desde: "0",
           limite: "20",
