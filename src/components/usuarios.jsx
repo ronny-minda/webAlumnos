@@ -79,21 +79,21 @@ const Usuarios = () => {
     //   });
   }, []);
 
-  if (datos.usuario.rol == undefined) {
-    return (
-      <>
-        <Navigate to="/" />
-      </>
-    );
-  }
+  // if (datos.usuario.rol == undefined) {
+  //   return (
+  //     <>
+  //       <Navigate to="/" />
+  //     </>
+  //   );
+  // }
 
-  if (datos.usuario.rol !== "ADMIN_ROLE") {
-    return (
-      <>
-        <Navigate to="/actualizarDatos" />
-      </>
-    );
-  }
+  // if (datos.usuario.rol !== "ADMIN_ROLE") {
+  //   return (
+  //     <>
+  //       <Navigate to="/actualizarDatos" />
+  //     </>
+  //   );
+  // }
 
   return (
     <Main

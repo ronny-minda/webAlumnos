@@ -109,12 +109,10 @@ const Insituciones = () => {
 
   useEffect(() => {
     axios
-      .post(
-        `${entorno}api/institucion/buscarTodos`
-      )
+      .get(`${entorno}api/institucion/buscarTodos`)
       .then(({ data }) => {
-        // console.log("data");
-        // console.log(data);
+        console.log("data");
+        console.log(data);
         setInstitucion(data);
         setBusqueda(data);
 
@@ -133,9 +131,7 @@ const Insituciones = () => {
       });
 
     axios
-      .get(
-        `${entorno}api/supervisora/pedirTodos`
-      )
+      .get(`${entorno}api/supervisora/pedirTodos`)
       .then(({ data }) => {
         // console.log("data");
         // console.log(data);
@@ -144,8 +140,8 @@ const Insituciones = () => {
           return { value: i._id, label: i.nombre };
         });
 
-        console.log("result");
-        console.log(result);
+        // console.log("result");
+        // console.log(result);
 
         settodasSupervisora(result);
       })
@@ -154,19 +150,17 @@ const Insituciones = () => {
       });
 
     axios
-      .get(
-        `${entorno}api/tutora/pedirTodos`
-      )
+      .get(`${entorno}api/tutora/pedirTodos`)
       .then(({ data }) => {
-        console.log("data");
-        console.log(data);
+        // console.log("data");
+        // console.log(data);
 
         const result = data.map((i) => {
           return { value: i._id, label: i.nombre };
         });
 
-        console.log("result");
-        console.log(result);
+        // console.log("result");
+        // console.log(result);
 
         settodasTutoras(result);
       })

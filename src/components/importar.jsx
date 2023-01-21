@@ -1,5 +1,5 @@
 import axios from "axios";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import styled from "styled-components";
@@ -21,6 +21,7 @@ const Main = styled(motion.div)`
   padding: 20px;
   /* width: 100%; */
   width: calc(100vw - 200px);
+  position: relative;
 
   .conte {
     margin: 20px 0 0 20px;
@@ -123,12 +124,139 @@ const Main = styled(motion.div)`
       }
     }
   }
+
+  .crearGrupo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #d7d8ff;
+    position: absolute;
+    bottom: -320px;
+    left: 0;
+    width: 100%;
+    box-shadow: -2px -7px 7px 0px #00053c61;
+    transition: 0.5s;
+
+    .msg {
+      height: 100%;
+      width: 100%;
+      background-color: #5693e57a;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(3px);
+
+      span {
+        font-weight: bold;
+        font-size: 25px;
+      }
+    }
+
+    .pulsador {
+      height: 40px;
+      width: 80px;
+      background-color: #d7d8ff;
+      position: absolute;
+      top: -40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+      border-radius: 6px 6px 0px 0px;
+      transition: 0.5s;
+    }
+
+    .pulsador:hover {
+      background-color: #7377ff;
+    }
+
+    h3 {
+      /* text-align: center; */
+      margin: 20px 0;
+      font-size: 22px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 500px;
+      margin-bottom: 40px;
+
+      label {
+        display: flex;
+        flex-direction: column;
+        /* align-items: center; */
+        width: 100%;
+        background-color: #fff;
+        margin-bottom: 20px;
+        padding: 10px;
+
+        span {
+          font-weight: bold;
+        }
+
+        input {
+          width: 100%;
+          background-color: #ff000000;
+          border: none;
+          border-bottom: 2px solid #001f3d;
+          outline: none;
+          transition: 0.5s;
+          margin-top: 10px;
+        }
+        input:focus {
+          border-bottom: 2px solid #2faec8;
+        }
+        input[type="number"]::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+        }
+      }
+
+      .submit {
+        width: 100px;
+        background-color: #d55050;
+        padding: 15px;
+        color: #fff;
+        border: none;
+        /* margin-top: 20px; */
+        border-radius: 6px;
+        transition: 0.4s;
+        font-weight: bold;
+      }
+
+      .submit:hover {
+        color: #fff;
+        background-color: #e66c6c;
+      }
+      .submit:active {
+        color: #6b6a77a9;
+        background-color: #ffffff;
+      }
+      .submit:disabled {
+        background-color: #4e2929;
+        color: #a0a0a0;
+        opacity: 0.9;
+      }
+    }
+  }
 `;
 
-const Importar = () => {
+const Grupos = () => {
   const { datos, setDatos, entorno } = useDatos();
 
   const [pedido, setPedido] = useState([]);
+  const [pulsador, setPulsador] = useState("-320px");
+  // const [disabled, setDisabled] = useState(false);
+  const [msgCrear, setMsgCrear] = useState({
+    boleano: false,
+    msg: "",
+  });
+  const [creearGrupo, setCreearGrupo] = useState({
+    cantidad: "",
+    fecha: "",
+  });
 
   // const data = [
   //   {
@@ -264,13 +392,10 @@ const Importar = () => {
 
   const descargar = () => {
     axios
-      .post(
-        `${entorno}api/alumno/buscarTodasAlumno`,
-        {
-          desde: "0",
-          limite: "20",
-        }
-      )
+      .post(`${entorno}api/alumno/buscarTodasAlumno`, {
+        desde: "0",
+        limite: "20",
+      })
       .then(({ data }) => {
         // console.log(data);
         // setPedido(data);
@@ -290,8 +415,7 @@ const Importar = () => {
         const result = dataOrdenado.map((i) => {
           // console.log(i);
           for (const property in i) {
-
-            let primerApellido = ""
+            let primerApellido = "";
 
             // console.log(`${property}: ${i[property]}`);
 
@@ -306,7 +430,7 @@ const Importar = () => {
             // }
 
             if (property == "primerNombre") {
-              i["Nombre"] = `${i.primerNombre} `
+              i["Nombre"] = `${i.primerNombre} `;
             }
             if (property == "segundoNombre") {
               i["Nombre"] = `${i.Nombre}${i.segundoNombre} `;
@@ -317,9 +441,6 @@ const Importar = () => {
             if (property == "segundoApellido") {
               i["Nombre"] = `${i.Apellido} ${i.segundoApellido} ${i.Nombre}`;
             }
-
-
-          
 
             if (property == "tutora") {
               for (const popiedad in i.tutora) {
@@ -437,6 +558,55 @@ const Importar = () => {
     );
   }
 
+  const crearGrupo = (e) => {
+    e.preventDefault();
+
+    console.log("crearGrupo");
+
+    axios
+      .post(`${entorno}api/institucion/crearGrupoGobal`, creearGrupo)
+      .then(({ data }) => {
+        console.log(data.msg);
+        console.log(data.numeroGrupo);
+
+        setMsgCrear({
+          boleano: true,
+          msg: `El nuevo ${data.numeroGrupo} grupo ya esta creado`,
+        });
+
+        setTimeout(() => {
+          setMsgCrear({
+            boleano: false,
+            msg: "",
+          });
+        }, 3000);
+      });
+
+    setCreearGrupo({
+      cantidad: "",
+      fecha: "",
+    }).catch((err) => {
+      console.log(err);
+
+      setMsgCrear({
+        boleano: true,
+        msg: "Error al crear el grupo",
+      });
+
+      setTimeout(() => {
+        setMsgCrear({
+          boleano: false,
+          msg: "",
+        });
+      }, 3000);
+
+      setCreearGrupo({
+        cantidad: "",
+        fecha: "",
+      });
+    });
+  };
+
   return (
     <Main
       initial={{ opacity: 0 }}
@@ -460,6 +630,75 @@ const Importar = () => {
         </div>
       </div>
 
+      <div className="crearGrupo" style={{ bottom: pulsador }}>
+        {/* {msgCrear.boleano && <div className="msg">{msgCrear.msg}</div>} */}
+        <AnimatePresence>
+          {msgCrear.boleano && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="msg"
+            >
+              <span>{msgCrear.msg}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <div
+          className="pulsador"
+          onClick={() =>
+            pulsador == "-320px" ? setPulsador("0px") : setPulsador("-320px")
+          }
+        >
+          ⇅
+        </div>
+
+        <h3>CREAR NUEVO GRUPO</h3>
+
+        <form onSubmit={(e) => crearGrupo(e)}>
+          <label>
+            <span>Cantidad de alumnos</span>
+            <input
+              type="number"
+              value={creearGrupo.cantidad}
+              onChange={(e) => {
+                setCreearGrupo({ ...creearGrupo, cantidad: e.target.value });
+
+                // console.log(e.target.value.length == 0);
+
+                //   if (e.target.value.length == 0) {
+                //     setDisabled(true)
+                //   } else {
+
+                //   }
+              }}
+            />
+          </label>
+
+          <label>
+            <span>Fecha de inicio</span>
+            <input
+              type="date"
+              value={creearGrupo.fecha}
+              onChange={(e) => {
+                setCreearGrupo({ ...creearGrupo, fecha: e.target.value });
+                console.log(e.target.value);
+              }}
+            />
+          </label>
+          <input
+            className="submit"
+            type="submit"
+            value="CREAR"
+            disabled={
+              creearGrupo.cantidad.length == 0 && creearGrupo.fecha == ""
+            }
+          />
+        </form>
+      </div>
+
       {/* <div
         onClick={() => exportar()}
         style={{ background: "blue", height: "20px", width: "20px" }}
@@ -468,4 +707,4 @@ const Importar = () => {
   );
 };
 
-export default Importar;
+export default Grupos;

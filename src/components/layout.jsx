@@ -217,9 +217,9 @@ const Layout = ({ children }) => {
                     location.pathname === "/importar" ? "activo" : null
                   }
                 >
-                  <Link to="/importar">
+                  <Link to="/grupos">
                     <Importar />
-                    IMPORTAR
+                    GRUPOS
                   </Link>
                 </li>
                 <li

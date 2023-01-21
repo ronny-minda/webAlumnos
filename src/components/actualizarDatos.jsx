@@ -284,8 +284,9 @@ const Esudiante = () => {
   const { datos, setDatos, entorno } = useDatos();
   const [error, setError] = useState(false);
   const [total, setTotal] = useState(0);
+  const [grupo, setGrupo] = useState("");
   const [institucion, setInstitucion] = useState([]);
-  const [ fechaIn, setFechaIn ] = useState("");
+  const [fechaIn, setFechaIn] = useState("");
   const [validarContraseña, setValidarContraseña] = useState({
     pass1: "",
     pass2: "",
@@ -308,6 +309,7 @@ const Esudiante = () => {
     institucion: datos.usuario.institucion._id,
     supervisora: datos.usuario.supervisora.nombre,
     tutora: datos.usuario.tutora.nombre,
+    grupo: datos.usuario.grupo,
     password: "",
   });
 
@@ -315,25 +317,21 @@ const Esudiante = () => {
   // console.log(datos.rol);
 
   useEffect(() => {
-
     let f = new Date();
 
+    let fechaActual = `${f.getFullYear()}-${f.getMonth() + 1}-${f.getDate()}`;
 
-    let fechaActual =`${f.getFullYear()}-${(f.getMonth() +1)}-${f.getDate()}`
+    console.log(fechaActual);
 
-    console.log(fechaActual)
-
-    setFechaIn(fechaActual)
-
-
+    setFechaIn(fechaActual);
 
     axios
-      .post(
-        `${entorno}api/institucion/buscarTodos`
-      )
+      .get(`${entorno}api/institucion/buscarTodos`)
       .then(({ data }) => {
         // console.log("data");
-        // console.log(data);
+        // console.log(data[10].grupo[data[10].grupo.length - 1].nombre);
+        setGrupo(data[10].grupo[data[10].grupo.length - 1].nombre);
+        // console.log(data[10].grupo.length - 1);
 
         const result = data.map((i) => {
           return { value: i._id, label: i.nombre };
@@ -462,10 +460,7 @@ const Esudiante = () => {
     }
 
     axios
-      .put(
-        "https://serveralumnos-production.up.railway.app/api/alumno/actualizarAlumno",
-        envio
-      )
+      .put(`${entorno}api/alumno/actualizarAlumno`, envio)
       .then((response) => {
         const respuesta = response.data;
 
@@ -542,7 +537,7 @@ const Esudiante = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
     >
-      <h1>Actualizar Datos {datos.usuario.primerNombre}</h1>
+      <h1> Datos de {datos.usuario.primerNombre}</h1>
 
       <div className="conteAllDatos">
         <form className="allDatos" onSubmit={(e) => enviar(e)}>
@@ -600,6 +595,21 @@ const Esudiante = () => {
                   setValores({ ...valores, curso: e.target.value })
                 }
                 type="text"
+              />
+            </label>
+
+            <label>
+              <span>Elegir Nevo Grupo</span>
+              <Select
+                options={[{ value: grupo, label: grupo }]}
+                defaultValue={{ value: valores.grupo, label: valores.grupo }}
+                onChange={(e) => {
+                  console.log(e);
+
+                  // const result = e.map((i) => i.value);
+
+                  setValores({ ...valores, grupo: e.value });
+                }}
               />
             </label>
 

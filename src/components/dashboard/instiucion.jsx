@@ -112,6 +112,9 @@ const Main = styled(motion.div)`
           input:focus {
             border-bottom: 2px solid #2faec8;
           }
+          input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+          }
         }
       }
 
@@ -271,7 +274,7 @@ const Institucion = ({ institucion, todasSupervisora, todasTutoras }) => {
   const [guardar, setGuardar] = useState(false);
   const [msg, setMsg] = useState("");
   const [componene, setComponene] = useState(false);
-  const { datos, setDatos } = useDatos();
+  const { datos, setDatos, entorno } = useDatos();
 
   const supervisora = institucion.supervisora.map((i) => {
     return { value: i._id, label: i.nombre };
@@ -298,16 +301,14 @@ const Institucion = ({ institucion, todasSupervisora, todasTutoras }) => {
     numeroAsignacionBoleano: institucion.numeroAsignacionBoleano,
     supervisora: arraySupervisora,
     tutora: arrayTutora,
+    grupo: institucion.grupo,
   });
 
   const eliminar = () => {
     axios
-      .post(
-        "https://serveralumnos-production.up.railway.app/api/institucion/borrar",
-        {
-          id: valores.id,
-        }
-      )
+      .post(`${entorno}api/institucion/borrar`, {
+        id: valores.id,
+      })
       .then(({ data }) => {
         setMsg("Insitucion Borrada");
         setTimeout(() => {
@@ -333,10 +334,7 @@ const Institucion = ({ institucion, todasSupervisora, todasTutoras }) => {
     e.preventDefault();
 
     axios
-      .put(
-        "https://serveralumnos-production.up.railway.app/api/institucion/actualizarDatos",
-        valores
-      )
+      .put(`${entorno}api/institucion/actualizarDatos`, valores)
       .then(({ data }) => {
         setMsg("Datos estan guardados");
         setTimeout(() => {
@@ -440,6 +438,37 @@ const Institucion = ({ institucion, todasSupervisora, todasTutoras }) => {
             </label> */}
 
             <label>
+              <span>Canidad de alumnos</span>
+              <input
+                // disabled
+                value={valores.grupo[valores.grupo.length - 1].cantidad}
+                name="numeroAsignacion"
+                onChange={(e) => {
+                  let listoGrupo = valores.grupo;
+                  listoGrupo[valores.grupo.length - 1].cantidad =
+                    e.target.value;
+                  setValores({ ...valores, grupo: listoGrupo });
+                }}
+                type="number"
+              />
+            </label>
+
+            <label>
+              <span>Fecha</span>
+              <input
+                // disabled
+                value={valores.grupo[valores.grupo.length - 1].fecha}
+                name="numeroAsignacion"
+                onChange={(e) => {
+                  let listoGrupo = valores.grupo;
+                  listoGrupo[valores.grupo.length - 1].fecha = e.target.value;
+                  setValores({ ...valores, grupo: listoGrupo });
+                }}
+                type="date"
+              />
+            </label>
+
+            {/* <label>
               <span>Numero Asignacion Boleano</span>
 
               <Select
@@ -457,7 +486,7 @@ const Institucion = ({ institucion, todasSupervisora, todasTutoras }) => {
                   setValores({ ...valores, numeroAsignacionBoleano: e.value });
                 }}
               />
-            </label>
+            </label> */}
 
             <label className="fromSupevisora" style={{ width: "100%" }}>
               <span style={{ margin: "0 0 20px 0" }}>Tutora</span>

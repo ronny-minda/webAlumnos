@@ -202,21 +202,21 @@ const Buscar = () => {
     password: "",
   });
 
-  if (datos.usuario.rol == undefined) {
-    return (
-      <>
-        <Navigate to="/" />
-      </>
-    );
-  }
+  // if (datos.usuario.rol == undefined) {
+  //   return (
+  //     <>
+  //       <Navigate to="/" />
+  //     </>
+  //   );
+  // }
 
-  if (datos.usuario.rol !== "ADMIN_ROLE") {
-    return (
-      <>
-        <Navigate to="/actualizarDatos" />
-      </>
-    );
-  }
+  // if (datos.usuario.rol !== "ADMIN_ROLE") {
+  //   return (
+  //     <>
+  //       <Navigate to="/actualizarDatos" />
+  //     </>
+  //   );
+  // }
 
   const buscarCedula = (e) => {
     e.preventDefault();

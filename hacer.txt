@@ -1,4 +1,7 @@
-listado de portapapeles de los alumnos
+listado de portapapeles de los alumnos #
 parametro de cantidad de usuarios por institucion
 fecha de inicio de cada instiucion como por defecto y tene opcion de cambiar a cada una de las instituciones
 quitar del exel los alumnos terminado el proceso
+
+
+ver las condisiones del alumno en el arreglo

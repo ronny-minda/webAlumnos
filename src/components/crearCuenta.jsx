@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import Select from "react-select";
 
 import img from "../img/login.jpg";
 import fondo from "../img/fondoLogion1.svg";
@@ -320,12 +321,15 @@ const CrearCuenta = () => {
 
   useEffect(() => {
     axios
-      .post(
-        `${entorno}api/institucion/buscarTodos`
-      )
+      .get(`${entorno}api/institucion/buscarTodos`)
       .then(({ data }) => {
-        // console.log(data);
-        setInstitucion(data);
+        console.log(data);
+
+        const instiucionAll = data.map((i) => {
+          return { value: i._id, label: i.nombre };
+        });
+
+        setInstitucion(instiucionAll);
       })
       .catch((err) => {
         console.log("algo salio mal en pedido institucion!");
@@ -610,10 +614,7 @@ const CrearCuenta = () => {
       console.log(login);
 
       axios
-        .post(
-          `${entorno}api/alumno/crearAlumno`,
-          login
-        )
+        .post(`${entorno}api/alumno/crearAlumno`, login)
         .then(({ data }) => {
           const { token, alumno } = data;
 
@@ -813,7 +814,27 @@ const CrearCuenta = () => {
 
               <label>
                 <span>Curso</span>
-                <select
+
+                <Select
+                  options={[
+                    { value: "6to", label: "6to" },
+                    { value: "7mo", label: "7mo" },
+                    { value: "8vo", label: "8vo" },
+                    { value: "9no", label: "9no" },
+                  ]}
+                  defaultValue={[
+                    { value: "Elija un curso", label: "Elija un curso" },
+                  ]}
+                  onChange={(e) => {
+                    setLogin({
+                      ...login,
+                      curso: e.value,
+                      horas: e.value === "6to" ? "96H" : "",
+                    });
+                  }}
+                />
+
+                {/* <select
                   onChange={(e) => {
                     setLogin({
                       ...login,
@@ -829,12 +850,33 @@ const CrearCuenta = () => {
                   <option value="7mo">7mo</option>
                   <option value="8vo">8vo</option>
                   <option value="9no">9no</option>
-                </select>
+                </select> */}
               </label>
 
               <label>
                 <span>Horas</span>
-                <select
+
+                <Select
+                  options={[
+                    { value: "96H", label: "96H" },
+                    { value: "144H", label: "144H" },
+                    { value: "240H", label: "240H" },
+                    { value: "480H", label: "480H" },
+                  ]}
+                  defaultValue={[
+                    { value: "Elija las horas", label: "Elija las horas" },
+                  ]}
+                  onChange={(e) => {
+                    setLogin({
+                      ...login,
+                      // curso: e.value,
+                      horas: e.value,
+                      // horas: e.value === "6to" ? "96H" : "",
+                    });
+                  }}
+                />
+
+                {/* <select
                   disabled={
                     login.curso === "6to" || login.curso === "" ? true : false
                   }
@@ -882,17 +924,28 @@ const CrearCuenta = () => {
                       <option value="480H">480H</option>
                     </>
                   ) : null}
-
-                  {/* <option value="96H">96H</option>
-                  <option value="144H">144H</option>
-                  <option value="240H">240H</option>
-                  <option value="480H">480H</option> */}
-                </select>
+                  
+                </select> */}
               </label>
 
               <label>
                 <span>Institucion</span>
-                <select
+
+                <Select
+                  options={institucion}
+                  defaultValue={[
+                    {
+                      value: "Elija una institucion",
+                      label: "Elija una institucion",
+                    },
+                  ]}
+                  onChange={(e) => {
+                    console.log(e.value);
+                    setLogin({ ...login, institucion: e.value });
+                  }}
+                />
+
+                {/* <select
                   onChange={(e) => {
                     setLogin({ ...login, institucion: e.target.value });
                   }}
@@ -907,7 +960,7 @@ const CrearCuenta = () => {
                       </option>
                     );
                   })}
-                </select>
+                </select> */}
               </label>
 
               <label>

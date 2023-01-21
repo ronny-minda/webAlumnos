@@ -16,13 +16,14 @@ import Layout from "./components/layout";
 import CrearCuenta from "./components/crearCuenta";
 import CrearCuentas from "./components/dashboard/creaCuenta";
 import Buscar from "./components/buscar";
-import Importar from "./components/importar";
+import Grupos from "./components/importar";
 import ActualizarDatos from "./components/actualizarDatos";
 import Crear from "./components/crear";
 import Alumnos from "./components/dashboard/alumnos";
 import Tutores from "./components/dashboard/tutores";
 import Supervisores from "./components/dashboard/supervisores";
 import Insituciones from "./components/dashboard/instituciones";
+import CrearExel from "./components/pruebas/crearExel";
 // import CompletarDatos from "./components/completarDatos";
 
 const H1 = styled.h1`
@@ -48,7 +49,7 @@ const App = () => {
             <Route path="/home" element={<Home />} />
             {/* <Route path="/usuarios" element={<Usuarios />} />
             <Route path="/buscar" element={<Buscar />} /> */}
-            <Route path="/importar" element={<Importar />} />
+            <Route path="/grupos" element={<Grupos />} />
             <Route path="/actualizarDatos" element={<ActualizarDatos />} />
             <Route path="/crear" element={<CrearCuentas />} />
             <Route path="/alumnos" element={<Alumnos />} />
@@ -56,6 +57,9 @@ const App = () => {
             <Route path="/tutores" element={<Tutores />} />
             <Route path="/insituciones" element={<Insituciones />} />
             {/* <Route path="/completarDatos" element={<CompletarDatos />} /> */}
+
+            {/* rutas de puebas */}
+            <Route path="/CrearExel" element={<CrearExel />} />
           </Routes>
         </Layout>
       </AnimatePresence>

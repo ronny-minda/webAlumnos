@@ -2,6 +2,7 @@ import axios from "axios";
 import { useDatos } from "../../context/Context";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState, useEffect } from "react";
+import Select from "react-select";
 import styled from "styled-components";
 import logo from "../../img/alumnos.svg";
 import lupa2 from "../../img/lupa2.svg";
@@ -227,13 +228,7 @@ const Alumnos = () => {
 
   useEffect(() => {
     axios
-      .post(
-        `${entorno}api/alumno/buscarTodasAlumno`,
-        {
-          desde: 0,
-          limite: 20,
-        }
-      )
+      .get(`${entorno}api/alumno/buscarTodasAlumno`)
       .then(({ data }) => {
         // console.log(data);
 
@@ -268,9 +263,7 @@ const Alumnos = () => {
       });
 
     axios
-      .post(
-        `${entorno}api/institucion/buscarTodos`
-      )
+      .post(`${entorno}api/institucion/buscarTodos`)
       .then(({ data }) => {
         // console.log(data);
         setInstitucion(data);
@@ -280,9 +273,7 @@ const Alumnos = () => {
       });
 
     axios
-      .get(
-        `${entorno}api/tutora/pedirTodos`
-      )
+      .get(`${entorno}api/tutora/pedirTodos`)
       .then(({ data }) => {
         // console.log(data);
         setTutora(data);
@@ -292,9 +283,7 @@ const Alumnos = () => {
       });
 
     axios
-      .get(
-        `${entorno}api/supervisora/pedirTodos`
-      )
+      .get(`${entorno}api/supervisora/pedirTodos`)
       .then(({ data }) => {
         // console.log(data);
         setSupervisora(data);
@@ -419,6 +408,7 @@ const Alumnos = () => {
 
           return (
             <Alumno
+              key={i._id}
               institucion={institucion}
               supervisora={supervisora}
               tutora={tutora}
