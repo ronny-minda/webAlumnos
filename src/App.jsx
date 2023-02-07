@@ -33,6 +33,8 @@ const App = () => {
   // const location = useLocation();
   // console.log(pathname);
 
+  const no = () => {};
+
   return (
     <BrowserRouter>
       <AnimatePresence>
